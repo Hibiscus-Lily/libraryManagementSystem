@@ -1,0 +1,28 @@
+* {
+
+
+    -webkit-touch-callout: none; /*系统默认菜单被禁用*/
+
+    -webkit-user-select: none; /*webkit浏览器*/
+
+    -moz-user-select: none; /*火狐*/
+
+    -ms-user-select: none; /*IE10*/
+
+    user-select: none;
+
+}
+
+/*禁止复制*/
+/*Chrome隐藏滚动条*/
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/*IE/Edge隐藏滚动条*/
+body {
+    -ms-overflow-style: none;
+}
+
+
+
