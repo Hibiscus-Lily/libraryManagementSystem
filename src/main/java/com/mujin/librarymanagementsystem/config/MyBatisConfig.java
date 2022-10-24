@@ -1,7 +1,6 @@
 package com.mujin.librarymanagementsystem.config;
 
 import com.github.pagehelper.PageInterceptor;
-import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +10,12 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 public class MyBatisConfig {
-    /*
-    定义MyBatis的核心连接工厂bean，
-    等同于<bean class="org.mybatis.spring.SqlSessionFactoryBean">
-    参数使用自动装配的形式加载dataSource，
-    为set注入提供数据源，dataSource来源于JdbcConfig中的配置
-    */
+    /**
+     * 定义MyBatis的核心连接工厂bean，
+     * 等同于<bean class="org.mybatis.spring.SqlSessionFactoryBean">
+     * 参数使用自动装配的形式加载dataSource，
+     * 为set注入提供数据源，dataSource来源于JdbcConfig中的配置
+     */
     @Bean
     public SqlSessionFactoryBean getSqlSessionFactoryBean(
             @Autowired DataSource dataSource) {
@@ -27,7 +26,7 @@ public class MyBatisConfig {
 
         //pageHelper分页配置（只参考这部分配置就可以了）
         PageInterceptor pageInterceptor = new PageInterceptor();
-        Properties properties=new Properties();
+        Properties properties = new Properties();
         //下面这行代码可以不配置，因为在源码中会默认给properties进行如下配置
         /* properties.put("dialect", "com.github.pagehelper.PageHelper");*/
         pageInterceptor.setProperties(properties);
@@ -35,15 +34,12 @@ public class MyBatisConfig {
         return sqlSessionFactoryBean;
 
 
-
-
-
     }
 
-    /*
-    定义MyBatis的映射扫描，
-    等同于<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-    */
+    /**
+     * 定义MyBatis的映射扫描，
+     * 等同于<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+     */
     @Bean
     public MapperScannerConfigurer getMapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();

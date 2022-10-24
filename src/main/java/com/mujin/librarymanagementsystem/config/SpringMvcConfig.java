@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-//创建SpringMvc的配置文件，加载Controller对应的Bean
+/**
+ * 创建SpringMvc的配置文件，加载Controller对应的Bean
+ */
 @Controller
 @ComponentScan("com.mujin.librarymanagementsystem.controller")
 @EnableWebMvc

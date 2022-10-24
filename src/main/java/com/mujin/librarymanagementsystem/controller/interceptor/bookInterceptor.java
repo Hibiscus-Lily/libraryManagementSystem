@@ -6,18 +6,20 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.Objects;
 
 import static com.mujin.librarymanagementsystem.util.TokenUtils.verifyTokenStatus;
 
+
+/**
+ * Book过滤器
+ */
 @Component
 public class bookInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("token");
-        System.out.println(request.getMethod());
         int JWTcode = JwtUtils.validateJWT(token).getErrCode();
         String method = request.getMethod();
         if (!Objects.equals(method, "OPTIONS")) {

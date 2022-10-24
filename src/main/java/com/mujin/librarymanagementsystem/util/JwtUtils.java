@@ -87,18 +87,4 @@ public class JwtUtils {
                 .getBody();
     }
 
-    public static void main(String[] args) {
-        String sc = createJWT("1826612507", "0", 60 * 60 * 1000);
-        System.out.println(sc);
-        System.out.println(validateJWT(sc).getErrCode());
-        System.out.println(validateJWT(sc).getClaims().getId());
-        System.out.println(validateJWT(sc).getClaims().getSubject());
-        //Thread.sleep(3000);
-        System.out.println(validateJWT(sc).getClaims());
-        Claims claims = validateJWT(sc).getClaims();
-        String sc2 = createJWT(claims.getId(), claims.getSubject(), JwtConstant.JWT_TTL);
-        System.out.println(sc2);
-
-    }
-
 }

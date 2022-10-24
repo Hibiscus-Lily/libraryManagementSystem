@@ -10,7 +10,6 @@ import com.mujin.librarymanagementsystem.service.bookInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +33,10 @@ public class bookController {
      * 获取全部书籍的相关信息
      */
     @GetMapping("/allBookInformation")
-    public Result getAllBookInformation(@RequestParam Integer page, @RequestParam Integer limit, HttpServletResponse response) {
+    public Result getAllBookInformation(@RequestParam Integer page, @RequestParam Integer limit) {
         PageHelper.startPage(page, limit);
         List<bookInformation> book = bookInformationService.allBooks();
         PageInfo<bookInformation> pageInfo = new PageInfo<>(book);
-        response.setHeader("Access-Control-Allow-Origin", "*");
         return new Result(Code.OK, pageInfo, "数据获取成功");
     }
 

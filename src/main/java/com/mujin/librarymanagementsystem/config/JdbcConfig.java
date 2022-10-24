@@ -13,10 +13,10 @@ import javax.sql.DataSource;
 */
 @PropertySource("classpath:jdbc.properties")
 public class JdbcConfig {
-    /*
-    使用注入的形式，读取properties文件中的属性值，
-    等同于<property name="*******" value="${jdbc.driver}"/>
-    */
+    /**
+     * 使用注入的形式，读取properties文件中的属性值，
+     * 等同于<property name="*******" value="${jdbc.driver}"/>
+     */
     @Value("${jdbc.driverClassName}")
     private String driver;
     @Value("${jdbc.url}")
@@ -26,9 +26,10 @@ public class JdbcConfig {
     @Value("${jdbc.password}")
     private String password;
 
-    /*定义dataSource的bean， 等同于
-    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
-    */
+    /**
+     * 定义dataSource的bean， 等同于
+     * <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+     */
     @Bean("dataSource")
     public DataSource getDataSource() {
         //创建对象

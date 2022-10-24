@@ -6,7 +6,9 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 import javax.servlet.Filter;
 
 
-//定义一个Servlet的容器启动配置类，在里面加载Spring配置
+/**
+ * 定义一个Servlet的容器启动配置类，在里面加载Spring配置
+ */
 public class ServletContainerInitConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
