@@ -11,7 +11,7 @@ public class TokenUtils {
     public static void verifyTokenStatus(HttpServletResponse response, String token, int JWTcode) throws IOException {
         if (JWTcode == 0) {
             Object permissionParameters = JwtUtils.validateJWT(token).getClaims().get("jurisdiction");
-            if (!permissionParameters.equals("0")) {
+            if (!permissionParameters.equals(0)) {
                 response.sendRedirect("/libraryManagementSystem/user/noPermission");
             }
         } else if (JWTcode == 4001) {

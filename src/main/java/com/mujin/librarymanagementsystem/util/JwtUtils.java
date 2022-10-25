@@ -19,7 +19,7 @@ public class JwtUtils {
     /**
      * 签发JWT
      */
-    public static String createJWT(String account, String jurisdiction, long ttlMillis) {
+    public static String createJWT(String account, Integer jurisdiction, long ttlMillis) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
@@ -43,7 +43,7 @@ public class JwtUtils {
     /**
      * 生成jwt token
      */
-    public static String genJwtToken(String account, String jurisdiction) {
+    public static String genJwtToken(String account, Integer jurisdiction) {
         return createJWT(account, jurisdiction, 60 * 60 * 1000);
     }
 

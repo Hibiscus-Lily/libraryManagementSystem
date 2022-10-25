@@ -3,16 +3,14 @@ package com.mujin.librarymanagementsystem.pojo;
 public class bookInformation {
 
     private String title;
-    private String author;
-    private String press;
-    private String year;
-    private String pages;
-    private String pricing;
-    private String isbn;
+
+    public String getTitle() {
+        return title;
+    }
 
     @Override
     public String toString() {
-        return "allBookInformation{" +
+        return "bookInformation{" +
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", press='" + press + '\'' +
@@ -20,11 +18,8 @@ public class bookInformation {
                 ", pages='" + pages + '\'' +
                 ", pricing='" + pricing + '\'' +
                 ", isbn='" + isbn + '\'' +
+                ", state=" + state +
                 '}';
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public void setTitle(String title) {
@@ -78,5 +73,22 @@ public class bookInformation {
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    private String author;
+    private String press;
+    private String year;
+    private String pages;
+    private String pricing;
+    private String isbn;
+    private Integer state;
+
 
 }

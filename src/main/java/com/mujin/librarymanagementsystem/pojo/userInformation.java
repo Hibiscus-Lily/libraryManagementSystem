@@ -5,8 +5,9 @@ public class userInformation {
     private String username;
     private String account;
     private String password;
-    private String state;
-    private String jurisdiction;
+    private Integer state;
+    private Integer jurisdiction;
+    private Integer loginStatus;
 
     @Override
     public String toString() {
@@ -15,8 +16,9 @@ public class userInformation {
                 ", username='" + username + '\'' +
                 ", account='" + account + '\'' +
                 ", password='" + password + '\'' +
-                ", state='" + state + '\'' +
-                ", jurisdiction='" + jurisdiction + '\'' +
+                ", state=" + state +
+                ", jurisdiction=" + jurisdiction +
+                ", loginStatus=" + loginStatus +
                 '}';
     }
 
@@ -52,19 +54,27 @@ public class userInformation {
         this.password = password;
     }
 
-    public String getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 
-    public String getJurisdiction() {
+    public Integer getJurisdiction() {
         return jurisdiction;
     }
 
-    public void setJurisdiction(String jurisdiction) {
+    public void setJurisdiction(Integer jurisdiction) {
         this.jurisdiction = jurisdiction;
+    }
+
+    public Integer getLoginStatus() {
+        return loginStatus;
+    }
+
+    public void setLoginStatus(Integer loginStatus) {
+        this.loginStatus = loginStatus;
     }
 }

@@ -78,10 +78,10 @@
 
                 <!--借阅情况模板-->
                 <script type="text/html" id="titleTpl">
-                    {{#  if(d.isbn == 9787806399057){ }}
-                    <span class="layui-badge">{{d.isbn}}</span>
+                    {{#  if(d.state == 0){ }}
+                    <span class="layui-badge layui-bg-green">未借阅</span>
                     {{#  } else { }}
-                    <span class="layui-badge layui-bg-green">{{d.isbn}}</span>
+                    <span class="layui-badge ">借阅中</span>
                     {{#  } }}
                 </script>
 

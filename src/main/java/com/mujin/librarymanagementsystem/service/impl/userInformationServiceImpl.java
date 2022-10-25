@@ -21,4 +21,10 @@ public class userInformationServiceImpl implements userInformationService {
     public userInformation getUserInformation(String account) {
         return userInformationDao.getUserInformation(account);
     }
+
+    @Override
+    public void updateUserStatus(String account, Integer loginStatus) {
+        userInformationDao.updateUserStatus(account, loginStatus);
+
+    }
 }

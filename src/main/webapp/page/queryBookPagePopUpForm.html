@@ -64,7 +64,7 @@
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button type="submit" class="layui-btn" lay-submit="" lay-filter="submitButton">立即提交</button>
-                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <button type="reset" id="reset" class="layui-btn layui-btn-primary">重置</button>
             </div>
         </div>
     </form>
@@ -79,7 +79,7 @@
         //日期
         laydate.render({
             elem: '#year'
-            ,type: 'month'
+            , type: 'month'
         });
 
 
@@ -117,7 +117,22 @@
             , "year": data1.year
             , "isbn": data1.isbn
         });
+    });
 
+    $("#reset").click(function () {
+        layui.use(['form', 'util', 'laydate'], function () {
+            const form = layui.form;
+            const data1 = JSON.parse(sessionStorage.getItem("allJson"));//将字符串抓换成对象
+
+
+            form.val('example', {
+                "title": data1.title
+                , "author": ''
+                , "press": ''
+                , "year": ''
+                , "isbn": ''
+            });
+        });
 
     });
 </script>

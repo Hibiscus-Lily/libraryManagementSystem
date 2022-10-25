@@ -74,7 +74,7 @@ export function loadTable(table) {
             , {field: 'press', title: '出版社'}
             , {field: 'year', title: '出版日期'}
             , {field: 'isbn', title: 'isbn'}
-            , {field: 'borrowing', title: '借阅情况', templet: '#titleTpl'}
+            , {field: 'borrowing', title: '借阅情况',align: 'center', templet: '#titleTpl'}
             , {fixed: 'right', align: 'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
 
         ]],
