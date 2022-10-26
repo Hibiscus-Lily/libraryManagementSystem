@@ -10,10 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -26,9 +23,11 @@ import java.util.List;
 @Controller
 @ComponentScan("com.mujin.librarymanagementsystem.controller")
 @EnableWebMvc
+
 public class SpringMvcConfig implements WebMvcConfigurer {
     private bookInterceptor bookInterceptor;
     private userInterceptor userInterceptor;
+
 
     @Autowired
     public void setBookInterceptor(bookInterceptor bookInterceptor) {
@@ -82,8 +81,9 @@ public class SpringMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(bookInterceptor).addPathPatterns("/book/**");
-        registry.addInterceptor(userInterceptor).addPathPatterns("/user/userLogin");
+        registry.addInterceptor(userInterceptor).addPathPatterns("/user/getAllUserInformation/**");
     }
+
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {

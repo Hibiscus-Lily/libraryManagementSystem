@@ -18,16 +18,17 @@ public class Code {
     public static final Integer NOT_LOGGED_IN = -1;  //未登录
 
 
-
-
-
-
-
     //Token返回码-->详见JwtConstant
 
 
     //服务器内部错误
     public static final Integer Exception_ERROR = 500;
+
+
+    //4XX -->  页面相关
+    public static final Integer PAGE_LOST = 404;
+    public static final Integer METHOD_ERROR = 405;
+    public static final Integer PARAMETER_EXCEPTION = 400;
 
 
 }

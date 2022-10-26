@@ -1,7 +1,7 @@
 package com.mujin.librarymanagementsystem.controller.interceptor;
 
 import com.mujin.librarymanagementsystem.util.JwtUtils;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +14,7 @@ import static com.mujin.librarymanagementsystem.util.TokenUtils.verifyTokenStatu
 /**
  * Book过滤器
  */
-@Component
+@Controller
 public class bookInterceptor implements HandlerInterceptor {
 
     @Override
