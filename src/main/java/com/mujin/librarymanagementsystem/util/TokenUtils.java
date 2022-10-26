@@ -8,18 +8,24 @@ import java.io.IOException;
  */
 public class TokenUtils {
 
-    public static void verifyTokenStatus(HttpServletResponse response, String token, int JWTcode) throws IOException {
+    public static Boolean verifyTokenStatus(HttpServletResponse response, String token, int JWTcode) throws IOException {
         if (JWTcode == 0) {
             Object permissionParameters = JwtUtils.validateJWT(token).getClaims().get("jurisdiction");
-            if (!permissionParameters.equals(0)) {
-                response.sendRedirect("/libraryManagementSystem/user/noPermission");
+            if (permissionParameters.equals(1)) {
+                return true;
+            } else {
+                response.sendRedirect("/libraryManagementSystem/login/noPermission");
+                return false;
             }
         } else if (JWTcode == 4001) {
-            response.sendRedirect("/libraryManagementSystem/user/tokenTimeout");
+            response.sendRedirect("/libraryManagementSystem/login/tokenTimeout");
+            return false;
         } else if (JWTcode == 4002) {
-            response.sendRedirect("/libraryManagementSystem/user/tokenError");
+            response.sendRedirect("/libraryManagementSystem/login/tokenError");
+            return false;
         } else {
-            response.sendRedirect("/libraryManagementSystem/user/unknownError");
+            response.sendRedirect("/libraryManagementSystem/login/unknownError");
+            return false;
         }
     }
 }

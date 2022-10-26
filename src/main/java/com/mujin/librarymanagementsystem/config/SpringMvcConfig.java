@@ -81,7 +81,7 @@ public class SpringMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(bookInterceptor).addPathPatterns("/book/**");
-        registry.addInterceptor(userInterceptor).addPathPatterns("/user/getAllUserInformation/**");
+        registry.addInterceptor(userInterceptor).addPathPatterns("/user/**");
     }
 
 

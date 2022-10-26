@@ -6,6 +6,8 @@ import com.mujin.librarymanagementsystem.service.userInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class userInformationServiceImpl implements userInformationService {
@@ -23,7 +25,7 @@ public class userInformationServiceImpl implements userInformationService {
     }
 
     @Override
-    public userInformation getAllUserInformation() {
+    public List<userInformation> getAllUserInformation() {
         return userInformationDao.getAllUserInformation();
     }
 
@@ -31,5 +33,15 @@ public class userInformationServiceImpl implements userInformationService {
     public void updateUserStatus(String account, Integer loginStatus) {
         userInformationDao.updateUserStatus(account, loginStatus);
 
+    }
+
+    @Override
+    public void userRegistration(String username, String account, String password) {
+        userInformationDao.userRegistration(username, account, password);
+    }
+
+    @Override
+    public void deleteUser(String account) {
+        userInformationDao.deleteUser(account);
     }
 }
