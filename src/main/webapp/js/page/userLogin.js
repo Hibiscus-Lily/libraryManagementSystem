@@ -56,18 +56,18 @@ function validateCode(inputID, codeID) {
 
         return false;
     }
-    // if (inputCode.length <= 0) {
-    //     layer.msg("验证码不能为空");
-    //     createCode('#loginCode');
-    //
-    //     return false;
-    // }
-    // if (inputCode !== cardCode) {
-    //     layer.msg("请输入正确验证码");
-    //     createCode('#loginCode');
-    //
-    //     return false;
-    // }
+    if (inputCode.length <= 0) {
+        layer.msg("验证码不能为空");
+        createCode('#loginCode');
+
+        return false;
+    }
+    if (inputCode !== cardCode) {
+        layer.msg("请输入正确验证码");
+        createCode('#loginCode');
+
+        return false;
+    }
     return true;
 }
 
@@ -81,7 +81,7 @@ function login() {
         $('#loginBtn').val("正在登录...");
         $.ajax({
             type: 'post',
-            url: 'http://localhost:8080/libraryManagementSystem/user/userLogin/',
+            url: 'http://localhost:8080/libraryManagementSystem/login/userLogin',
             data: {
                 "account": $('#loginUsername').val(),
                 "passwordRSA": passwordEncryption($('#loginPassword').val())
@@ -141,25 +141,21 @@ function register() {
         btn1: function (index) {
             //注册回调
             layer.close(index);
-            const registerUsername = $('#registerUsername').val();
-            const registerPassword = $('#registerPassword').val();
-            const registerWellPassword = $('#registerWellPassword').val();
-            const selectValue = $('#roleSelect option:selected').val();
             const params = {};
-            params.registerUsername = registerUsername;
-            params.registerPassword = registerPassword;
-            params.registerWellPassword = registerWellPassword;
-            params.selectValue = selectValue;
+            params.account = $('#registerUsername').val();
+            params.username = $('#registerUsername').val();
+            params.password = $('#registerPassword').val();
+            console.log(params)
             const registerLoadIndex = layer.load(2);
             $.ajax({
                 type: 'post',
-                url: window.location.protocol + '//' + window.location.host + '/security-web/register.do',
+                url: 'http://localhost:8080/libraryManagementSystem/login',
                 dataType: 'json',
                 data: JSON.stringify(params),
                 contentType: 'application/json',
                 success: function (data) {
                     layer.close(registerLoadIndex);
-                    layer.msg(data);
+                    layer.msg(data.msg);
                 },
                 error: function () {
                     layer.close(registerLoadIndex);
