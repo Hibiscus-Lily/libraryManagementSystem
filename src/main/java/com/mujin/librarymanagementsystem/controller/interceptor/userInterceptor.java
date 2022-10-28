@@ -22,10 +22,10 @@ public class userInterceptor implements HandlerInterceptor {
             //4002-->   token错误
             //4001-->   token超时
             //0-->      正常
-            return verifyTokenStatus(response, token, JWTcode);
+            verifyTokenStatus(response, token, JWTcode);
         } else {
-            response.sendRedirect("/libraryManagementSystem/login/notLoggedIn");
-            return false;
+            response.sendRedirect("/libraryManagementSystem/user/notLoggedIn");
         }
+        return true;
     }
 }
