@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * <h1>普通用户个人信息</h1>
- * <p>是否鉴权  true</p>
- * <p>鉴权文件 OrdinaryUser_personalInformation_Interceptor</p>
+ * <h3>是否鉴权  true</h3>
+ * <p>鉴权文件 {@code OrdinaryUser_personalInformation_Interceptor }</p>
  */
 @RestController
 @RequestMapping("/commonuser/user")
