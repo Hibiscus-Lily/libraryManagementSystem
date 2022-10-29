@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * <h1>普通用户个人信息</h1>
  * <h3>是否鉴权  true</h3>
+ * <h3>是否权限鉴权 false </h3>
  * <p>鉴权文件 {@code OrdinaryUser_UserInterceptor }</p>
  */
 @RestController

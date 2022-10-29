@@ -12,6 +12,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * <h1>普通用户获取图书信息</h1>
+ * <h3>是否鉴权  true</h3>
+ * <h3>是否权限鉴权 false </h3>
+ * <p>鉴权文件 {@code OrdinaryUser_UserInterceptor }</p>
+ */
 @RestController
 @RequestMapping("/commonuser/book")
 public class OrdinaryUser_BookController {
@@ -41,13 +48,13 @@ public class OrdinaryUser_BookController {
 
     @GetMapping("/{title}")
     public Result getInformationAboutABook(@PathVariable String title) {
-        BookInformationPojo book = bookInformationService.findStudentsByTitle(title);
-        List<BookInformationPojo> bookList = new ArrayList<>();
-        if (book == null) {
+        BookInformationPojo bookInformationPojo = bookInformationService.findStudentsByTitle(title);
+        List<BookInformationPojo> bookInformationPojos = new ArrayList<>();
+        if (bookInformationPojo == null) {
             return new Result(Code.OK, null, "数据为空");
         } else {
-            bookList.add(book);
-            return new Result(Code.OK, bookList, "数据获取成功");
+            bookInformationPojos.add(bookInformationPojo);
+            return new Result(Code.OK, bookInformationPojos, "数据获取成功");
         }
     }
 }

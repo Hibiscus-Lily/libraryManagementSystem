@@ -45,15 +45,13 @@ public class Admin_BookController {
 
     @GetMapping("/{title}")
     public Result getInformationAboutABook(@PathVariable String title) {
-        BookInformationPojo book = bookInformationService.findStudentsByTitle(title);
-        List<BookInformationPojo> bookList = new ArrayList<>();
-        if (book == null) {
-            BookInformationPojo bookInformationPojo = new BookInformationPojo();
-            bookList.add(bookInformationPojo);
-            return new Result(Code.OK, bookList, "数据为空");
+        BookInformationPojo bookInformationPojo = bookInformationService.findStudentsByTitle(title);
+        List<BookInformationPojo> bookInformationPojos = new ArrayList<>();
+        if (bookInformationPojo == null) {
+            return new Result(Code.OK, null, "数据为空");
         } else {
-            bookList.add(book);
-            return new Result(Code.OK, bookList, "数据获取成功");
+            bookInformationPojos.add(bookInformationPojo);
+            return new Result(Code.OK, bookInformationPojos, "数据获取成功");
         }
     }
 

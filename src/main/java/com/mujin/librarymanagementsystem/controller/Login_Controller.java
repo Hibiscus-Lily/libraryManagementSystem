@@ -85,6 +85,16 @@ public class Login_Controller {
     }
 
     /**
+     * 添加一个用户信息(注册)
+     */
+    @PostMapping
+    public Result addAUserInformation(@RequestBody UserInformationPojo userInformationPojo) {
+        Boolean a = userInformationService.userRegistration(userInformationPojo.getUsername(), userInformationPojo.getAccount(), userInformationPojo.getPassword());
+        return new Result(Code.OK, a, userInformationPojo.getAccount() + "&nbsp&nbsp&nbsp注册成功");
+    }
+
+
+    /**
      * 退出
      */
     @PostMapping("/SignOut")
