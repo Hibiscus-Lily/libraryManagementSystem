@@ -1,4 +1,4 @@
-package com.mujin.librarymanagementsystem.dao;
+package com.mujin.librarymanagementsystem.mapper;
 
 
 import com.mujin.librarymanagementsystem.pojo.bookInformation;
@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @Mapper
-public interface bookInformationDao {
+public interface bookInformationMapper {
     @Select("select * from book")
     List<bookInformation> findBooks();
 

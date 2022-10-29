@@ -1,7 +1,7 @@
 package com.mujin.librarymanagementsystem.service.impl;
 
 
-import com.mujin.librarymanagementsystem.dao.bookInformationDao;
+import com.mujin.librarymanagementsystem.mapper.bookInformationMapper;
 import com.mujin.librarymanagementsystem.pojo.bookInformation;
 import com.mujin.librarymanagementsystem.service.bookInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,34 +13,34 @@ import java.util.List;
 @Service
 public class bookInformationServiceImpl implements bookInformationService {
 
-    public bookInformationDao bookInformationDao;
+    public bookInformationMapper bookInformationMapper;
 
     @Autowired
-    public void setBookInformationDao(bookInformationDao bookInformationDao) {
-        this.bookInformationDao = bookInformationDao;
+    public void setBookInformationDao(bookInformationMapper bookInformationMapper) {
+        this.bookInformationMapper = bookInformationMapper;
     }
 
     @Override
     public bookInformation findStudentsByTitle(String title) {
-        return bookInformationDao.findBooksByTitle(title);
+        return bookInformationMapper.findBooksByTitle(title);
     }
 
     public List<bookInformation> allBooks() {
-        return bookInformationDao.findBooks();
+        return bookInformationMapper.findBooks();
     }
 
     @Override
     public void deleteBooks(String title) {
-        bookInformationDao.deleteBooks(title);
+        bookInformationMapper.deleteBooks(title);
     }
 
     @Override
     public void updateBooks(String title, String author, String press, String year, String pages, String pricing, String isbn) {
-        bookInformationDao.updateBooks(title, author, press, year, isbn);
+        bookInformationMapper.updateBooks(title, author, press, year, isbn);
     }
 
     @Override
     public void addBooks(String title, String author, String press, String year, String pages, String pricing, String isbn) {
-        bookInformationDao.addBooks(title, author, press, year, isbn);
+        bookInformationMapper.addBooks(title, author, press, year, isbn);
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@ComponentScan({"com.mujin.librarymanagementsystem.service","com.mujin.librarymanagementsystem.pojo","com.mujin.librarymanagementsystem.dao","com.mujin.librarymanagementsystem.common"})
+@ComponentScan({"com.mujin.librarymanagementsystem.service","com.mujin.librarymanagementsystem.pojo", "com.mujin.librarymanagementsystem.mapper","com.mujin.librarymanagementsystem.common"})
 
 @Import({MyBatisConfig.class, JdbcConfig.class})
 public class SpringConfig {
