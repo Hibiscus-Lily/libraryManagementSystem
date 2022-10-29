@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/commonuser/book")
+@RequestMapping("/commonuser/book")
 public class GeneralUser_BookController {
     private BookInformationService bookInformationService;
 

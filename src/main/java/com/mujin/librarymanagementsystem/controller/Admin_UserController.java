@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 管理员用户相关
  */
 @RestController
-@RequestMapping(value = "/admin")
+@RequestMapping("/admin")
 public class Admin_UserController {
     private UserInformationService userInformationService;
 

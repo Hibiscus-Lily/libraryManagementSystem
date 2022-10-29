@@ -44,7 +44,7 @@ public class MyBatisConfig {
     public MapperScannerConfigurer getMapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         //等同于<property name="basePackage" value="com.itheima.dao"/>
-        mapperScannerConfigurer.setBasePackage("com.mujin.librarymanagementsystem.dao");
+        mapperScannerConfigurer.setBasePackage("com.mujin.librarymanagementsystem.mapper");
         return mapperScannerConfigurer;
     }
 }
