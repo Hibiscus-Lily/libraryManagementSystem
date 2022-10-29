@@ -15,11 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * <h1>普通用户个人信息</h1>
  * <h3>是否鉴权  true</h3>
- * <p>鉴权文件 {@code OrdinaryUser_personalInformation_Interceptor }</p>
+ * <p>鉴权文件 {@code OrdinaryUser_UserInterceptor }</p>
  */
 @RestController
 @RequestMapping("/commonuser/user")
-public class GeneralUser_UserController {
+public class OrdinaryUser_UserController {
 
     private UserInformationService userInformationService;
 

@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/commonuser/book")
-public class GeneralUser_BookController {
+public class OrdinaryUser_BookController {
     private BookInformationService bookInformationService;
 
     @Autowired

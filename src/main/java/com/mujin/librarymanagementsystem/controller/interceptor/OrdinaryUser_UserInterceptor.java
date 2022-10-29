@@ -10,21 +10,21 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
- * user过滤器
+ * <h1>普通用户个人信息鉴权</h1>
+ * <h2>鉴权调用访问用户个人信息接口时是否登录或者一系列的token问题</h2>
+ * <h3>允许权限说明   --->    普通用户，管理员</h3>
+ * <p>鉴权文件 {@code OrdinaryUser_UserController}</p>
  */
 @Component
-public class UserInterceptor implements HandlerInterceptor {
+public class OrdinaryUser_UserInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("token");
         int JWTcode = JwtUtils.validateJWT(token).getErrCode();
         if (token != null) {
-            //4002-->   token错误
-            //4001-->   token超时
-            //0-->      正常
-            TokenUtils.verifyPermissions(response, token, JWTcode);
+            TokenUtils.doNotVerifyPermissions(response, token, JWTcode);
         } else {
-            response.sendRedirect("/libraryManagementSystem/user/notLoggedIn");
+            response.sendRedirect("/libraryManagementSystem/login/notLoggedIn");
         }
         return true;
     }

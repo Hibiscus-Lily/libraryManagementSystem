@@ -4,13 +4,17 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.mujin.librarymanagementsystem.controller.interceptor.BookInterceptor;
+import com.mujin.librarymanagementsystem.controller.interceptor.OrdinaryUser_UserInterceptor;
 import com.mujin.librarymanagementsystem.controller.interceptor.UserInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -27,16 +31,11 @@ import java.util.List;
 public class SpringMvcConfig implements WebMvcConfigurer {
     private BookInterceptor bookInterceptor;
     private UserInterceptor userInterceptor;
-
-
-    @Autowired
-    public void setBookInterceptor(BookInterceptor bookInterceptor) {
-        this.bookInterceptor = bookInterceptor;
-    }
+    private OrdinaryUser_UserInterceptor ordinaryUserUser_interceptor;
 
     @Autowired
-    public void setUserInterceptor(UserInterceptor userInterceptor) {
-        this.userInterceptor = userInterceptor;
+    public void setOrdinaryUser_personalInformation_interceptor(OrdinaryUser_UserInterceptor ordinaryUserUser__interceptor) {
+        this.ordinaryUserUser_interceptor = ordinaryUserUser__interceptor;
     }
 
     /**
@@ -80,8 +79,9 @@ public class SpringMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(bookInterceptor).addPathPatterns("/book/**");
-        registry.addInterceptor(userInterceptor).addPathPatterns("/user/getAllUserInformation/**");
+        registry.addInterceptor(ordinaryUserUser_interceptor).addPathPatterns("/commonuser/user/**");
+//        registry.addInterceptor(bookInterceptor).addPathPatterns("/book/**");
+//        registry.addInterceptor(userInterceptor).addPathPatterns("/user/getAllUserInformation/**");
     }
 
 

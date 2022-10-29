@@ -1,6 +1,7 @@
 package com.mujin.librarymanagementsystem.controller.interceptor;
 
 import com.mujin.librarymanagementsystem.util.JwtUtils;
+import com.mujin.librarymanagementsystem.util.TokenUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -8,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 
-import static com.mujin.librarymanagementsystem.util.TokenUtils.verifyTokenStatus;
 
 
 /**
@@ -27,7 +27,7 @@ public class BookInterceptor implements HandlerInterceptor {
                 //4002-->   token错误
                 //4001-->   token超时
                 //0-->      正常
-                verifyTokenStatus(response, token, JWTcode);
+                TokenUtils.verifyPermissions(response, token, JWTcode);
             } else {
                 response.sendRedirect("/libraryManagementSystem/user/notLoggedIn");
             }
