@@ -1,9 +1,9 @@
 package com.mujin.librarymanagementsystem.service.impl;
 
 
-import com.mujin.librarymanagementsystem.mapper.bookInformationMapper;
-import com.mujin.librarymanagementsystem.pojo.bookInformation;
-import com.mujin.librarymanagementsystem.service.bookInformationService;
+import com.mujin.librarymanagementsystem.mapper.BookInformationMapper;
+import com.mujin.librarymanagementsystem.pojo.BookInformationPojo;
+import com.mujin.librarymanagementsystem.service.BookInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,21 +11,21 @@ import java.util.List;
 
 
 @Service
-public class bookInformationServiceImpl implements bookInformationService {
+public class BookInformationServiceImpl implements BookInformationService {
 
-    public bookInformationMapper bookInformationMapper;
+    public BookInformationMapper bookInformationMapper;
 
     @Autowired
-    public void setBookInformationDao(bookInformationMapper bookInformationMapper) {
+    public void setBookInformationDao(BookInformationMapper bookInformationMapper) {
         this.bookInformationMapper = bookInformationMapper;
     }
 
     @Override
-    public bookInformation findStudentsByTitle(String title) {
+    public BookInformationPojo findStudentsByTitle(String title) {
         return bookInformationMapper.findBooksByTitle(title);
     }
 
-    public List<bookInformation> allBooks() {
+    public List<BookInformationPojo> allBooks() {
         return bookInformationMapper.findBooks();
     }
 

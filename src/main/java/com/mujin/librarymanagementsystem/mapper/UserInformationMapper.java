@@ -1,20 +1,20 @@
 package com.mujin.librarymanagementsystem.mapper;
 
-import com.mujin.librarymanagementsystem.pojo.userInformation;
+import com.mujin.librarymanagementsystem.pojo.UserInformationPojo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 
 @Mapper
-public interface userInformationMapper {
+public interface UserInformationMapper {
     //根据account获取对应的密码
     @Select("select * from user  where account = #{account}")
-    userInformation getUserInformation(String account);
+    UserInformationPojo getUserInformation(String account);
 
 
     @Select("select * from user")
-    userInformation getAllUserInformation();
+    UserInformationPojo getAllUserInformation();
 
 
     @Select("UPDATE user SET loginStatus=#{loginStatus} WHERE account = #{account}")

@@ -1,29 +1,29 @@
 package com.mujin.librarymanagementsystem.service.impl;
 
-import com.mujin.librarymanagementsystem.mapper.userInformationMapper;
-import com.mujin.librarymanagementsystem.pojo.userInformation;
-import com.mujin.librarymanagementsystem.service.userInformationService;
+import com.mujin.librarymanagementsystem.mapper.UserInformationMapper;
+import com.mujin.librarymanagementsystem.pojo.UserInformationPojo;
+import com.mujin.librarymanagementsystem.service.UserInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class userInformationServiceImpl implements userInformationService {
-    public userInformationMapper userInformationMapper;
+public class UserInformationServiceImpl implements UserInformationService {
+    public UserInformationMapper userInformationMapper;
 
     @Autowired
-    public void setBookInformationDao(userInformationMapper userInformationMapper) {
+    public void setBookInformationDao(UserInformationMapper userInformationMapper) {
         this.userInformationMapper = userInformationMapper;
     }
 
 
     @Override
-    public userInformation getUserInformation(String account) {
+    public UserInformationPojo getUserInformation(String account) {
         return userInformationMapper.getUserInformation(account);
     }
 
     @Override
-    public userInformation getAllUserInformation() {
+    public UserInformationPojo getAllUserInformation() {
         return userInformationMapper.getAllUserInformation();
     }
 

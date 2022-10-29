@@ -1,6 +1,6 @@
 package com.mujin.librarymanagementsystem.pojo;
 
-public class bookInformation {
+public class BookInformationPojo {
 
     private String title;
 
@@ -10,7 +10,7 @@ public class bookInformation {
 
     @Override
     public String toString() {
-        return "bookInformation{" +
+        return "BookInformationPojo{" +
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", press='" + press + '\'' +

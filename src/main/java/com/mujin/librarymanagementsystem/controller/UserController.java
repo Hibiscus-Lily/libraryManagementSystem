@@ -5,8 +5,8 @@ import com.mujin.librarymanagementsystem.common.constant.Code;
 import com.mujin.librarymanagementsystem.common.constant.JwtConstant;
 import com.mujin.librarymanagementsystem.common.constant.Key;
 import com.mujin.librarymanagementsystem.common.entity.Result;
-import com.mujin.librarymanagementsystem.pojo.userInformation;
-import com.mujin.librarymanagementsystem.service.userInformationService;
+import com.mujin.librarymanagementsystem.pojo.UserInformationPojo;
+import com.mujin.librarymanagementsystem.service.UserInformationService;
 import com.mujin.librarymanagementsystem.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,12 +35,12 @@ import static com.mujin.librarymanagementsystem.util.RSAEncrypt.decrypt;
  */
 @RestController
 @RequestMapping(value = "/user")
-public class userController {
+public class UserController {
 
-    private userInformationService userInformationService;
+    private UserInformationService userInformationService;
 
     @Autowired
-    public void setUserInformationService(com.mujin.librarymanagementsystem.service.userInformationService userInformationService) {
+    public void setUserInformationService(UserInformationService userInformationService) {
         this.userInformationService = userInformationService;
     }
 
@@ -54,38 +54,38 @@ public class userController {
     @PostMapping("/userLogin")
     public Result userLogin(@RequestParam String account, @RequestParam String passwordRSA, HttpServletResponse response) throws Exception {
         Map<String, Object> userInformationMap = new HashMap<>();
-        userInformation userInformation = userInformationService.getUserInformation(account);  //根据用户输入得到account获取相应的信息
+        UserInformationPojo userInformationPojo = userInformationService.getUserInformation(account);  //根据用户输入得到account获取相应的信息
 
         String msg = null;
         //查询到用户
-        if (userInformation != null) {
+        if (userInformationPojo != null) {
             //判断对应的密码是否正确
-            String userPassword = userInformation.getPassword(); //数据库存储的MD5密码
+            String userPassword = userInformationPojo.getPassword(); //数据库存储的MD5密码
             String decryptPassword = decrypt(passwordRSA, Key.PRIVATE_KEY);  //解密之后的MD5
             boolean returnResults = userPassword.equals(decryptPassword);   //密码比对
-            String token = JwtUtils.createJWT(account, userInformation.getJurisdiction(), 60 * 60 * 1000);
+            String token = JwtUtils.createJWT(account, userInformationPojo.getJurisdiction(), 60 * 60 * 1000);
 
             //密码正确
             if (returnResults) {
                 response.setHeader("token", token);
-                if (userInformation.getLoginStatus() != null) {
-                    if (userInformation.getState() == 0) {
+                if (userInformationPojo.getLoginStatus() != null) {
+                    if (userInformationPojo.getState() == 0) {
                         userInformationService.updateUserStatus(account, 1);
                     }
                 } else {
                     userInformationService.updateUserStatus(account, 0);
                 }
                 //管理员
-                if (userInformation.getJurisdiction().equals(0)) {
+                if (userInformationPojo.getJurisdiction().equals(0)) {
                     userInformationMap.put("account", account);
                     userInformationMap.put("jurisdiction", 0);
-                    msg = userInformation.getUsername() + "欢迎登录";
+                    msg = userInformationPojo.getUsername() + "欢迎登录";
                 }
                 //普通用户
-                if (userInformation.getJurisdiction().equals(1)) {
+                if (userInformationPojo.getJurisdiction().equals(1)) {
                     userInformationMap.put("account", account);
                     userInformationMap.put("jurisdiction", 1);
-                    msg = userInformation.getUsername() + "欢迎登录";
+                    msg = userInformationPojo.getUsername() + "欢迎登录";
                 }
             } else {
                 msg = "密码错误";
@@ -107,8 +107,8 @@ public class userController {
 
     @GetMapping("getAllUserInformation")
     public Result getAllUserInformation() {
-        userInformation userInformation = userInformationService.getAllUserInformation();
-        return new Result(Code.OK, userInformation, "获取数据成功");
+        UserInformationPojo userInformationPojo = userInformationService.getAllUserInformation();
+        return new Result(Code.OK, userInformationPojo, "获取数据成功");
     }
 
     /**

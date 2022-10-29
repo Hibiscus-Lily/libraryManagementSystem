@@ -5,8 +5,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mujin.librarymanagementsystem.common.constant.Code;
 import com.mujin.librarymanagementsystem.common.entity.Result;
-import com.mujin.librarymanagementsystem.pojo.bookInformation;
-import com.mujin.librarymanagementsystem.service.bookInformationService;
+import com.mujin.librarymanagementsystem.pojo.BookInformationPojo;
+import com.mujin.librarymanagementsystem.service.BookInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +20,12 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/book")
 
-public class bookController {
+public class BookController {
 
-    private bookInformationService bookInformationService;
+    private BookInformationService bookInformationService;
 
     @Autowired
-    public void setBookInformationService(com.mujin.librarymanagementsystem.service.bookInformationService bookInformationService) {
+    public void setBookInformationService(BookInformationService bookInformationService) {
         this.bookInformationService = bookInformationService;
     }
 
@@ -35,8 +35,8 @@ public class bookController {
     @GetMapping("/allBookInformation")
     public Result getAllBookInformation(@RequestParam Integer page, @RequestParam Integer limit) {
         PageHelper.startPage(page, limit);
-        List<bookInformation> book = bookInformationService.allBooks();
-        PageInfo<bookInformation> pageInfo = new PageInfo<>(book);
+        List<BookInformationPojo> book = bookInformationService.allBooks();
+        PageInfo<BookInformationPojo> pageInfo = new PageInfo<>(book);
         return new Result(Code.OK, pageInfo, "数据获取成功");
     }
 
@@ -48,11 +48,11 @@ public class bookController {
 
     @GetMapping("/{title}")
     public Result getInformationAboutABook(@PathVariable String title) {
-        bookInformation book = bookInformationService.findStudentsByTitle(title);
-        List<bookInformation> bookList = new ArrayList<>();
+        BookInformationPojo book = bookInformationService.findStudentsByTitle(title);
+        List<BookInformationPojo> bookList = new ArrayList<>();
         if (book == null) {
-            bookInformation bookInformation = new bookInformation();
-            bookList.add(bookInformation);
+            BookInformationPojo bookInformationPojo = new BookInformationPojo();
+            bookList.add(bookInformationPojo);
             return new Result(Code.OK, bookList, "数据为空");
         } else {
             bookList.add(book);
@@ -77,9 +77,9 @@ public class bookController {
      */
 
     @PostMapping
-    public Result addBook(@RequestBody bookInformation bookInformation) {
-        bookInformationService.addBooks(bookInformation.getTitle(), bookInformation.getAuthor(), bookInformation.getPress(), bookInformation.getYear(), bookInformation.getPages(), bookInformation.getPricing(), bookInformation.getIsbn());
-        return new Result(Code.OK, true, bookInformation.getTitle() + "添加成功");
+    public Result addBook(@RequestBody BookInformationPojo bookInformationPojo) {
+        bookInformationService.addBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(), bookInformationPojo.getPages(), bookInformationPojo.getPricing(), bookInformationPojo.getIsbn());
+        return new Result(Code.OK, true, bookInformationPojo.getTitle() + "添加成功");
     }
 
     /**
@@ -87,9 +87,9 @@ public class bookController {
      */
 
     @PutMapping()
-    public Result updateBook(@RequestBody bookInformation bookInformation) {
-        bookInformationService.updateBooks(bookInformation.getTitle(), bookInformation.getAuthor(), bookInformation.getPress(), bookInformation.getYear(), bookInformation.getPages(), bookInformation.getPricing(), bookInformation.getIsbn());
-        return new Result(Code.OK, true, bookInformation.getTitle() + "更新成功");
+    public Result updateBook(@RequestBody BookInformationPojo bookInformationPojo) {
+        bookInformationService.updateBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(), bookInformationPojo.getPages(), bookInformationPojo.getPricing(), bookInformationPojo.getIsbn());
+        return new Result(Code.OK, true, bookInformationPojo.getTitle() + "更新成功");
     }
 
 }
