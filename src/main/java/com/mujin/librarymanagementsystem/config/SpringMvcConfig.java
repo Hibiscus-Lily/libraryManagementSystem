@@ -3,8 +3,8 @@ package com.mujin.librarymanagementsystem.config;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-import com.mujin.librarymanagementsystem.controller.interceptor.bookInterceptor;
-import com.mujin.librarymanagementsystem.controller.interceptor.userInterceptor;
+import com.mujin.librarymanagementsystem.controller.interceptor.BookInterceptor;
+import com.mujin.librarymanagementsystem.controller.interceptor.UserInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
@@ -25,17 +25,17 @@ import java.util.List;
 @EnableWebMvc
 
 public class SpringMvcConfig implements WebMvcConfigurer {
-    private bookInterceptor bookInterceptor;
-    private userInterceptor userInterceptor;
+    private BookInterceptor bookInterceptor;
+    private UserInterceptor userInterceptor;
 
 
     @Autowired
-    public void setBookInterceptor(bookInterceptor bookInterceptor) {
+    public void setBookInterceptor(BookInterceptor bookInterceptor) {
         this.bookInterceptor = bookInterceptor;
     }
 
     @Autowired
-    public void setUserInterceptor(userInterceptor userInterceptor) {
+    public void setUserInterceptor(UserInterceptor userInterceptor) {
         this.userInterceptor = userInterceptor;
     }
 

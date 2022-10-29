@@ -35,7 +35,7 @@ import static com.mujin.librarymanagementsystem.util.RSAEncrypt.decrypt;
  */
 @RestController
 @RequestMapping(value = "/user")
-public class userController {
+public class UserController {
 
     private userInformationService userInformationService;
 

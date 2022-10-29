@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/book")
 
-public class bookController {
+public class BookController {
 
     private bookInformationService bookInformationService;
 

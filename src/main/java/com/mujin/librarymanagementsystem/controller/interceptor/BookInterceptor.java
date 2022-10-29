@@ -15,7 +15,7 @@ import static com.mujin.librarymanagementsystem.util.TokenUtils.verifyTokenStatu
  * Book过滤器
  */
 @Component
-public class bookInterceptor implements HandlerInterceptor {
+public class BookInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

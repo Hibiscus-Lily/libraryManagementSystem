@@ -13,7 +13,7 @@ import static com.mujin.librarymanagementsystem.util.TokenUtils.verifyTokenStatu
  * user过滤器
  */
 @Component
-public class userInterceptor implements HandlerInterceptor {
+public class UserInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("token");
