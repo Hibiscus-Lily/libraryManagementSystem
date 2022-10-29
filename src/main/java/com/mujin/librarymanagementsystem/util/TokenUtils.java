@@ -1,7 +1,9 @@
 package com.mujin.librarymanagementsystem.util;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * <h1>Token校验工具</h1>
@@ -21,12 +23,11 @@ public class TokenUtils {
      * @param response HttpServletResponse对象
      * @param token    传进token的值
      * @param JWTcode  token解析后的状态码
-     * @throws IOException
      */
     public static void doNotVerifyPermissions(HttpServletResponse response, String token, int JWTcode) throws IOException {
         if (JWTcode == 0) {
             Object permissionParameters = JwtUtils.validateJWT(token).getClaims().get("jurisdiction");
-            if (!permissionParameters.equals(1)&&!permissionParameters.equals(0)) {
+            if (!permissionParameters.equals(1) && !permissionParameters.equals(0)) {
                 response.sendRedirect("/libraryManagementSystem/erroe/noPermission");
             }
         } else if (JWTcode == 4001) {
@@ -44,8 +45,7 @@ public class TokenUtils {
      * @param response HttpServletResponse对象
      * @param token    传进token的值
      * @param JWTcode  token解析后的状态码
-     * @throws IOException
-     */
+=     */
     public static void verifyPermissions(HttpServletResponse response, String token, int JWTcode) throws IOException {
         if (JWTcode == 0) {
             Object permissionParameters = JwtUtils.validateJWT(token).getClaims().get("jurisdiction");
@@ -59,6 +59,31 @@ public class TokenUtils {
         } else {
             response.sendRedirect("/libraryManagementSystem/erroe/unknownError");
         }
+    }
+
+
+    /**
+     * adminToken验证
+     *
+     * @param request  HttpServletResponse对象
+     * @param response 传进token的值
+     */
+    public static boolean adminTokenVerification(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String token = request.getHeader("token");
+        int JWTcode = JwtUtils.validateJWT(token).getErrCode();
+        String method = request.getMethod();
+        if (!Objects.equals(method, "OPTIONS")) {
+            if (token != null) {
+                //4002-->   token错误
+                //4001-->   token超时
+                //0-->      正常
+                verifyPermissions(response, token, JWTcode);
+            } else {
+                response.sendRedirect("/libraryManagementSystem/user/notLoggedIn");
+            }
+        }
+
+        return true;
     }
 
 }
