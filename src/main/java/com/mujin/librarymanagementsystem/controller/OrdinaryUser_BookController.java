@@ -17,7 +17,7 @@ import java.util.List;
  * <h1>普通用户获取图书信息</h1>
  * <h3>是否鉴权  true</h3>
  * <h3>是否权限鉴权 false </h3>
- * <p>鉴权文件 {@code OrdinaryUser_UserInterceptor }</p>
+ * <p>鉴权文件 {@code OrdinaryUser_BookInterceptor.java }</p>
  */
 @RestController
 @RequestMapping("/commonuser/book")

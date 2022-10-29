@@ -13,7 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 管理员书籍相关操作
+ * <h1>管理员管理图书</h1>
+ * <h3>是否鉴权  true</h3>
+ * <h3>是否权限鉴权 true </h3>
+ * <p>鉴权文件 {@code Admin_BookInterceptor.java }</p>
  */
 @RestController
 @RequestMapping(value = "/admin/book")
