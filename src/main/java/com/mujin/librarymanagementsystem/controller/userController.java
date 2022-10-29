@@ -102,16 +102,6 @@ public class userController {
     }
 
     /**
-     * 获取所用用户信息并返回
-     */
-
-    @GetMapping("getAllUserInformation")
-    public Result getAllUserInformation() {
-        userInformation userInformation = userInformationService.getAllUserInformation();
-        return new Result(Code.OK, userInformation, "获取数据成功");
-    }
-
-    /**
      * token超时
      */
     @GetMapping("/tokenTimeout")

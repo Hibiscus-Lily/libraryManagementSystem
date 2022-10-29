@@ -12,11 +12,6 @@ public interface userInformationDao {
     @Select("select * from user  where account = #{account}")
     userInformation getUserInformation(String account);
 
-
-    @Select("select * from user")
-    userInformation getAllUserInformation();
-
-
     @Select("UPDATE user SET loginStatus=#{loginStatus} WHERE account = #{account}")
     void updateUserStatus(@Param("account") String account, @Param("loginStatus") Integer loginStatus);
 }
