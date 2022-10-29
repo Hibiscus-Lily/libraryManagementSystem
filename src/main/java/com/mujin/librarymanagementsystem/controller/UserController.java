@@ -2,7 +2,6 @@ package com.mujin.librarymanagementsystem.controller;
 
 
 import com.mujin.librarymanagementsystem.common.constant.Code;
-import com.mujin.librarymanagementsystem.common.constant.JwtConstant;
 import com.mujin.librarymanagementsystem.common.constant.Key;
 import com.mujin.librarymanagementsystem.common.entity.Result;
 import com.mujin.librarymanagementsystem.pojo.UserInformationPojo;
@@ -34,7 +33,7 @@ import static com.mujin.librarymanagementsystem.util.RSAEncrypt.decrypt;
  * 用户相关
  */
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping("/user")
 public class UserController {
 
     private UserInformationService userInformationService;
@@ -110,57 +109,6 @@ public class UserController {
         UserInformationPojo userInformationPojo = userInformationService.getAllUserInformation();
         return new Result(Code.OK, userInformationPojo, "获取数据成功");
     }
-
-    /**
-     * token超时
-     */
-    @GetMapping("/tokenTimeout")
-    public Result tokenTimeout() {
-        return new Result(JwtConstant.JWT_ERRCODE_EXPIRE, null, "token超时，重新登录");
-    }
-
-    /**
-     * token错误
-     */
-
-    @GetMapping("/tokenError")
-    public Result tokenError() {
-        return new Result(JwtConstant.JWT_ERRCODE_FAIL, null, "token错误，重新登录");
-    }
-
-    /**
-     * 未知错误
-     */
-    @GetMapping("/unknownError")
-    public Result unknownError() {
-        return new Result(JwtConstant.JWT_ERRCODE_FAIL, null, "未知错误，重新登录");
-    }
-
-    /**
-     * 未登录
-     */
-    @GetMapping("/notLoggedIn")
-    public Result notLoggedIn() {
-        return new Result(Code.NOT_LOGGED_IN, null, "未登录");
-    }
-
-    /**
-     * 登录错误
-     */
-    @GetMapping("/loginError")
-    public Result loginError() {
-        return new Result(Code.Exception_ERROR, null, "登录错误");
-    }
-
-
-    /**
-     * 无权限
-     */
-    @GetMapping("/noPermission")
-    public Result noPermission() {
-        return new Result(Code.OK, null, "无权限");
-    }
-
 
 }
 

@@ -1,4 +1,4 @@
 package com.mujin.librarymanagementsystem.controller;
 
-public class CommonUserBookController {
+public class GeneralUser_UserController {
 }
