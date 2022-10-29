@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
- * Token控制器
- * 重定向Token错误
+ * <h1>Token控制器</h1>
+ * <h3>是否鉴权  false</h3>
+ * <h3>是否权限鉴权 false </h3>
+ * <p>Token控制器</p>
+ * <p>重定向Token错误</p>
+ * <p>鉴权文件 {@code null }</p>
  */
 
 
@@ -42,7 +46,6 @@ public class Token_Controller {
     public Result unknownError() {
         return new Result(JwtConstant.JWT_ERRCODE_FAIL, null, "未知错误，重新登录");
     }
-
 
 
     /**

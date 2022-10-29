@@ -66,8 +66,15 @@ public class Admin_BookController {
 
     @DeleteMapping("/{title}")
     public Result deleteBook(@PathVariable String title) {
-        bookInformationService.deleteBooks(title);
-        return new Result(Code.OK, true, title + "删除成功");
+        BookInformationPojo bookInformation = bookInformationService.findStudentsByTitle(title);
+        if (bookInformation != null) {
+            bookInformationService.deleteBooks(title);
+            return new Result(Code.OK, true, title + "删除成功");
+        } else {
+            return new Result(Code.OK, false, title + "删除失败，删除的图书不存在");
+
+        }
+
     }
 
     /**
@@ -76,8 +83,13 @@ public class Admin_BookController {
 
     @PostMapping
     public Result addBook(@RequestBody BookInformationPojo bookInformationPojo) {
-        bookInformationService.addBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(), bookInformationPojo.getPages(), bookInformationPojo.getPricing(), bookInformationPojo.getIsbn());
-        return new Result(Code.OK, true, bookInformationPojo.getTitle() + "添加成功");
+        BookInformationPojo bookInformation = bookInformationService.findStudentsByTitle(bookInformationPojo.getTitle());
+        if (bookInformation == null) {
+            bookInformationService.addBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(), bookInformationPojo.getPages(), bookInformationPojo.getPricing(), bookInformationPojo.getIsbn());
+            return new Result(Code.OK, true, bookInformationPojo.getTitle() + "添加成功");
+        } else {
+            return new Result(Code.OK, false, bookInformationPojo.getTitle() + "添加失败，库中存在此书");
+        }
     }
 
     /**
@@ -86,7 +98,15 @@ public class Admin_BookController {
 
     @PutMapping()
     public Result updateBook(@RequestBody BookInformationPojo bookInformationPojo) {
-        bookInformationService.updateBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(), bookInformationPojo.getPages(), bookInformationPojo.getPricing(), bookInformationPojo.getIsbn());
-        return new Result(Code.OK, true, bookInformationPojo.getTitle() + "更新成功");
+        BookInformationPojo bookInformation = bookInformationService.findStudentsByTitle(bookInformationPojo.getTitle());
+        if (bookInformation != null) {
+            bookInformationService.updateBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(), bookInformationPojo.getPages(), bookInformationPojo.getPricing(), bookInformationPojo.getIsbn());
+            return new Result(Code.OK, true, bookInformationPojo.getTitle() + "更新成功");
+        } else {
+            return new Result(Code.OK, false, bookInformationPojo.getTitle() + "更新失败，不存在此书籍");
+
+        }
+
+
     }
 }

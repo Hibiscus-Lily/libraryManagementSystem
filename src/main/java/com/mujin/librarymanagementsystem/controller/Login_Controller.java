@@ -15,7 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.mujin.librarymanagementsystem.util.RSAEncrypt.decrypt;
-
+/**
+ * <h1>登陆管理</h1>
+ * <h3>是否鉴权  false</h3>
+ * <h3>是否权限鉴权 false </h3>
+ * <p>鉴权文件 {@code null }</p>
+ */
 
 @RestController
 @RequestMapping("/login")
