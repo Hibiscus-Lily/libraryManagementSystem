@@ -41,7 +41,55 @@ public class Admin_UserController {
      */
     @PostMapping
     public Result addAUserInformation(@RequestBody UserInformationPojo userInformationPojo) {
-        Boolean a = userInformationService.userRegistration(userInformationPojo.getUsername(), userInformationPojo.getAccount(), userInformationPojo.getPassword());
-        return new Result(Code.OK, a, userInformationPojo.getAccount() + "&nbsp&nbsp&nbsp注册成功");
+        UserInformationPojo userInformation = userInformationService.getUserInformation(userInformationPojo.getAccount());
+        if (userInformation == null) {
+            Boolean result = userInformationService.userRegistration(userInformationPojo.getUsername(), userInformationPojo.getAccount(), userInformationPojo.getPassword());
+            if (result) {
+                return new Result(Code.OK, true, userInformationPojo.getAccount() + "&nbsp&nbsp&nbsp注册成功");
+            } else {
+                return new Result(Code.OK, false, "检查数据完整性");
+            }
+        } else {
+            return new Result(Code.OK, false, "账号重复，请更换");
+        }
+    }
+
+
+    /**
+     * 更新用户信息
+     */
+    @PutMapping
+    public Result updateUserInformation(@RequestBody UserInformationPojo userInformationPojo) {
+        UserInformationPojo userInformation = userInformationService.getUserInformation(userInformationPojo.getAccount());
+        if (userInformation != null) {
+            Boolean result = userInformationService.updateUserInformation(userInformationPojo.getUsername(), userInformationPojo.getAccount(), userInformationPojo.getPassword(), userInformationPojo.getState(), userInformationPojo.getJurisdiction(), userInformationPojo.getLoginStatus());
+            if (result) {
+                return new Result(Code.OK, true, userInformationPojo.getAccount() + "更新成功");
+            } else {
+                return new Result(Code.OK, false, "检查数据完整性");
+            }
+        } else {
+            return new Result(Code.OK, false, "更新的用户不存在");
+
+        }
+
+    }
+
+    /**
+     * 删除用户
+     */
+    @DeleteMapping("/{account}")
+    public Result deleteUsers(@PathVariable String account) {
+        UserInformationPojo userInformationPojo = userInformationService.getUserInformation(account);
+        if (userInformationPojo != null) {
+            Boolean result = userInformationService.deleteUser(account);
+            if (result) {
+                return new Result(Code.OK, true, "删除成功");
+            } else {
+                return new Result(Code.OK, false, "检查数据完整性");
+            }
+        } else {
+            return new Result(Code.OK, false, "删除的用户不存在");
+        }
     }
 }

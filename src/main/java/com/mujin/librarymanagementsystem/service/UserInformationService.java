@@ -43,4 +43,7 @@ public interface UserInformationService {
      * 删除用户
      */
     Boolean deleteUser(String account);
+
+
+    Boolean updateUserInformation(String usernam, String account, String password, Integer state, Integer jurisdiction, Integer loginStatus);
 }

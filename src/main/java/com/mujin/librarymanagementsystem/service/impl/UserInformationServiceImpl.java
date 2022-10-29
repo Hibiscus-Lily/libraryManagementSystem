@@ -61,4 +61,14 @@ public class UserInformationServiceImpl implements UserInformationService {
             return false;
         }
     }
+
+    @Override
+    public Boolean updateUserInformation(String username, String account, String password, Integer state, Integer jurisdiction, Integer loginStatus) {
+        if (username != null && account != null && password != null && state != null && jurisdiction != null && loginStatus != null) {
+            userInformationMapper.updateUserInformation(username, account, password, state, jurisdiction, loginStatus);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

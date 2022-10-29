@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.mujin.librarymanagementsystem.util.RSAEncrypt.decrypt;
+
 /**
  * <h1>登陆管理</h1>
  * <h3>是否鉴权  false</h3>
@@ -94,8 +95,17 @@ public class Login_Controller {
      */
     @PostMapping
     public Result addAUserInformation(@RequestBody UserInformationPojo userInformationPojo) {
-        Boolean a = userInformationService.userRegistration(userInformationPojo.getUsername(), userInformationPojo.getAccount(), userInformationPojo.getPassword());
-        return new Result(Code.OK, a, userInformationPojo.getAccount() + "&nbsp&nbsp&nbsp注册成功");
+        UserInformationPojo userInformation = userInformationService.getUserInformation(userInformationPojo.getAccount());
+        if (userInformation == null) {
+            Boolean result = userInformationService.userRegistration(userInformationPojo.getUsername(), userInformationPojo.getAccount(), userInformationPojo.getPassword());
+            if (result) {
+                return new Result(Code.OK, true, userInformationPojo.getAccount() + "&nbsp&nbsp&nbsp注册成功");
+            } else {
+                return new Result(Code.OK, false, "检查数据完整性");
+            }
+        } else {
+            return new Result(Code.OK, false, "账号重复，请更换");
+        }
     }
 
 

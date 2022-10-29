@@ -33,5 +33,9 @@ public interface UserInformationMapper {
     @Select("DELETE from user where account= #{account}")
     void deleteUser(@Param("account") String account);
 
+    //更新用户信息
+    @Select("UPDATE user SET username=#{username}, account=#{account}, password=#{password}, state=#{state}, jurisdiction=#{jurisdiction}, loginStatus=#{loginStatus} WHERE  account=#{account}")
+    void updateUserInformation(@Param("username") String username, @Param("account") String account, @Param("password") String password, @Param("state") Integer state, @Param("jurisdiction") Integer jurisdiction, @Param("loginStatus") Integer loginStatus);
+
 
 }
