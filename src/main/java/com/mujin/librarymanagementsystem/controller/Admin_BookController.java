@@ -68,8 +68,12 @@ public class Admin_BookController {
     public Result deleteBook(@PathVariable String title) {
         BookInformationPojo bookInformation = bookInformationService.findStudentsByTitle(title);
         if (bookInformation != null) {
-            bookInformationService.deleteBooks(title);
-            return new Result(Code.OK, true, title + "删除成功");
+            Boolean result = bookInformationService.deleteBooks(title);
+            if (result) {
+                return new Result(Code.OK, true, "删除成功");
+            } else {
+                return new Result(Code.OK, false, "删除失败请检查数据完整性");
+            }
         } else {
             return new Result(Code.OK, false, title + "删除失败，删除的图书不存在");
 
@@ -85,8 +89,12 @@ public class Admin_BookController {
     public Result addBook(@RequestBody BookInformationPojo bookInformationPojo) {
         BookInformationPojo bookInformation = bookInformationService.findStudentsByTitle(bookInformationPojo.getTitle());
         if (bookInformation == null) {
-            bookInformationService.addBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(), bookInformationPojo.getPages(), bookInformationPojo.getPricing(), bookInformationPojo.getIsbn());
-            return new Result(Code.OK, true, bookInformationPojo.getTitle() + "添加成功");
+            Boolean result = bookInformationService.addBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(),  bookInformationPojo.getIsbn());
+            if (result) {
+                return new Result(Code.OK, true, bookInformationPojo.getTitle() + "添加成功");
+            } else {
+                return new Result(Code.OK, false, bookInformationPojo.getTitle() + "添加失败请检查数据完整性");
+            }
         } else {
             return new Result(Code.OK, false, bookInformationPojo.getTitle() + "添加失败，库中存在此书");
         }
@@ -100,13 +108,15 @@ public class Admin_BookController {
     public Result updateBook(@RequestBody BookInformationPojo bookInformationPojo) {
         BookInformationPojo bookInformation = bookInformationService.findStudentsByTitle(bookInformationPojo.getTitle());
         if (bookInformation != null) {
-            bookInformationService.updateBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(), bookInformationPojo.getPages(), bookInformationPojo.getPricing(), bookInformationPojo.getIsbn());
-            return new Result(Code.OK, true, bookInformationPojo.getTitle() + "更新成功");
+            Boolean result = bookInformationService.updateBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(), bookInformationPojo.getIsbn());
+            if (result) {
+                return new Result(Code.OK, true, bookInformationPojo.getTitle() + "更新成功");
+            } else {
+                return new Result(Code.OK, false, bookInformationPojo.getTitle() + "更新失败请检查数据完整性");
+            }
         } else {
             return new Result(Code.OK, false, bookInformationPojo.getTitle() + "更新失败，不存在此书籍");
 
         }
-
-
     }
 }

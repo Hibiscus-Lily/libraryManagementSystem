@@ -32,7 +32,6 @@ public class Admin_UserController {
     @GetMapping("/getAllUserInformation")
     public Result getAllUserInformation(@RequestParam Integer page, @RequestParam Integer limit) {
         PageHelper.startPage(page, limit);
-
         List<UserInformationPojo> userInformationPojos = userInformationService.getAllUserInformation();
         return new Result(Code.OK, userInformationPojos, "获取数据成功");
     }

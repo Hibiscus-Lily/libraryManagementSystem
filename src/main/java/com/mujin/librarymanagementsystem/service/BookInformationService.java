@@ -10,9 +10,9 @@ public interface BookInformationService {
 
     List<BookInformationPojo> allBooks();
 
-    void deleteBooks(String title);
+    Boolean deleteBooks(String title);
 
-    void updateBooks(String title, String author, String press, String year, String pages, String pricing, String isbn);
+    Boolean updateBooks(String title, String author, String press, String year, String isbn);
 
-    void   addBooks(String title, String author, String press, String year, String pages, String pricing, String isbn);
+    Boolean addBooks(String title, String author, String press, String year, String isbn);
 }
