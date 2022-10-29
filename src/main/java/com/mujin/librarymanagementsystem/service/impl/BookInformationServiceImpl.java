@@ -30,17 +30,32 @@ public class BookInformationServiceImpl implements BookInformationService {
     }
 
     @Override
-    public void deleteBooks(String title) {
-        bookInformationMapper.deleteBooks(title);
+    public Boolean deleteBooks(String title) {
+        if (title != null) {
+            bookInformationMapper.deleteBooks(title);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
-    public void updateBooks(String title, String author, String press, String year, String pages, String pricing, String isbn) {
-        bookInformationMapper.updateBooks(title, author, press, year, isbn);
+    public Boolean updateBooks(String title, String author, String press, String year,  String isbn) {
+        if (title != null && author != null && press != null && year != null && isbn != null) {
+            bookInformationMapper.updateBooks(title, author, press, year, isbn);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
-    public void addBooks(String title, String author, String press, String year, String pages, String pricing, String isbn) {
-        bookInformationMapper.addBooks(title, author, press, year, isbn);
+    public Boolean addBooks(String title, String author, String press, String year,  String isbn) {
+        if (title != null && author != null && press != null && year != null && isbn != null) {
+            bookInformationMapper.addBooks(title, author, press, year, isbn);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
