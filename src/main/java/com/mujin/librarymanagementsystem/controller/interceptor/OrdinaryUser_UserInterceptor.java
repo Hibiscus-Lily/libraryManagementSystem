@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * <h1>普通用户个人信息鉴权</h1>
  * <h2>鉴权调用访问用户个人信息接口时是否登录或者一系列的token问题</h2>
- * <h3>允许权限说明   --->    普通用户，管理员</h3>
+ * <h3>允许权限说明   ---> 不进行权限鉴权--->doNotVerifyPermissions</h3>
  * <p>鉴权文件 {@code OrdinaryUser_UserController}</p>
  */
 @Component

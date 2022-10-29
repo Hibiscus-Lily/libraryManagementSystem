@@ -3,9 +3,10 @@ package com.mujin.librarymanagementsystem.config;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-import com.mujin.librarymanagementsystem.controller.interceptor.BookInterceptor;
+import com.mujin.librarymanagementsystem.controller.interceptor.Admin_BookInterceptor;
+import com.mujin.librarymanagementsystem.controller.interceptor.Admin_UserInterceptor;
+import com.mujin.librarymanagementsystem.controller.interceptor.OrdinaryUser_BookInterceptor;
 import com.mujin.librarymanagementsystem.controller.interceptor.OrdinaryUser_UserInterceptor;
-import com.mujin.librarymanagementsystem.controller.interceptor.UserInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
@@ -29,13 +30,32 @@ import java.util.List;
 @EnableWebMvc
 
 public class SpringMvcConfig implements WebMvcConfigurer {
-    private BookInterceptor bookInterceptor;
-    private UserInterceptor userInterceptor;
-    private OrdinaryUser_UserInterceptor ordinaryUserUser_interceptor;
+    private Admin_BookInterceptor admin_bookInterceptor;
+    private Admin_UserInterceptor admin_userInterceptor;
+    private OrdinaryUser_BookInterceptor ordinaryUser_bookInterceptor;
+    private OrdinaryUser_UserInterceptor ordinaryUser_userinterceptor;
 
     @Autowired
-    public void setOrdinaryUser_personalInformation_interceptor(OrdinaryUser_UserInterceptor ordinaryUserUser__interceptor) {
-        this.ordinaryUserUser_interceptor = ordinaryUserUser__interceptor;
+
+    public void setAdmin_bookInterceptor(Admin_BookInterceptor admin_bookInterceptor) {
+        this.admin_bookInterceptor = admin_bookInterceptor;
+    }
+
+    @Autowired
+
+    public void setAdmin_userInterceptor(Admin_UserInterceptor admin_userInterceptor) {
+        this.admin_userInterceptor = admin_userInterceptor;
+    }
+
+    @Autowired
+
+    public void setOrdinaryUser_bookInterceptor(OrdinaryUser_BookInterceptor ordinaryUser_bookInterceptor) {
+        this.ordinaryUser_bookInterceptor = ordinaryUser_bookInterceptor;
+    }
+
+    @Autowired
+    public void setOrdinaryUser_personalInformation_interceptor(OrdinaryUser_UserInterceptor ordinaryUser_userinterceptor) {
+        this.ordinaryUser_userinterceptor = ordinaryUser_userinterceptor;
     }
 
     /**
@@ -79,9 +99,10 @@ public class SpringMvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(ordinaryUserUser_interceptor).addPathPatterns("/commonuser/user/**");
-//        registry.addInterceptor(bookInterceptor).addPathPatterns("/book/**");
-//        registry.addInterceptor(userInterceptor).addPathPatterns("/user/getAllUserInformation/**");
+        registry.addInterceptor(admin_userInterceptor).addPathPatterns("/admin/user/**");
+        registry.addInterceptor(admin_bookInterceptor).addPathPatterns("/admin/book/**");
+        registry.addInterceptor(ordinaryUser_userinterceptor).addPathPatterns("/commonuser/user/**");
+        registry.addInterceptor(ordinaryUser_bookInterceptor).addPathPatterns("/commonuser/book/**");
     }
 
 

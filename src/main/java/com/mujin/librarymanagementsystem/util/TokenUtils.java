@@ -49,7 +49,7 @@ public class TokenUtils {
     public static void verifyPermissions(HttpServletResponse response, String token, int JWTcode) throws IOException {
         if (JWTcode == 0) {
             Object permissionParameters = JwtUtils.validateJWT(token).getClaims().get("jurisdiction");
-            if (!permissionParameters.equals(0)) {
+            if (!permissionParameters.equals(1)) {
                 response.sendRedirect("/libraryManagementSystem/erroe/noPermission");
             }
         } else if (JWTcode == 4001) {

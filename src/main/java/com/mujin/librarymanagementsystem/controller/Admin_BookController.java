@@ -16,7 +16,7 @@ import java.util.List;
  * 管理员书籍相关操作
  */
 @RestController
-@RequestMapping(value = "/admin")
+@RequestMapping(value = "/admin/book")
 public class Admin_BookController {
 
     private BookInformationService bookInformationService;
