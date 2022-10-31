@@ -93,12 +93,12 @@ function login() {
                     let jurisdiction = (data.data["jurisdiction"])
                     if (jurisdiction === 0) {
                         setTimeout(function () {
-                            window.location.href = '../index.html';
+                            window.location.href = '../admin.html';
                         }, 3000);
                     }
                     if (jurisdiction === 1) {
                         setTimeout(function () {
-                            window.location.href = '../index.html';
+                            window.location.href = '../admin.html';
                         }, 3000);
                     } else {
                         createCode('#loginCode');

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>加载图书</title>
+</head>
+<body>
+<div id="data" style="padding: 15px 15px 35px 15px">
+    <!--搜索一本图书&&获取所有图书-->
+    <div class="loadBook transform">
+
+        <!--搜索框-->
+        <div class="demoTable">
+            搜索书名：
+            <div class="layui-inline">
+                <label for="search"></label><input class="layui-input" name="id" id="search" autocomplete="off">
+            </div>
+            <button class="layui-btn" data-type="reload">搜索</button>
+        </div>
+        <!--图书表格-->
+        <table id="searchBook" lay-filter="searchBook"></table>
+        <!--工具条-->
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn  layui-btn-xs layui-bg-red	" lay-event="del">删除</a>
+        </script>
+
+        <!--借阅情况模板-->
+        <script type="text/html" id="titleTpl">
+            {{#  if(d.state == 0){ }}
+            <span class="layui-badge layui-bg-green">未借阅</span>
+            {{#  } else { }}
+            <span class="layui-badge ">借阅中</span>
+            {{#  } }}
+        </script>
+
+    </div>
+</div>
+</body>
+</html>

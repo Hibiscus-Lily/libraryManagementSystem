@@ -58,7 +58,7 @@ export function loadTable(table) {
             layer.msg(res.msg)
             if (res.code !== 0) {
                 setTimeout(function () {
-                    window.location.href = "./page/user.html"
+                    window.location.href = "./page/Z_logIn.html"
                 }, 1000)
             }
             return {
@@ -113,7 +113,7 @@ export function loadTable(table) {
                 id: 'LAY_layuipro', //设定一个id，防止重复弹出
                 resize: false, //是否允许拉伸
                 moveType: 1, //拖拽模式，0或者1
-                content: 'page/queryBookPagePopUpForm.html?' + data,
+                content: 'page/Y_queryBookPagePopUpForm.html?' + data,
                 scrollbar: false,
             });
             //获取子页面的相关数据

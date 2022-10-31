@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>图书管理</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.js"></script>
+    <link rel="stylesheet" href="../css/layui.css">
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo layui-hide-xs layui-bg-black">图书管理系统</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+
+        <ul class="layui-nav layui-layout-right" style="margin-right: 1%">
+            <li class="layui-nav-item">
+                <a href="#"><img
+                        src="https://img.xn--4pv26d.com/images/2022/06/24/u26227255452926675658fm253fmtautoapp138fJPEG.jpg"
+                        class="layui-nav-img" alt="">我的</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="#">个人信息</a></dd>
+                    <dd><a href="#">注销</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <ul class="layui-nav layui-nav-tree" lay-filter="pageContentSwitch">
+                <li class="layui-nav-item  layui-nav-itemed">
+                    <a href="#">图书管理</a>
+                    <dl class="layui-nav-child">
+                        <dd class="layui-this"><a href="javascript:location.reload();" data-id="0">查询图书</a></dd>
+                        <dd><a href="javascript:" data-id="1">添加图书</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-item">
+                    <a href="#">用户管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:" data-id="2">查询用户</a></dd>
+                        <dd><a href="javascript:" data-id="3">添加用户</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-item">
+                    <a href="#">借阅管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:" data-id="4">借阅记录</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+
+    </div>
+</div>
+<script src="../js/layui.js"></script>
+<script type="module" src="../js/main.js"></script>
+</body>
+</html>

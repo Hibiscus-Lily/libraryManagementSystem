@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加图书</title>
+</head>
+<body>
+
+<div id="data" style="padding: 15px 15px 35px 15px">
+    <!--添加一本图书-->
+    <div class="addBook transform">
+        <form class="layui-form layui-layer-content" lay-filter="addBook">
+            <div class="layui-form-item">
+                <label class="layui-form-label">书名</label>
+                <div class="layui-input-block">
+                    <label>
+                        <input type="text" name="title" lay-verify="title" autocomplete="off"
+                               placeholder="请输入标题" class="layui-input">
+                    </label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">作者</label>
+                <div class="layui-input-block">
+                    <label>
+                        <input type="text" name="author" lay-verify="author" placeholder="请输入"
+                               autocomplete="off" class="layui-input">
+                    </label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">出版社</label>
+                <div class="layui-input-block">
+                    <label>
+                        <input type="text" name="press" lay-verify="press" placeholder="请输入"
+                               autocomplete="off" class="layui-input">
+                    </label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">出版日期</label>
+                    <div class="layui-input-inline">
+                        <label for="year"></label><input type="text" name="year" id="year" lay-verify="year"
+                                                         placeholder="yyyy-MM-dd" autocomplete="off"
+                                                         class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">ISBN</label>
+                <div class="layui-input-block">
+                    <label>
+                        <input type="text" name="ISBN" lay-verify="ISBN" placeholder="请输入"
+                               autocomplete="off" class="layui-input">
+                    </label>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="submit" class="layui-btn" lay-submit="" lay-filter="addBook">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+</body>
+</html>
