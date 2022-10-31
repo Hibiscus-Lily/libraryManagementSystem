@@ -1,6 +1,6 @@
 //引入相关JS文件
-import {addBook} from './page/addBooks.js';
-import {loadTable, queryBook} from './page/queryBooks.js';
+import {addBook} from './book_Add.js';
+import {loadTable, queryBook} from './book_Load';
 
 
 layui.use(['element', 'table', 'form', 'laydate'], function () {
