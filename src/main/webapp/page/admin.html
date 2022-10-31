@@ -9,7 +9,7 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.js"></script>
 </head>
 <body>
-<div class="layui-layout layui-layout-admin">
+<div class="layui-layout layui-layout-admin"  style="height: 100%;">
     <div class="layui-header">
         <div class="layui-logo layui-hide-xs layui-bg-black">图书管理系统</div>
         <!-- 头部区域（可配合layui 已有的水平导航） -->
@@ -34,29 +34,28 @@
                     <a href="#">图书管理</a>
                     <dl class="layui-nav-child">
                         <dd class="layui-this"><a href="javascript:" data-src="book_Load.html">查询图书</a></dd>
-                        <dd><a href="javascript:" data-src="1">添加图书</a></dd>
+                        <dd><a href="javascript:" data-src="book_Add.html">添加图书</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-item">
                     <a href="#">用户管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:" data-src="2">查询用户</a></dd>
-                        <dd><a href="javascript:" data-src="3">添加用户</a></dd>
+                        <dd><a href="javascript:" data-src="user_Load.html">查询用户</a></dd>
+                        <dd><a href="javascript:" data-src="user_Add.html">添加用户</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-item">
                     <a href="#">借阅管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:" data-src="4">借阅记录</a></dd>
+                        <dd><a href="javascript:" data-src="borrow_Load.html">借阅记录</a></dd>
                     </dl>
                 </li>
             </ul>
         </div>
     </div>
 
-    <div class="layui-body" id="layui-body">
+    <div class="layui-body" id="layui-body" >
         <!-- 内容主体区域 -->
-        <iframe></iframe>
 
     </div>
 </div>

@@ -81,7 +81,7 @@ function login() {
         $('#loginBtn').val("正在登录...");
         $.ajax({
             type: 'post',
-            url: 'http://localhost:8080/libraryManagementSystem/user/userLogin/',
+            url: 'http://localhost:8080/libraryManagementSystem/login/userLogin',
             data: {
                 "account": $('#loginUsername').val(),
                 "passwordRSA": passwordEncryption($('#loginPassword').val())
@@ -153,7 +153,7 @@ function register() {
             const registerLoadIndex = layer.load(2);
             $.ajax({
                 type: 'post',
-                url: window.location.protocol + '//' + window.location.host + '/security-web/register.do',
+                url: 'http://localhost:8080/libraryManagementSystem/login',
                 dataType: 'json',
                 data: JSON.stringify(params),
                 contentType: 'application/json',

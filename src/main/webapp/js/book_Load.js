@@ -3,9 +3,20 @@
  * 查询图书页搜索栏相关事件(点击搜索,表格重载)
  * @param table
  */
+
+layui.use(['table'], function () {
+
+
+    //加载事件
+    const table = layui.table
+    loadTable(table)
+    queryBook(table)
+});
+
+
 const token = localStorage.getItem('token');
 
-export function queryBook(table) {
+function queryBook(table) {
     const $ = layui.$, active = {
         reload: function () {
             const search = $('#search');
@@ -14,7 +25,7 @@ export function queryBook(table) {
             } else {
                 //执行重载
                 table.reload('searchBook', {
-                    url: 'http://localhost:8080/libraryManagementSystem/book/' + search.val(),
+                    url: 'http://localhost:8080/libraryManagementSystem/admin/book/' + search.val(),
                     headers: {
                         "token": token
                     },
@@ -44,11 +55,11 @@ export function queryBook(table) {
  * 加载图书列表并加载工具条事件
  * @param table
  */
-export function loadTable(table) {
+function loadTable(table) {
     //第一个实例
     table.render({
         elem: '#searchBook'
-        , url: 'http://localhost:8080/libraryManagementSystem/book/allBookInformation', //数据接口
+        , url: 'http://localhost:8080/libraryManagementSystem/admin/book/allBookInformation', //数据接口
         headers: {
             "token": token
         },
@@ -58,7 +69,7 @@ export function loadTable(table) {
             layer.msg(res.msg)
             if (res.code !== 0) {
                 setTimeout(function () {
-                    window.location.href = "./page/Z_logIn.html"
+                    window.location.href = "../page/user_Load.html"
                 }, 1000)
             }
             return {
@@ -74,7 +85,7 @@ export function loadTable(table) {
             , {field: 'press', title: '出版社'}
             , {field: 'year', title: '出版日期'}
             , {field: 'isbn', title: 'isbn'}
-            , {field: 'borrowing', title: '借阅情况',align: 'center', templet: '#titleTpl'}
+            , {field: 'borrowing', title: '借阅情况', align: 'center', templet: '#titleTpl'}
             , {fixed: 'right', align: 'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
 
         ]],
@@ -91,7 +102,7 @@ export function loadTable(table) {
                 obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                 layer.close(index);
                 $.ajax({
-                    url: "http://localhost:8080/libraryManagementSystem/book/" + data.title,
+                    url: "http://localhost:8080/libraryManagementSystem/admin/book/" + data.title,
                     type: "DELETE",
                     headers: {
                         "token": token
@@ -108,19 +119,22 @@ export function loadTable(table) {
                 skin: 'layui-layer-molv',
                 type: 2,
                 title: '编辑图书信息',
-                area: ['480px', '430px'],
+                area: ['500px','500px'],
                 shade: 0.8, // 遮罩层透明度
+                offset: '10px',
                 id: 'LAY_layuipro', //设定一个id，防止重复弹出
-                resize: false, //是否允许拉伸
-                moveType: 1, //拖拽模式，0或者1
-                content: 'page/Y_queryBookPagePopUpForm.html?' + data,
+                content: '../page/Y_queryBookPagePopUpForm.html?' + data,
                 scrollbar: false,
             });
+
+
+
+
             //获取子页面的相关数据
             window.getSubPageElements = function (data) {
                 if (data !== "") {
                     $.ajax({
-                        url: "http://localhost:8080/libraryManagementSystem/book",
+                        url: "http://localhost:8080/libraryManagementSystem/admin/book",
                         type: "PUT",
                         data: JSON.stringify(data),
                         headers: {
@@ -143,11 +157,8 @@ export function loadTable(table) {
                         }
 
                     })
-
                 }
             }
-
         }
     });
-
 }

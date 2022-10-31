@@ -1,7 +1,14 @@
 //添加图书页
-const token = localStorage.getItem('token');
+layui.use(['element', 'table', 'form', 'laydate'], function () {
+    const form = layui.form;
+    const laydate = layui.laydate;
+    addBook(form, laydate)
 
-export function addBook(form, laydate) {
+});
+
+
+function addBook(form, laydate) {
+    const token = localStorage.getItem('token');
     //日期
     laydate.render({
         elem: '#year'
@@ -21,7 +28,7 @@ export function addBook(form, laydate) {
     //提交事件
     form.on('submit(addBook)', function (data) {
         $.ajax({
-            url: "http://localhost:8080/libraryManagementSystem/book/",
+            url: "http://localhost:8080/libraryManagementSystem/admin/book/",
             type: "POST",
             data: JSON.stringify(data.field),
             headers: {
