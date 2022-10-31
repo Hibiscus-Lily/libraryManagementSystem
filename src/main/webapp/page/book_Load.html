@@ -29,11 +29,13 @@
 
         <!--借阅情况模板-->
         <script type="text/html" id="titleTpl">
-            {{#  if(d.state == 0){ }}
+            {{#if (d.state == 0){ }}
             <span class="layui-badge layui-bg-green">未借阅</span>
-            {{#  } else { }}
+            {{#  }else if (d.state == 1){}}
             <span class="layui-badge ">借阅中</span>
-            {{#  } }}
+            {{# }else {}}
+            <span></span>
+            {{#     }   }}
         </script>
 
     </div>

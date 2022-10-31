@@ -11,9 +11,39 @@
 <div id="data" style="padding: 15px 15px 35px 15px">
     <!--获取所有用户&&查询一个用户-->
     <div class="searchUser transform">
-        searchUser
+        <!--搜索框-->
+        <div class="searchUserSearchBox">
+            搜索书名：
+            <div class="layui-inline">
+                <label for="searchUserSearchBox">
+                    <input class="layui-input" name="id" id="searchUserSearchBox" autocomplete="off">
+                </label>
+            </div>
+            <button class="layui-btn" data-type="reload">搜索</button>
+        </div>
+        <!--用户表格-->
+        <table id="searchUser" lay-filter="searchUser"></table>
+        <!--工具条-->
+        <script type="text/html" id="searchUserToolbar">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn  layui-btn-xs layui-bg-red	" lay-event="del">删除</a>
+        </script>
+
+        <!--借阅情况模板-->
+        <script type="text/html" id="titleTpl">
+            {{#if (d.state == 0){ }}
+            <span class="layui-badge layui-bg-green">未借阅</span>
+            {{#  }else if (d.state == 1){}}
+            <span class="layui-badge ">借阅中</span>
+            {{# }else {}}
+            <span></span>
+            {{#     }   }}
+        </script>
+
     </div>
 </div>
 
 </body>
 </html>
+<script src="../lib/layui/layui.js"></script>
+<script src="../js/user_Load.js"></script>
