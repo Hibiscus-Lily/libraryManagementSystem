@@ -1,8 +1,10 @@
 package com.mujin.librarymanagementsystem.controller;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.mujin.librarymanagementsystem.common.constant.Code;
 import com.mujin.librarymanagementsystem.common.entity.Result;
+import com.mujin.librarymanagementsystem.pojo.BookInformationPojo;
 import com.mujin.librarymanagementsystem.pojo.UserInformationPojo;
 import com.mujin.librarymanagementsystem.service.UserInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +35,24 @@ public class Admin_UserController {
     public Result getAllUserInformation(@RequestParam Integer page, @RequestParam Integer limit) {
         PageHelper.startPage(page, limit);
         List<UserInformationPojo> userInformationPojos = userInformationService.getAllUserInformation();
-        return new Result(Code.OK, userInformationPojos, "获取数据成功");
+        PageInfo<UserInformationPojo> pageInfo = new PageInfo<>(userInformationPojos);
+        return new Result(Code.OK, pageInfo, "获取数据成功");
     }
+
+
+    /**
+     * 获取一个用户信息并返回
+     */
+    @GetMapping("/{account}")
+    public Result getUserInformation(@RequestParam Integer page, @RequestParam Integer limit ,@PathVariable String account) {
+        PageHelper.startPage(page, limit);
+        UserInformationPojo userInformationPojo = userInformationService.getUserInformation(account);
+        return new Result(Code.OK, userInformationPojo, "获取数据成功");
+    }
+
+
+
+
 
     /**
      * 添加一个用户信息(注册)

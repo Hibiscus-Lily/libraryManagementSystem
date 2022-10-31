@@ -17,14 +17,14 @@ const token = localStorage.getItem('token');
 function queryBook(table) {
     const $ = layui.$, active = {
         reload: function () {
-            const search = $('#search');
+            const search = $('#searchUserSearchBox');
             console.log(search.val())
             if (search.val() === '') {
                 loadTable(table)
             } else {
                 //执行重载
                 table.reload('searchUser', {
-                    url: 'http://localhost:8080/libraryManagementSystem/commonuser/user/information/' + search.val(),
+                    url: 'http://localhost:8080/libraryManagementSystem/admin/user/' + search.val(),
                     headers: {
                         "token": token
                     },
@@ -65,6 +65,7 @@ function loadTable(table) {
         page: true //开启分页
         , limit: 30
         , parseData: function (res) {
+            console.log(res)
             layer.msg(res.msg)
             if (res.code !== 0) {
                 setTimeout(function () {
@@ -79,12 +80,12 @@ function loadTable(table) {
             };
         }
         , cols: [[ //表头
-            {field: 'title', title: '书名', sort: true, fixed: 'left'}
-            , {field: 'author', title: '作者', sort: true}
-            , {field: 'press', title: '出版社'}
-            , {field: 'year', title: '出版日期'}
-            , {field: 'isbn', title: 'isbn'}
-            , {field: 'borrowing', title: '借阅情况', align: 'center', templet: '#titleTpl'}
+            {field: 'username', title: '昵称', sort: true, fixed: 'left'}
+            , {field: 'account', title: '账号', sort: true}
+            , {field: 'password', title: '密码'}
+            , {field: 'state', title: '账号状态'}
+            , {field: 'jurisdiction', title: '权限'}
+            , {field: 'loginStatus', title: '登录状态', align: 'center', templet: '#titleTpl'}
             , {fixed: 'right', align: 'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
 
         ]],
@@ -101,7 +102,7 @@ function loadTable(table) {
                 obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                 layer.close(index);
                 $.ajax({
-                    url: "http://localhost:8080/libraryManagementSystem/admin/book/" + data.title,
+                    url: "http://localhost:8080/libraryManagementSystem/admin/user/" + data.title,
                     type: "DELETE",
                     headers: {
                         "token": token

@@ -24,6 +24,7 @@ public class OrdinaryUser_BookInterceptor  implements HandlerInterceptor {
         String token = request.getHeader("token");
         int JWTcode = JwtUtils.validateJWT(token).getErrCode();
         String method = request.getMethod();
+        System.out.println(method);
         if (!Objects.equals(method, "OPTIONS")) {
             if (token != null) {
                 //4002-->   token错误
