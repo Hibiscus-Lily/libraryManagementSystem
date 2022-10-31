@@ -4,12 +4,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mujin.librarymanagementsystem.common.constant.Code;
 import com.mujin.librarymanagementsystem.common.entity.Result;
-import com.mujin.librarymanagementsystem.pojo.BookInformationPojo;
 import com.mujin.librarymanagementsystem.pojo.UserInformationPojo;
 import com.mujin.librarymanagementsystem.service.UserInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,14 +44,17 @@ public class Admin_UserController {
      * 获取一个用户信息并返回
      */
     @GetMapping("/{account}")
-    public Result getUserInformation(@RequestParam Integer page, @RequestParam Integer limit ,@PathVariable String account) {
+    public Result getUserInformation(@RequestParam Integer page, @RequestParam Integer limit, @PathVariable String account) {
         PageHelper.startPage(page, limit);
         UserInformationPojo userInformationPojo = userInformationService.getUserInformation(account);
-        return new Result(Code.OK, userInformationPojo, "获取数据成功");
+        List<UserInformationPojo> userInformationPojos = new ArrayList<>();
+        if (userInformationPojo == null) {
+            return new Result(Code.OK, null, "数据为空");
+        } else {
+            userInformationPojos.add(userInformationPojo);
+            return new Result(Code.OK, userInformationPojos, "数据获取成功");
+        }
     }
-
-
-
 
 
     /**

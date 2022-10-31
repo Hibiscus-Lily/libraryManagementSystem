@@ -29,12 +29,32 @@
             <a class="layui-btn  layui-btn-xs layui-bg-red	" lay-event="del">删除</a>
         </script>
 
-        <!--借阅情况模板-->
-        <script type="text/html" id="titleTpl">
+        <!--账号状态模板-->
+        <script type="text/html" id="accountStatus">
             {{#if (d.state == 0){ }}
-            <span class="layui-badge layui-bg-green">未借阅</span>
+            <span class="layui-badge layui-bg-green">正常</span>
             {{#  }else if (d.state == 1){}}
-            <span class="layui-badge ">借阅中</span>
+            <span class="layui-badge ">封禁</span>
+            {{# }else {}}
+            <span></span>
+            {{#     }   }}
+        </script>
+        <!--权限模板-->
+        <script type="text/html" id="competence">
+            {{#if (d.jurisdiction == 0){ }}
+            <span class="layui-badge layui-bg-green">普通用户</span>
+            {{#  }else if (d.jurisdiction == 1){}}
+            <span class="layui-badge ">管理员</span>
+            {{# }else {}}
+            <span></span>
+            {{#     }   }}
+        </script>
+        <!--登录状态模板-->
+        <script type="text/html" id="loginStatus">
+            {{#if (d.loginStatus == 0){ }}
+            <span class="layui-badge layui-bg-green">离线</span>
+            {{#  }else if (d.loginStatus == 1){}}
+            <span class="layui-badge ">在线</span>
             {{# }else {}}
             <span></span>
             {{#     }   }}

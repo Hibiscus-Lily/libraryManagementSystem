@@ -83,10 +83,10 @@ function loadTable(table) {
             {field: 'username', title: '昵称', sort: true, fixed: 'left'}
             , {field: 'account', title: '账号', sort: true}
             , {field: 'password', title: '密码'}
-            , {field: 'state', title: '账号状态'}
-            , {field: 'jurisdiction', title: '权限'}
-            , {field: 'loginStatus', title: '登录状态', align: 'center', templet: '#titleTpl'}
-            , {fixed: 'right', align: 'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+            , {field: 'state', title: '账号状态', align: 'center', templet: '#accountStatus'}
+            , {field: 'jurisdiction', title: '权限', align: 'center', templet: '#competence'}
+            , {field: 'loginStatus', title: '登录状态', align: 'center', templet: '#loginStatus'}
+            , {fixed: 'right', align: 'center', toolbar: '#searchUserToolbar'} //这里的toolbar值是模板元素的选择器
 
         ]],
     });
