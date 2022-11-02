@@ -10,10 +10,54 @@
 <body>
 <div id="data" style="padding: 15px 15px 35px 15px">
     <div class="queryBorrowingRecords transform">
-        queryBorrowingRecords
+
+
+        <!--搜索框-->
+        <div class="demoTable layui-row">
+            <div class="layui-col-md4">
+                按书名搜索：
+                <div class="layui-inline">
+                    <label for="searchByTitle">
+                        <input class="layui-input" name="id" id="searchByTitle" autocomplete="off">
+                    </label>
+                </div>
+                <button class="layui-btn" id="searchByTitle_reload" data-type="reload">搜索</button>
+            </div>
+            <div class="layui-col-md4">
+                按用户名搜索：
+                <div class="layui-inline">
+                    <label for="searchByUsername">
+                        <input class="layui-input" name="id" id="searchByUsername" autocomplete="off">
+                    </label>
+                </div>
+                <button class="layui-btn" id="searchByUsername_reload" data-type="reload">搜索</button>
+            </div>
+
+        </div>
+        <!--借阅表格-->
+        <table id="loanForm" lay-filter="loanForm"></table>
+        <!--借阅工具条-->
+        <script type="text/html" id="borrowingToolbar">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn  layui-btn-xs layui-bg-red	" lay-event="del">删除</a>
+        </script>
+
+        <!--借阅情况模板-->
+        <script type="text/html" id="state">
+            {{#if (d.state == 0){ }}
+            <span class="layui-badge layui-bg-green">未借阅</span>
+            {{#  }else if (d.state == 1){}}
+            <span class="layui-badge ">借阅中</span>
+            {{# }else {}}
+            <span></span>
+            {{#     }   }}
+        </script>
     </div>
 </div>
 <!--查询借阅记录-->
 
 </body>
 </html>
+<script src="../lib/layui/layui.js"></script>
+<script src="../lib/modules/notify.js"></script>
+<script src="../js/borrow_Load.js"></script>

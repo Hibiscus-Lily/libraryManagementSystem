@@ -29,7 +29,7 @@ public class BorrowInformationServiceImpl implements BorrowInformationService {
 
     @Override
     public List<BorrowInformationPojo> findAllBorrowingRecordsForUserAccount(String account) {
-        return borrowInformationMapper.findAllBorrowingRecordsForBookTile(account);
+        return borrowInformationMapper.findAllBorrowingRecordsForUserAccount(account);
     }
 
     @Override
