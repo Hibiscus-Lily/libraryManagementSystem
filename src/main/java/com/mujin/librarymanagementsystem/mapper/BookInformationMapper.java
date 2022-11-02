@@ -20,11 +20,11 @@ public interface BookInformationMapper {
     @Select("DELETE from book where title= #{title}")
     void deleteBooks(String title);
 
-    @Select("UPDATE book SET title=#{title}, author=#{author}, press=#{press}, year=#{year}, ISBN=#{isbn} WHERE title= #{title}")
-    void updateBooks(@Param("title") String title, @Param("author") String author, @Param("press") String press, @Param("year") String year, @Param("isbn") String isbn);
+    @Select("UPDATE book SET title=#{title}, author=#{author}, press=#{press}, year=#{year}, ISBN=#{isbn}, state=#{state} WHERE title= #{title}")
+    void updateBooks(@Param("title") String title, @Param("author") String author, @Param("press") String press, @Param("year") String year, @Param("isbn") String isbn, @Param("state") Integer state);
 
-    @Select("insert into book(title, author, press, year, isbn) values(#{title},#{author},#{press},#{year},#{isbn})")
-    void addBooks(@Param("title") String title, @Param("author") String author, @Param("press") String press, @Param("year") String year, @Param("isbn") String isbn);
+    @Select("insert into book(title, author, press, year, isbn,state) values(#{title},#{author},#{press},#{year},#{isbn},#{state})")
+    void addBooks(@Param("title") String title, @Param("author") String author, @Param("press") String press, @Param("year") String year, @Param("isbn") String isbn, @Param("state") Integer state);
 
 
 }

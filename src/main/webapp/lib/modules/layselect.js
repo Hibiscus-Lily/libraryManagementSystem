@@ -79,7 +79,6 @@ layui.define(['element','form','jquery'],function(exports){
 			*/
 			function _init(eid,param,data){
 				$(eid).empty();//请求成功时清空
-				$(eid).prepend("<option value=''>请选择</option>");//添加第一个option值
 				var option = new Array();
 				if(param.format){//格式化
 					for (var i = 0; i < data.length; i++) {

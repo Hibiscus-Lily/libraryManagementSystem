@@ -60,6 +60,14 @@
                 </label>
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">借阅情况</label>
+            <div class="layui-input-inline">
+                <label for="state">
+                    <select name="state" id="state" lay-filter="state"></select>
+                </label>
+            </div>
+        </div>
 
         <div class="layui-form-item">
             <div class="layui-input-block">
@@ -71,9 +79,23 @@
 
 </div>
 <script>
-    layui.use(['form', 'util', 'laydate'], function () {
+    layui.extend({
+        layselect: '{/}../lib/modules/layselect', // {/}的意思即代表采用自有路径，即不跟随 base 路径
+    })
+    layui.use(['form', 'util', 'laydate','layselect'], function () {
         const form = layui.form;
         const laydate = layui.laydate;
+        const select = layui.layselect;
+        //获取所有值
+        const data1 = JSON.parse(sessionStorage.getItem("allJson"));//将字符串抓换成对象
+
+        select.render({
+            elem: "#state",
+            option: [
+                {code: '0', codeName: '未借阅'},
+                {code: '1', codeName: '借阅中'},
+            ],
+        });
 
 
         //日期
@@ -105,10 +127,6 @@
             return false;
         });
 
-
-        //获取所有值
-        const data1 = JSON.parse(sessionStorage.getItem("allJson"));//将字符串抓换成对象
-
         //表单赋值
         form.val('example', {
             "title": data1.title
@@ -116,6 +134,7 @@
             , "press": data1.press
             , "year": data1.year
             , "isbn": data1.isbn
+            ,"state":data1.state
         });
     });
 
@@ -131,6 +150,7 @@
                 , "press": ''
                 , "year": ''
                 , "isbn": ''
+                ,"state":'0'
             });
         });
 

@@ -11,9 +11,72 @@
 <div id="data" style="padding: 15px 15px 35px 15px">
     <!--添加用户-->
     <div class="addUser transform">
-        addUser
+        <form class="layui-form" style="" action="" lay-filter="example">
+            <div class="layui-form-item">
+                <label class="layui-form-label">账号</label>
+                <div class="layui-input-block">
+                    <label>
+                        <input type="text" name="account" lay-verify="account" autocomplete="off"
+                               placeholder="请输入账号" class="layui-input">
+                    </label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">昵称</label>
+                <div class="layui-input-block">
+                    <label>
+                        <input type="text" name="nickname" lay-verify="nickname" placeholder="请输入昵称"
+                               autocomplete="off" class="layui-input">
+                    </label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-block">
+                    <label>
+                        <input type="text" name="password" lay-verify="password" placeholder="请输入密码"
+                               autocomplete="off" class="layui-input">
+                    </label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">账号状态</label>
+                <div class="layui-input-inline">
+                    <label for="accountStatus">
+                        <select name="accountStatus" id="accountStatus" lay-filter="accountStatus"></select>
+                    </label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">权限</label>
+                <div class="layui-input-inline">
+                    <label for="competence">
+                        <select name="competence" id="competence" lay-filter="competence"></select>
+                    </label>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">登录状态</label>
+                <div class="layui-input-inline">
+                    <label for="loginStatus">
+                        <select name="loginStatus" id="loginStatus" lay-filter="loginStatus"></select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="submit" class="layui-btn" lay-submit="" lay-filter="submitButton">立即提交</button>
+                    <button type="reset" id="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
 </body>
+<script src="../lib/layui/layui.js"></script>
+<script src="../lib/modules/notify.js"></script>
+<script src="../js/utils/md5.min.js"></script>
+<script src="../js/user_Add.js"></script>
 </html>

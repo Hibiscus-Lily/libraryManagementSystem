@@ -88,7 +88,7 @@ function loadTable(table) {
             , {field: 'press', title: '出版社'}
             , {field: 'year', title: '出版日期'}
             , {field: 'isbn', title: 'isbn'}
-            , {field: 'borrowing', title: '借阅情况', align: 'center', templet: '#titleTpl'}
+            , {field: 'state', title: '借阅情况', align: 'center', templet: '#state'}
             , {fixed: 'right', align: 'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
 
         ]],
@@ -155,6 +155,7 @@ function loadTable(table) {
                                 press: data.press,
                                 year: data.year,
                                 isbn: data.isbn,
+                                state:data["state"],
                             });
                             if (res.data ===true){
                                 notify.success(res.msg, "topRight");

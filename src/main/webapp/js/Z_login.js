@@ -55,18 +55,18 @@ function validateCode(inputID, codeID) {
 
         return false;
     }
-    // if (inputCode.length <= 0) {
-    //     layer.msg("验证码不能为空");
-    //     createCode('#loginCode');
-    //
-    //     return false;
-    // }
-    // if (inputCode !== cardCode) {
-    //     layer.msg("请输入正确验证码");
-    //     createCode('#loginCode');
-    //
-    //     return false;
-    // }
+    if (inputCode.length <= 0) {
+        layer.msg("验证码不能为空");
+        createCode('#loginCode');
+
+        return false;
+    }
+    if (inputCode !== cardCode) {
+        layer.msg("请输入正确验证码");
+        createCode('#loginCode');
+
+        return false;
+    }
     return true;
 }
 
@@ -85,41 +85,50 @@ function login() {
                 "account": $('#loginUsername').val(),
                 "passwordRSA": passwordEncryption($('#loginPassword').val())
             },
-            success: function (data) {
+            success: function (res) {
                 layer.close(loginLoadIndex);
-                console.log(data.data)
-                if (data.data===''){
-                    console.log("null")
-                }else {
-                    console.log("data")
+                const account = (res["data"]["account"])
+                console.log(account)
+                //code码为0
+                if (res["code"] === 0) {
+                    if (account !== null) {
+                        let jurisdiction = (res["data"]["jurisdiction"])
+                        if (jurisdiction === 0) {
+                            notify.success(res["msg"], "topRight")
+                            setTimeout(function () {
+                                window.location.href = 'book.html';
+                            }, 3000);
+                        } else if (jurisdiction === 1) {
+                            notify.success(res["msg"], "topRight")
+                            setTimeout(function () {
+                                window.location.href = 'admin.html';
+                            }, 3000);
+                        } else {
+                            createCode('#loginCode');
+                            layer.close(loginLoadIndex);
+                            notify.error("ERROR", "topRight")
+                            $('#loginBtn').val("登录");
+                        }
+                    } else {
+                        createCode('#loginCode');
+                        layer.close(loginLoadIndex);
+                        notify.error(res["msg"], "topRight")
+                        $('#loginBtn').val("登录");
+                    }
+
+                } else {
+                    //code码不为0
+                    notify.error(res["msg"], "topRight")
+                    createCode('#loginCode');
+                    layer.close(loginLoadIndex);
+                    $('#loginBtn').val("登录");
                 }
-                // if (data.code === 0) {
-                //     let jurisdiction = (data.data["jurisdiction"])
-                //     if (jurisdiction === 0) {
-                //         setTimeout(function () {
-                //             window.location.href = 'book.html';
-                //         }, 3000);
-                //     } else if (jurisdiction === 1) {
-                //         setTimeout(function () {
-                //             window.location.href = 'admin.html';
-                //         }, 3000);
-                //     } else {
-                //         createCode('#loginCode');
-                //         layer.close(loginLoadIndex);
-                //         notify.error("ERROR", "topRight")
-                //         $('#loginBtn').val("登录");
-                //     }
-                // } else {
-                //     createCode('#loginCode');
-                //     layer.close(loginLoadIndex);
-                //     $('#loginBtn').val("登录");
-                // }
             },
             complete: function (xhr) { //请求完成后，获取fileName，处理数据
                 localStorage.setItem('token', xhr.getResponseHeader("token"))
             },
             error: function () {
-                layer.msg("请求错误")
+                notify.error('请求错误', "topRight")
                 layer.close(loginLoadIndex);
                 $('#loginBtn').val("登录");
                 setTimeout(function () {

@@ -12,7 +12,7 @@ public interface BookInformationService {
 
     Boolean deleteBooks(String title);
 
-    Boolean updateBooks(String title, String author, String press, String year, String isbn);
+    Boolean updateBooks(String title, String author, String press, String year, String isbn, Integer state);
 
-    Boolean addBooks(String title, String author, String press, String year, String isbn);
+    Boolean addBooks(String title, String author, String press, String year, String isbn, Integer state);
 }

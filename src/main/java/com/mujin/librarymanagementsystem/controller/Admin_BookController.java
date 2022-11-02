@@ -89,7 +89,7 @@ public class Admin_BookController {
     public Result addBook(@RequestBody BookInformationPojo bookInformationPojo) {
         BookInformationPojo bookInformation = bookInformationService.findStudentsByTitle(bookInformationPojo.getTitle());
         if (bookInformation == null) {
-            Boolean result = bookInformationService.addBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(),  bookInformationPojo.getIsbn());
+            Boolean result = bookInformationService.addBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(), bookInformationPojo.getIsbn(), bookInformationPojo.getState());
             if (result) {
                 return new Result(Code.OK, true, bookInformationPojo.getTitle() + "添加成功");
             } else {
@@ -108,7 +108,7 @@ public class Admin_BookController {
     public Result updateBook(@RequestBody BookInformationPojo bookInformationPojo) {
         BookInformationPojo bookInformation = bookInformationService.findStudentsByTitle(bookInformationPojo.getTitle());
         if (bookInformation != null) {
-            Boolean result = bookInformationService.updateBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(), bookInformationPojo.getIsbn());
+            Boolean result = bookInformationService.updateBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(), bookInformationPojo.getIsbn(), bookInformationPojo.getState());
             if (result) {
                 return new Result(Code.OK, true, bookInformationPojo.getTitle() + "更新成功");
             } else {

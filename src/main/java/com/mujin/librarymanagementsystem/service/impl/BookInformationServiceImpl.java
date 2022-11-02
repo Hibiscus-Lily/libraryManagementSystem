@@ -40,9 +40,9 @@ public class BookInformationServiceImpl implements BookInformationService {
     }
 
     @Override
-    public Boolean updateBooks(String title, String author, String press, String year,  String isbn) {
-        if (title != null && author != null && press != null && year != null && isbn != null) {
-            bookInformationMapper.updateBooks(title, author, press, year, isbn);
+    public Boolean updateBooks(String title, String author, String press, String year, String isbn, Integer state) {
+        if (title != null && author != null && press != null && year != null && isbn != null && state != null) {
+            bookInformationMapper.updateBooks(title, author, press, year, isbn, state);
             return true;
         } else {
             return false;
@@ -50,9 +50,9 @@ public class BookInformationServiceImpl implements BookInformationService {
     }
 
     @Override
-    public Boolean addBooks(String title, String author, String press, String year,  String isbn) {
-        if (title != null && author != null && press != null && year != null && isbn != null) {
-            bookInformationMapper.addBooks(title, author, press, year, isbn);
+    public Boolean addBooks(String title, String author, String press, String year, String isbn, Integer state) {
+        if (title != null && author != null && press != null && year != null && isbn != null && state != null) {
+            bookInformationMapper.addBooks(title, author, press, year, isbn, state);
             return true;
         } else {
             return false;
