@@ -20,13 +20,14 @@ public interface BorrowInformationMapper {
     //查询某个用户图书记录
     @Select("select * from borrowing  where account = #{account}")
     List<BorrowInformationPojo> findAllBorrowingRecordsForUserAccount(String account);
+
     //根据Id号删除某条记录
     @Select("DELETE from borrowing where id= #{id}")
-    void deleteBooks(Integer title);
+    void deletBorrowingRecords(Integer id);
 
     //根据ID更新某条记录
-    @Select("UPDATE book SET title=#{title}, author=#{author}, press=#{press}, year=#{year}, ISBN=#{isbn}, state=#{state} WHERE title= #{title}")
-    void updateBooks(@Param("title") String title, @Param("author") String author, @Param("press") String press, @Param("year") String year, @Param("isbn") String isbn, @Param("state") Integer state);
+    @Select("UPDATE book SET title=#{title}, account=#{account}, borrowingTime=#{borrowingTime}, bookReturnTime=#{bookReturnTime}, estimatedReturnTime=#{estimatedReturnTime}, state=#{state} WHERE id= #{id}")
+    void updateBorrowingRecords(@Param("id") Integer id, @Param("title") String title, @Param("account") String account, @Param("borrowingTime") Integer borrowingTime, @Param("bookReturnTime") Integer bookReturnTime, @Param("estimatedReturnTime") Integer estimatedReturnTime);
 
 
 }
