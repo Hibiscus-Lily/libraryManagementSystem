@@ -3,10 +3,7 @@ package com.mujin.librarymanagementsystem.config;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-import com.mujin.librarymanagementsystem.controller.interceptor.Admin_BookInterceptor;
-import com.mujin.librarymanagementsystem.controller.interceptor.Admin_UserInterceptor;
-import com.mujin.librarymanagementsystem.controller.interceptor.OrdinaryUser_BookInterceptor;
-import com.mujin.librarymanagementsystem.controller.interceptor.OrdinaryUser_UserInterceptor;
+import com.mujin.librarymanagementsystem.controller.interceptor.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
@@ -34,6 +31,12 @@ public class SpringMvcConfig implements WebMvcConfigurer {
     private Admin_UserInterceptor admin_userInterceptor;
     private OrdinaryUser_BookInterceptor ordinaryUser_bookInterceptor;
     private OrdinaryUser_UserInterceptor ordinaryUser_userinterceptor;
+    private Admin_BorrowInterceptor admin_borrowInterceptor;
+
+    @Autowired
+    public void setAdmin_borrowInterceptor(Admin_BorrowInterceptor admin_borrowInterceptor) {
+        this.admin_borrowInterceptor = admin_borrowInterceptor;
+    }
 
     @Autowired
 
@@ -101,8 +104,12 @@ public class SpringMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(admin_userInterceptor).addPathPatterns("/admin/user/**");
         registry.addInterceptor(admin_bookInterceptor).addPathPatterns("/admin/book/**");
+        registry.addInterceptor(admin_borrowInterceptor).addPathPatterns("/admin/borrow/**");
+
         registry.addInterceptor(ordinaryUser_userinterceptor).addPathPatterns("/commonuser/user/**");
         registry.addInterceptor(ordinaryUser_bookInterceptor).addPathPatterns("/commonuser/book/**");
+
+
     }
 
 
