@@ -14,21 +14,14 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @RestControllerAdvice
 @ResponseBody
 public class ProjectExceptionAdvice {
-
+    /**
+     * 所有异常
+     */
     @ExceptionHandler(Exception.class)
     public Result doException(Exception exception) {
-        return new Result(Code.Exception_ERROR, null, exception);
+        return new Result(Code.Exception_ERROR, null, exception.getMessage());
     }
-//    /**
-//     * 所有异常
-//     *
-//     * @param exception
-//     * @return
-//     */
-//    @ExceptionHandler(Exception.class)
-//    public Result doException(Exception exception) {
-//        return new Result(Code.Exception_ERROR, null, exception);
-//    }
+
 
     @ExceptionHandler(NoHandlerFoundException.class)
     public Result pageLost() {

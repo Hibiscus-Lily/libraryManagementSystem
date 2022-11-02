@@ -38,19 +38,26 @@
         <table id="loanForm" lay-filter="loanForm"></table>
         <!--借阅工具条-->
         <script type="text/html" id="borrowingToolbar">
-            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
             <a class="layui-btn  layui-btn-xs layui-bg-red	" lay-event="del">删除</a>
         </script>
 
-        <!--借阅情况模板-->
-        <script type="text/html" id="state">
-            {{#if (d.state == 0){ }}
-            <span class="layui-badge layui-bg-green">未借阅</span>
-            {{#  }else if (d.state == 1){}}
-            <span class="layui-badge ">借阅中</span>
-            {{# }else {}}
-            <span></span>
-            {{#     }   }}
+        <!--借阅时间模板-->
+        <script type="text/html" id="borrowingTime">
+            {{# const time = new Date(d.borrowingTime*1000);}}
+            {{# const times = time.toLocaleDateString().replace(/\//g, "-") + " " + time.toTimeString().slice(0, 8);}}
+            <span class="layui-badge layui-bg-green">{{times}}</span>
+        </script>
+        <!--还书时间模板-->
+        <script type="text/html" id="bookReturnTime">
+            {{# const time = new Date(d.borrowingTime*1000);}}
+            {{# const times = time.toLocaleDateString().replace(/\//g, "-") + " " + time.toTimeString().slice(0, 8);}}
+            <span class="layui-badge layui-bg-green">{{times}}</span>
+        </script>
+        <!--预计还书时间模板-->
+        <script type="text/html" id="estimatedReturnTime">
+            {{# const time = new Date(d.borrowingTime*1000);}}
+            {{# const times = time.toLocaleDateString().replace(/\//g, "-") + " " + time.toTimeString().slice(0, 8);}}
+            <span class="layui-badge layui-bg-green">{{times}}</span>
         </script>
     </div>
 </div>

@@ -13,6 +13,11 @@ public interface BorrowInformationMapper {
     @Select("select * from borrowing")
     List<BorrowInformationPojo> findAllBorrowingRecords();
 
+
+    //根据id图书记录
+    @Select("select * from borrowing  where id = #{id}")
+    BorrowInformationPojo findBorrowingRecordsById(Integer id);
+
     //查询某本图书记录
     @Select("select * from borrowing  where title = #{title}")
     List<BorrowInformationPojo> findAllBorrowingRecordsForBookTile(String title);

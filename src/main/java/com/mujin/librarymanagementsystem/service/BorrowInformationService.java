@@ -17,6 +17,9 @@ public interface BorrowInformationService {
     //根据Id号删除某条记录
     Boolean deletBorrowingRecords(Integer id);
 
+    //根据Id号查询某条记录
+    BorrowInformationPojo findBorrowingRecordsById(Integer id);
+
     //根据ID更新某条记录
     Boolean updateBorrowingRecords(Integer id, String title, String account, Integer borrowingTime, Integer bookReturnTime, Integer estimatedReturnTime);
 

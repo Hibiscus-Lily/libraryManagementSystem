@@ -1,3 +1,9 @@
+//防止页面后退
+history.pushState(null, null, document.URL);
+window.addEventListener('popstate', function () {
+    history.pushState(null, null, document.URL);
+},false);
+
 $(function () {
 
     // 页面初始化生成验证码
@@ -88,7 +94,6 @@ function login() {
             success: function (res) {
                 layer.close(loginLoadIndex);
                 const account = (res["data"]["account"])
-                console.log(account)
                 //code码为0
                 if (res["code"] === 0) {
                     if (account !== null) {
@@ -96,12 +101,12 @@ function login() {
                         if (jurisdiction === 0) {
                             notify.success(res["msg"], "topRight")
                             setTimeout(function () {
-                                window.location.href = 'book.html';
+                                location.replace("book.html");
                             }, 3000);
                         } else if (jurisdiction === 1) {
                             notify.success(res["msg"], "topRight")
                             setTimeout(function () {
-                                window.location.href = 'admin.html';
+                                location.replace("admin.html");
                             }, 3000);
                         } else {
                             createCode('#loginCode');

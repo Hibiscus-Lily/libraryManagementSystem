@@ -45,7 +45,8 @@ public class TokenUtils {
      * @param response HttpServletResponse对象
      * @param token    传进token的值
      * @param JWTcode  token解析后的状态码
-=     */
+     *                 =
+     */
     public static void verifyPermissions(HttpServletResponse response, String token, int JWTcode) throws IOException {
         if (JWTcode == 0) {
             Object permissionParameters = JwtUtils.validateJWT(token).getClaims().get("jurisdiction");
@@ -77,9 +78,13 @@ public class TokenUtils {
                 //4002-->   token错误
                 //4001-->   token超时
                 //0-->      正常
+                if (token.equals("null")) {
+                    response.sendRedirect("/libraryManagementSystem/login/notLoggedIn");
+                }
                 verifyPermissions(response, token, JWTcode);
             } else {
-                response.sendRedirect("/libraryManagementSystem/user/notLoggedIn");
+                response.sendRedirect("/libraryManagementSystem/login/notLoggedIn");
+
             }
         }
 

@@ -7,10 +7,7 @@ import com.mujin.librarymanagementsystem.common.entity.Result;
 import com.mujin.librarymanagementsystem.pojo.BorrowInformationPojo;
 import com.mujin.librarymanagementsystem.service.BorrowInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,7 +40,7 @@ public class Admin_BorrowController {
     }
 
     /**
-     * 获取全部书籍的相关信息
+     * 根据书名获取相关信息
      */
     @GetMapping("/getAllBorrowingRecordsForBookTile")
     public Result findAllBorrowingRecordsForBookTile(@RequestParam Integer page, @RequestParam Integer limit, @RequestParam String title) {
@@ -54,7 +51,7 @@ public class Admin_BorrowController {
     }
 
     /**
-     * 获取全部书籍的相关信息
+     * 根据用户名获取相关信息
      */
     @GetMapping("/getAllBorrowingRecordsForUserAccount")
     public Result findAllBorrowingRecordsForUserAccount(@RequestParam Integer page, @RequestParam Integer limit, @RequestParam String account) {
@@ -62,6 +59,42 @@ public class Admin_BorrowController {
         List<BorrowInformationPojo> book = borrowInformationService.findAllBorrowingRecordsForUserAccount(account);
         PageInfo<BorrowInformationPojo> pageInfo = new PageInfo<>(book);
         return new Result(Code.OK, pageInfo, "数据获取成功");
+    }
+
+    /**
+     * 根据ID删除相关记录
+     */
+
+    @DeleteMapping("/{id}")
+    public Result deleteBook(@PathVariable Integer id) {
+        BorrowInformationPojo borrowInformationPojo = borrowInformationService.findBorrowingRecordsById(id);
+        if (borrowInformationPojo != null) {
+            Boolean result = borrowInformationService.deletBorrowingRecords(id);
+            if (result) {
+                return new Result(Code.OK, true, "删除成功");
+            } else {
+                return new Result(Code.OK, false, "删除失败请检查数据完整性");
+            }
+        } else {
+            return new Result(Code.OK, false, id + "删除失败，删除的图书不存在");
+        }
+    }
+
+
+    @PutMapping()
+    public Result updateBook(@RequestBody BorrowInformationPojo borrowInformationPojos) {
+        BorrowInformationPojo borrowInformationPojo = borrowInformationService.findBorrowingRecordsById(borrowInformationPojos.getId());
+        if (borrowInformationPojo != null) {
+            Boolean result = borrowInformationService.updateBorrowingRecords(borrowInformationPojos.getId(), borrowInformationPojos.getTitle(), borrowInformationPojos.getAccount(), borrowInformationPojos.getBorrowingTime(), borrowInformationPojos.getBookReturnTime(), borrowInformationPojos.getEstimatedReturnTime());
+            if (result) {
+                return new Result(Code.OK, true, borrowInformationPojos.getId() + "更新成功");
+            } else {
+                return new Result(Code.OK, false, borrowInformationPojos.getId() + "更新失败请检查数据完整性");
+            }
+        } else {
+            return new Result(Code.OK, false, borrowInformationPojos.getId() + "更新失败，不存在此书籍");
+
+        }
     }
 
 

@@ -69,7 +69,7 @@ layui.use(['form', 'layselect'], function () {
         };
 
         $.ajax({
-            url: "http://localhost:8080/libraryManagementSystem/login",
+            url: "http://localhost:8080/libraryManagementSystem/admin/user",
             type: "POST",
             data: JSON.stringify(data2),
             headers: {

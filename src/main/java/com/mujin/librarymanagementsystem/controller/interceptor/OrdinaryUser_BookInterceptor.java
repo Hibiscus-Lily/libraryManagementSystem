@@ -30,9 +30,12 @@ public class OrdinaryUser_BookInterceptor  implements HandlerInterceptor {
                 //4002-->   token错误
                 //4001-->   token超时
                 //0-->      正常
+                if (token.equals("null")) {
+                    response.sendRedirect("/libraryManagementSystem/login/notLoggedIn");
+                }
                 TokenUtils.doNotVerifyPermissions(response, token, JWTcode);
             } else {
-                response.sendRedirect("/libraryManagementSystem/user/notLoggedIn");
+                response.sendRedirect("/libraryManagementSystem/login/notLoggedIn");
             }
         }
         return true;

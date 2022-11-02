@@ -43,6 +43,11 @@ public class BorrowInformationServiceImpl implements BorrowInformationService {
     }
 
     @Override
+    public BorrowInformationPojo findBorrowingRecordsById(Integer id) {
+        return borrowInformationMapper.findBorrowingRecordsById(id);
+    }
+
+    @Override
     public Boolean updateBorrowingRecords(Integer id, String title, String account, Integer borrowingTime, Integer bookReturnTime, Integer estimatedReturnTime) {
         if (id != null && title != null && account != null && borrowingTime != null && bookReturnTime != null && estimatedReturnTime != null) {
             borrowInformationMapper.updateBorrowingRecords(id, title, account, borrowingTime, bookReturnTime, estimatedReturnTime);

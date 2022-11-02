@@ -1,9 +1,12 @@
-
-//你也可以忽略 base 设定的根目录，直接在 extend 指定路径（主要：该功能为 layui 2.2.0 新增）
 layui.extend({
     layselect: '{/}../lib/modules/layselect', // {/}的意思即代表采用自有路径，即不跟随 base 路径
 })
 
+function logOut() {
+    localStorage.removeItem('token')
+
+    // window.location.href = "../page/Z_logIn.html"
+}
 
 
 layui.use(['element'], function () {

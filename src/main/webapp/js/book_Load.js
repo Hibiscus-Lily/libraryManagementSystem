@@ -17,6 +17,8 @@ layui.use(['table'], function () {
 
 
 const token = localStorage.getItem('token');
+console.log(token)
+
 
 function queryBook(table) {
     const $ = layui.$, active = {
@@ -87,7 +89,7 @@ function loadTable(table) {
             , {field: 'author', title: '作者', sort: true}
             , {field: 'press', title: '出版社'}
             , {field: 'year', title: '出版日期'}
-            , {field: 'isbn', title: 'isbn'}
+            , {field: 'isbn', title: '国际标准书号'}
             , {field: 'state', title: '借阅情况', align: 'center', templet: '#state'}
             , {fixed: 'right', align: 'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
 

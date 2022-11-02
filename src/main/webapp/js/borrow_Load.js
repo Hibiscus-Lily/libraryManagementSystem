@@ -25,7 +25,6 @@ function queryBook(table) {
                     page: true //开启分页
                     , limit: 30,
                     parseData: function (res) {
-                        console.log(res)
                         return {
                             "code": res.code, //解析接口状态
                             "msg": res.message, //解析提示文本
@@ -40,7 +39,6 @@ function queryBook(table) {
     }, searchByUsername = {
         reload: function () {
             const search = $('#searchByUsername');
-            console.log(search.val())
             if (search.val() === '') {
                 loadTable(table)
             } else {
@@ -111,17 +109,16 @@ function loadTable(table) {
             {field: 'id', title: 'id', sort: true, fixed: 'left'},
             {field: 'title', title: '书名', sort: true}
             , {field: 'account', title: 'account', sort: true}
-            , {field: 'bookReturnTime', title: 'bookReturnTime'}
-            , {field: 'borrowingTime', title: 'borrowingTime'}
-            , {field: 'estimatedReturnTime', title: 'estimatedReturnTime'}
-            , {field: 'state', title: '借阅情况', align: 'center', templet: '#state'}
-            , {fixed: 'right', align: 'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+            , {field: 'borrowingTime', title: '借阅时间', align: 'center', templet: '#borrowingTime'}
+            , {field: 'bookReturnTime', title: '还书时间', align: 'center', templet: '#bookReturnTime'}
+            , {field: 'estimatedReturnTime', title: '预计还书时间', align: 'center', templet: '#estimatedReturnTime'}
+            , {fixed: 'right', align: 'center', toolbar: '#borrowingToolbar'} //这里的toolbar值是模板元素的选择器
 
         ]],
     });
 
     //工具条事件
-    table.on('tool(borrowingToolbar)', function (obj) { //注：tool 是工具条事件名，lay-filter="对应的值"
+    table.on('tool(loanForm)', function (obj) { //注：tool 是工具条事件名，lay-filter="对应的值"
         const data = obj.data; //获得当前行数据
         const layEvent = obj.event; //获得 lay-event 对应的值
         sessionStorage.setItem("allJson", JSON.stringify(data));//将获取到的json字符串，保存到键为allJson中。
@@ -131,7 +128,7 @@ function loadTable(table) {
                 obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                 layer.close(index);
                 $.ajax({
-                    url: "http://localhost:8080/libraryManagementSystem/admin/book/" + data.title,
+                    url: "http://localhost:8080/libraryManagementSystem/admin/borrow/" + data["id"],
                     type: "DELETE",
                     headers: {
                         "token": token
@@ -139,13 +136,14 @@ function loadTable(table) {
                     success: function (res) {
                         if (res.data === true) {
                             notify.success(res.msg, "topRight");
+                        } else if (res.code === 500) {
+                            notify.error("异常请稍后处理", "topRight");
                         } else {
                             notify.error(res.msg, "topRight");
                         }
                     }, error: function () {
                         notify.error("删除失败请稍后尝试", "topRight");
                     }
-
                 })
             });
             //编辑
@@ -153,11 +151,11 @@ function loadTable(table) {
             layer.open({
                 skin: 'layui-layer-molv',
                 type: 2,
-                title: '编辑图书信息',
+                title: '编辑借阅信息',
                 area: ['500px', '500px'],
                 offset: '10px',
                 id: 'LAY_layuipro', //设定一个id，防止重复弹出
-                content: '../page/Y_bookUpdatePage.html?' + data,
+                content: '../page/Y_borrowUpdatePage.html?' + data,
                 scrollbar: false,
             });
 
