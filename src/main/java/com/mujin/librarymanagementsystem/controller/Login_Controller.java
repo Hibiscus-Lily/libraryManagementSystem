@@ -77,6 +77,8 @@ public class Login_Controller {
                     msg = userInformationPojo.getUsername() + "欢迎登录";
                 }
             } else {
+                userInformationMap.put("account", null);
+                userInformationMap.put("jurisdiction", null);
                 msg = "密码错误";
             }
 

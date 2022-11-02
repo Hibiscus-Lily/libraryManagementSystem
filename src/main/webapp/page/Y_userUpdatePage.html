@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/index.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.js"></script>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <script src="../lib/layui/layui.js"></script>
+    <title>用户更新页面</title>
+</head>
+<body>
+<div class="searchBook2" style="padding: 5% 10% 0 0;height: 100%">
+    <form class="layui-form" style="" action="" lay-filter="example">
+        <div class="layui-form-item">
+            <label class="layui-form-label">账号</label>
+            <div class="layui-input-block">
+                <label>
+                    <input disabled readonly type="text" name="account" lay-verify="account" autocomplete="off"
+                           placeholder="请输入账号" class="layui-input layui-disabled">
+                </label>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">昵称</label>
+            <div class="layui-input-block">
+                <label>
+                    <input type="text" name="nickname" lay-verify="nickname" placeholder="请输入昵称"
+                           autocomplete="off" class="layui-input">
+                </label>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-block">
+                <label>
+                    <input type="text" name="password" lay-verify="password" placeholder="请输入密码"
+                           autocomplete="off" class="layui-input">
+                </label>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">账号状态</label>
+            <div class="layui-input-inline">
+                <label for="accountStatus">
+                    <select name="accountStatus" id="accountStatus" lay-filter="accountStatus"></select>
+                </label>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">权限</label>
+            <div class="layui-input-inline">
+                <label for="competence">
+                    <select name="competence" id="competence" lay-filter="competence"></select>
+                </label>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">登录状态</label>
+            <div class="layui-input-inline">
+                <label for="loginStatus">
+                    <select name="loginStatus" id="loginStatus" lay-filter="loginStatus"></select>
+                </label>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button type="submit" class="layui-btn" lay-submit="" lay-filter="submitButton">立即提交</button>
+                <button type="reset" id="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="../js/utils/md5.min.js"></script>
+<script>
+    layui.extend({
+        layselect: '{/}../lib/modules/layselect', // {/}的意思即代表采用自有路径，即不跟随 base 路径
+    })
+    layui.use(['form', 'layselect'], function () {
+        const select = layui.layselect, form = layui.form;
+
+
+        //获取所有值
+        const data1 = JSON.parse(sessionStorage.getItem("allJson"));//将字符串抓换成对象
+        select.render({
+            elem: "#competence",
+            option: [
+                {code: '0', codeName: '普通用户'},
+                {code: '1', codeName: '管理员'},
+            ],
+            select: data1["jurisdiction"],//权限
+        });
+        select.render({
+            elem: "#accountStatus",
+            option: [
+                {code: '0', codeName: '正常'},
+                {code: '1', codeName: '封禁'},],
+            select: data1["state"],//权限
+        });
+        select.render({
+            elem: "#loginStatus",
+            option: [
+                {code: '0', codeName: '离线'},
+                {code: '1', codeName: '在线'},],
+            select: data1["loginStatus"],//权限
+        });
+        //自定义验证规则
+        form.verify({
+            nickname: function (value) {
+                if (value === '') {
+                    return '昵称不能为空';
+                }
+            }, password: function (value) {
+                if (value === '') {
+                    return '密码不能为空';
+                }
+                if (value.length !== 32 && value.length >= 16) {
+                    return '密码过长';
+                }
+            }
+        });
+        //提交事件
+        form.on('submit(submitButton)', function (data) {
+
+            let passwordMD5;
+            if (data.field.password.length !== 32) {
+                const MD5 = (hex_md5(data.field.password))
+                passwordMD5 = hex_md5(MD5)
+            } else {
+                passwordMD5 = data.field.password
+            }
+            const data2 = {
+                "nickname": data.field.nickname
+                , "account": data.field.account
+                , "password": passwordMD5
+                , "accountStatus": data.field.accountStatus
+                , "competence": data.field.competence
+                , "loginStatus": data.field.loginStatus
+            };
+
+            //关闭标签
+            //调用父页面函数，并把刚刚输入的值传递到子页面
+            parent.getSubPageElements(data2);
+            const index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+            return false;
+        });
+
+        //表单赋值
+        form.val('example', {
+            "nickname": data1.username
+            , "account": data1.account
+            , "password": data1.password
+            , "accountStatus": data1.state
+            , "competence": data1.jurisdiction
+            , "loginStatus": data1.loginStatus
+        });
+    });
+
+    $("#reset").click(function () {
+        layui.use(['form', 'util', 'laydate'], function () {
+            const form = layui.form;
+            const data1 = JSON.parse(sessionStorage.getItem("allJson"));//将字符串抓换成对象
+
+            form.val('example', {
+                "account": data1.account,
+                "accountStatus": '',
+                "competence": '',
+                "loginStatus": ''
+            });
+        });
+    });
+
+
+</script>
+</body>
+</html>

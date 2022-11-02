@@ -70,7 +70,7 @@
     <div class="registerDiv">
         <form>
             <div class="usernameWrapDiv">
-                <div class="usernameLabel">
+                <div class="usernameLabel1">
                     <label>用户名:</label>
                 </div>
                 <div class="usernameDiv">
@@ -81,7 +81,7 @@
                 </div>
             </div>
             <div class="usernameWrapDiv">
-                <div class="usernameLabel">
+                <div class="usernameLabel1">
                     <label>密码:</label>
                 </div>
                 <div class="passwordDiv">
@@ -92,18 +92,24 @@
                 </div>
             </div>
             <div class="usernameWrapDiv">
-                <div class="usernameLabel">
+                <div class="usernameLabel1">
                     <label>确认密码:</label>
                 </div>
                 <div class="passwordDiv">
                     <i class="layui-icon layui-icon-password adminIcon"></i>
-                    <label for="registerWellPassword"></label><input id="registerWellPassword"
-                                                                     class="layui-input adminInput" type="password"
-                                                                     name="password"
-                                                                     placeholder="输入密码">
+                    <label for="registerWellPassword">
+                        <input id="registerWellPassword"
+                               class="layui-input adminInput" type="password"
+                               name="password"
+                               placeholder="输入密码">
+                    </label>
+                    <div id="passwordVerification" style="width:90px;margin: 10px 0 0 30px;font-size: 11px;color: red">
+                        两次密码不同
+                    </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
 </html>
+<script src="../lib/modules/notify.js"></script>

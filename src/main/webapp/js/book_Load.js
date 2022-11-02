@@ -9,6 +9,8 @@ layui.use(['table'], function () {
 
     //加载事件
     const table = layui.table
+
+
     loadTable(table)
     queryBook(table)
 });
@@ -66,11 +68,10 @@ function loadTable(table) {
         page: true //开启分页
         , limit: 30
         , parseData: function (res) {
-            layer.msg(res.msg)
-            if (res.code !== 0) {
-                setTimeout(function () {
-                    window.location.href = "../page/user_Load.html"
-                }, 1000)
+            if (res.code === 0) {
+                notify.success(res.msg, "topRight");
+            } else {
+                notify.error(res.msg, "topRight");
             }
             return {
                 "code": res.code, //解析接口状态
@@ -78,6 +79,8 @@ function loadTable(table) {
                 "count": res.data.total, //解析数据长度
                 "data": res.data.list //解析数据列表
             };
+        }, error: function () {
+            notify.error("请求异常请稍后尝试", "topRight");
         }
         , cols: [[ //表头
             {field: 'title', title: '书名', sort: true, fixed: 'left'}
@@ -107,8 +110,14 @@ function loadTable(table) {
                     headers: {
                         "token": token
                     },
-                    success: function (data) {
-                        layer.msg(data.msg)
+                    success: function (res) {
+                        if (res.data ===true){
+                            notify.success(res.msg, "topRight");
+                        }else {
+                            notify.error(res.msg, "topRight");
+                        }
+                    }, error: function () {
+                        notify.error("删除失败请稍后尝试", "topRight");
                     }
 
                 })
@@ -119,15 +128,12 @@ function loadTable(table) {
                 skin: 'layui-layer-molv',
                 type: 2,
                 title: '编辑图书信息',
-                area: ['500px','500px'],
-                shade: 0.8, // 遮罩层透明度
+                area: ['500px', '500px'],
                 offset: '10px',
                 id: 'LAY_layuipro', //设定一个id，防止重复弹出
-                content: '../page/Y_queryBookPagePopUpForm.html?' + data,
+                content: '../page/Y_bookUpdatePage.html?' + data,
                 scrollbar: false,
             });
-
-
 
 
             //获取子页面的相关数据
@@ -150,10 +156,15 @@ function loadTable(table) {
                                 year: data.year,
                                 isbn: data.isbn,
                             });
-                            layer.msg(res.msg)
+                            if (res.data ===true){
+                                notify.success(res.msg, "topRight");
+                            }else {
+                                notify.error(res.msg, "topRight");
+                            }
+
                         },
                         error: function () {
-                            layer.msg("更新失败,请重新尝试")
+                            notify.success("更新失败,请重新尝试", "topRight");
                         }
 
                     })

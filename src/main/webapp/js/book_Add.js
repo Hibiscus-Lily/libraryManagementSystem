@@ -17,7 +17,6 @@ function addBook(form, laydate) {
     //自定义验证规则
     form.verify({
         title: function (value) {
-            console.log(value)
             if (value === '') {
                 return '标题不能为空';
             }
@@ -44,11 +43,15 @@ function addBook(form, laydate) {
                     , "year": ''
                     , "ISBN": ''
                 });
-                layer.msg(res.msg)
-
+                console.log(res)
+                if (res.data === true) {
+                    notify.success(res.msg, "topRight");
+                } else {
+                    notify.error(res.msg, "topRight");
+                }
             },
             error: function () {
-                layer.msg("添加失败,请重新尝试")
+                notify.error("添加失败,请重试", "topRight");
             }
         })
         return false;

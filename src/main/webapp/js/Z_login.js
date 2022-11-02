@@ -1,5 +1,4 @@
 $(function () {
-    console.log(document.cookie)
 
     // 页面初始化生成验证码
     createCode('#loginCode');
@@ -88,28 +87,33 @@ function login() {
             },
             success: function (data) {
                 layer.close(loginLoadIndex);
-                layer.msg(data.msg)
-                if (data.code === 0) {
-                    let jurisdiction = (data.data["jurisdiction"])
-                    if (jurisdiction === 0) {
-                        setTimeout(function () {
-                            window.location.href = '../admin.html';
-                        }, 3000);
-                    }
-                    if (jurisdiction === 1) {
-                        setTimeout(function () {
-                            window.location.href = '../admin.html';
-                        }, 3000);
-                    } else {
-                        createCode('#loginCode');
-                        layer.close(loginLoadIndex);
-                        $('#loginBtn').val("登录");
-                    }
-                } else {
-                    createCode('#loginCode');
-                    layer.close(loginLoadIndex);
-                    $('#loginBtn').val("登录");
+                console.log(data.data)
+                if (data.data===''){
+                    console.log("null")
+                }else {
+                    console.log("data")
                 }
+                // if (data.code === 0) {
+                //     let jurisdiction = (data.data["jurisdiction"])
+                //     if (jurisdiction === 0) {
+                //         setTimeout(function () {
+                //             window.location.href = 'book.html';
+                //         }, 3000);
+                //     } else if (jurisdiction === 1) {
+                //         setTimeout(function () {
+                //             window.location.href = 'admin.html';
+                //         }, 3000);
+                //     } else {
+                //         createCode('#loginCode');
+                //         layer.close(loginLoadIndex);
+                //         notify.error("ERROR", "topRight")
+                //         $('#loginBtn').val("登录");
+                //     }
+                // } else {
+                //     createCode('#loginCode');
+                //     layer.close(loginLoadIndex);
+                //     $('#loginBtn').val("登录");
+                // }
             },
             complete: function (xhr) { //请求完成后，获取fileName，处理数据
                 localStorage.setItem('token', xhr.getResponseHeader("token"))
@@ -136,37 +140,68 @@ function register() {
         content: $('.registerPage'),
         title: '注册',
         area: ['430px', '400px'],
-        btn: ['注册', '重置', '取消'],
+        btn: ['注册'],
         closeBtn: '1',
         btn1: function (index) {
-            //注册回调
-            layer.close(index);
             const registerUsername = $('#registerUsername').val();
             const registerPassword = $('#registerPassword').val();
-            const registerWellPassword = $('#registerWellPassword').val();
-            const selectValue = $('#roleSelect option:selected').val();
-            const params = {};
-            params.registerUsername = registerUsername;
-            params.registerPassword = registerPassword;
-            params.registerWellPassword = registerWellPassword;
-            params.selectValue = selectValue;
-            const registerLoadIndex = layer.load(2);
-            $.ajax({
-                type: 'post',
-                url: 'http://localhost:8080/libraryManagementSystem/login',
-                dataType: 'json',
-                data: JSON.stringify(params),
-                contentType: 'application/json',
-                success: function (data) {
-                    layer.close(registerLoadIndex);
-                    layer.msg(data);
-                },
-                error: function () {
-                    layer.close(registerLoadIndex);
-                    layer.alert("请求超时！")
-                }
-            });
+            const registerWellPassword = $("#registerWellPassword").val();
+
+            if (registerUsername === '') {
+                notify.error("账号为空", "topRight")
+            } else if (registerPassword === '') {
+                notify.error("密码为空", "topRight")
+            } else if (registerWellPassword === '') {
+                notify.error("确认密码为空", "topRight")
+            } else if (registerWellPassword !== registerPassword) {
+                notify.error("密码不同", "topRight")
+            } else if (registerWellPassword === registerPassword && registerUsername !== '') {
+                const MD5 = (hex_md5(registerPassword))  //第一次加密
+                const passwordMD5 = hex_md5(MD5)  //第二次加密
+                const params = {};
+                params.username = registerUsername;
+                params.account = registerUsername;
+                params.password = passwordMD5;
+                //注册回调
+                const registerLoadIndex = layer.load(2);
+                $.ajax({
+                    type: 'post',
+                    url: 'http://localhost:8080/libraryManagementSystem/login',
+                    dataType: 'json',
+                    data: JSON.stringify(params),
+                    contentType: 'application/json',
+                    success: function (data) {
+                        layer.close(registerLoadIndex);
+                        if (data.data === true) {
+                            notify.success(data.msg, "topRight")
+                            layer.close(index);
+                            $('#registerPassword').val("");
+                            $('#registerUsername').val('');
+                            $("#registerWellPassword").val('');
+                            $("#passwordVerification").fadeOut(0)
+                        } else if (data.data === false) {
+                            notify.error(data.msg, "topRight")
+                        } else {
+                            notify.error("注册失败请稍后尝试", "topRight")
+                        }
+
+                    },
+                    error: function () {
+                        layer.close(registerLoadIndex);
+                        layer.alert("请求超时！")
+                    }
+                });
+            }
+            return false
         },
+        cancel: function (index) {
+            layer.close(index)
+            $('#registerPassword').val("");
+            $('#registerUsername').val('');
+            $("#registerWellPassword").val('');
+            $("#passwordVerification").fadeOut(0)
+            return false;
+        }
 
     })
 }
@@ -180,3 +215,53 @@ function passwordEncryption(password) {
     encrypt.setPublicKey(PUBLIC_KEY);
     return encrypt.encrypt(passwordMD5)
 }
+
+/**
+ * 密码检验
+ */
+//密码框值不变，监听确认密码框
+$(function () {
+    $("#passwordVerification").fadeOut(0)
+    $("#registerWellPassword").bind("input propertychange", function () {
+        //获取密码框的值
+        const registerPassword = $("#registerPassword").val()
+        const registerWellPassword = $("#registerWellPassword").val()
+        if (registerPassword !== '') {
+            if (registerWellPassword === registerPassword) {
+                $("#passwordVerification").fadeOut(500)
+            }
+            if (registerWellPassword !== registerPassword) {
+                if (registerWellPassword === '') {
+                    $("#passwordVerification").fadeOut(500)
+                } else {
+                    $("#passwordVerification").fadeIn(500)
+
+                }
+            }
+        }
+    });
+    //确认密码框值不变，监听密码框
+    $("#registerPassword").bind("input propertychange", function () {
+        const registerWellPassword = $("#registerWellPassword").val()
+        const registerPassword = $("#registerPassword").val()
+        if (registerWellPassword !== '') {
+            if (registerPassword === registerWellPassword) {
+                $("#passwordVerification").fadeOut(500)
+            }
+            if (registerPassword !== registerWellPassword) {
+                if (registerPassword === '') {
+                    $("#passwordVerification").fadeOut(500)
+                } else {
+                    $("#passwordVerification").fadeIn(500)
+
+                }
+            }
+        }
+    });
+});
+
+
+
+
+
+

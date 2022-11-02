@@ -104,6 +104,14 @@ i {
     margin-left: 55px;
     margin-top: 40px;
 }
+.usernameLabel1 {
+    width: 100px;
+    height: 30px;
+    font-size: 16px;
+    float: left;
+    margin-left: 55px;
+    margin-top: 40px;
+}
 
 .submitLabel {
     width: 160px;

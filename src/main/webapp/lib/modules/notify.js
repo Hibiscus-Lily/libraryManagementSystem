@@ -103,14 +103,14 @@ layui.define(function (exports) {
         }
 
         var initArgs = {
-            elem: "body", //默认显示在body,可以指定class或id
+            elem:"body", //默认显示在body,可以指定class或id
             msg: "", //文字内容
             position: 'topCenter', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter, vcenter
             duration: 3000, //默认3秒关闭
             showClose: true, //显示关闭按钮
-            shadow: false
+            shadow:false
         };
-        var positionB = ['bottomLeft', 'bottomCenter', 'bottomRight'];
+        var positionB=['bottomLeft','bottomCenter','bottomRight'];
         var notify = {
             info: function info() {
                 initConfig(arguments, "info");
@@ -160,11 +160,11 @@ layui.define(function (exports) {
                     if (typeof it == "string" || _typeof(it) === "object") {
                         if (posArr.indexOf(it) > -1) {
                             args.position = it;
-                        } else if (it.substring(0, 1) == "." || it.substring(0, 1) == "#") {
-                            args.elem = it;
-                        } else if (it == "shadow") {
-                            args.shadow = true;
-                        } else {
+                        } else if(it.substring(0,1)=="."||it.substring(0,1)=="#"){
+                            args.elem=it;
+                        }else if(it=="shadow"){
+                            args.shadow=true;
+                        }else {
                             args.msg = it;
                         }
 
@@ -212,13 +212,13 @@ layui.define(function (exports) {
                 closable = false; //loading不显示关闭按钮
             }
 
-            var el, an;
+            var el,an;
 
-            if (positionB.indexOf(position) != -1) {
-                if (type == "alert" || type == "confirm") {
-                    an = "bounceIn";
-                } else {
-                    an = "notify-bottom notify-msg-fade-in-b";
+            if(positionB.indexOf(position)!=-1){
+                if(type=="alert" || type =="confirm"){
+                    an="bounceIn";
+                }else{
+                    an="notify-bottom notify-msg-fade-in-b";
                 }
                 el = c({
                     className: "notify-msg-wrapper"
@@ -234,15 +234,15 @@ layui.define(function (exports) {
                         if (closable) {
                             closeFlag = true; //点击关闭按钮标志
                             flag = false; //正常关闭标志
-                            closeMsg(el, onClose, _msgWrapper, shadow);
+                            closeMsg(el, onClose, _msgWrapper,shadow);
                         }
                     }
-                }, getMsgRight(closable, type))])]);
-            } else {
-                if (type == "alert" || type == "confirm") {
-                    an = "bounceIn";
-                } else {
-                    an = "notify-msg-fade-in";
+                }, getMsgRight(closable,type))])]);
+            }else{
+                if(type=="alert" || type =="confirm"){
+                    an="bounceIn";
+                }else{
+                    an="notify-msg-fade-in";
                 }
                 el = c({
                     className: "notify-msg-wrapper"
@@ -258,10 +258,10 @@ layui.define(function (exports) {
                         if (closable) {
                             closeFlag = true; //点击关闭按钮标志
                             flag = false; //正常关闭标志
-                            closeMsg(el, onClose, _msgWrapper, shadow);
+                            closeMsg(el, onClose, _msgWrapper,shadow);
                         }
                     }
-                }, getMsgRight(closable, type))])]);
+                }, getMsgRight(closable,type))])]);
             }
 
             var anm = el.querySelector(".notify-msg__circle");
@@ -273,52 +273,52 @@ layui.define(function (exports) {
 
                 if ("onanimationend" in window) {
                     addAnimationEnd(anm, function () {
-                        closeMsg(el, onClose, _msgWrapper, shadow);
+                        closeMsg(el, onClose, _msgWrapper,shadow);
                     });
                 } else {
                     setTimeout(function () {
-                        closeMsg(el, onClose, _msgWrapper, shadow);
+                        closeMsg(el, onClose, _msgWrapper,shadow);
                     }, duration);
                 }
             }
 
             if (type != "loading" && type != "alert" && type != "confirm") {
                 setTimeout(function () {
-                    closeMsg(el, onClose, _msgWrapper, shadow);
+                    closeMsg(el, onClose, _msgWrapper,shadow);
                 }, duration);
             }
             //遮罩
-            if (shadow && !document.querySelector(".notify-modal")) {
-                var shadenode = document.createElement("div");
-                if (shadow) {
-                    shadenode.className = "notify-modal";
-                } else {
-                    shadenode.className = "notify-modal notify-none";
+            if(shadow &&!document.querySelector(".notify-modal")){
+                var shadenode=document.createElement("div");
+                if(shadow){
+                    shadenode.className="notify-modal";
+                }else{
+                    shadenode.className="notify-modal notify-none";
                 }
-
+                
                 document.querySelector("body").appendChild(shadenode);
             }
             if (!_msgWrapper.children.length) {
-                if (elem !== "body") {
-                    var _pos = getComputedStyle(document.querySelector(elem)).position;
-                    if (_pos == "static" || _pos == "") {
-                        document.querySelector(elem).style.position = "relative";
+                if(elem!=="body"){
+                    var _pos=getComputedStyle(document.querySelector(elem)).position;
+                    if(_pos=="static"||_pos==""){
+                        document.querySelector(elem).style.position="relative";
                     }
 
                     _msgWrapper.style.position = "absolute";
-                } else {
+                }else{
                     _msgWrapper.style.position = "fixed";
                 }
                 document.querySelector(elem).appendChild(_msgWrapper);
             }
             _msgWrapper.appendChild(el);
-            if (type == "confirm") {
-                var btnCancel = document.createElement("button");//'<button type="button" class="btnCancel">取 消</button>';
-                var textNode = document.createTextNode("取 消");
+            if(type=="confirm"){
+                var btnCancel=document.createElement("button");//'<button type="button" class="btnCancel">取 消</button>';
+                var textNode=document.createTextNode("取 消");
                 btnCancel.appendChild(textNode);
-                btnCancel.className = "btnCancel";
-                btnCancel.onclick = function () {
-                    closeMsg(el, '', _msgWrapper, shadow);
+                btnCancel.className="btnCancel";
+                btnCancel.onclick=function(){
+                    closeMsg(el,'', _msgWrapper,shadow);
 
                 }
                 document.querySelector(".notify-msg-confirm").appendChild(btnCancel);
@@ -328,9 +328,9 @@ layui.define(function (exports) {
                 height: el.offsetHeight + "px"
             });
             setTimeout(function () {
-                if (positionB.indexOf(position) != -1) {
+                if(positionB.indexOf(position)!=-1){
                     removeClass(el.children[0], "notify-msg-fade-in-b");
-                } else {
+                }else{
                     removeClass(el.children[0], "notify-msg-fade-in");
                 }
 
@@ -338,40 +338,40 @@ layui.define(function (exports) {
 
             if (type == "loading") {
                 return function () {
-                    closeMsg(el, onClose, _msgWrapper, shadow);
+                    closeMsg(el, onClose, _msgWrapper,shadow);
                 };
             }
 
         }
 
-        function getMsgRight(showClose, type) {
+        function getMsgRight(showClose,type) {
             if (showClose) {
-                if (type == "alert" || type == "confirm") {
+                if(type=="alert" || type=="confirm"){
                     return "<button type=\"button\" class=\"btnOk\">确 定</button>"
-                } else {
+                }else{
                     return "\n    <svg class=\"notify-msg-close\" viewBox=\"0 0 1024 1024\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" p-id=\"5514\"><path d=\"M810 274l-238 238 238 238-60 60-238-238-238 238-60-60 238-238-238-238 60-60 238 238 238-238z\" p-id=\"5515\"></path></svg>\n    ";
                 }
-            }
+            } 
         }
 
         var flag = true; //正常关闭标志
         var closeFlag = false;//点击关闭按钮标志
 
-        function closeMsg(el, cb, _msgWrapper, shadow) {
+        function closeMsg(el, cb, _msgWrapper,shadow) {
             if (!el) return;
-            if (hasClass(el.children[0].className, "notify-bottom")) {
+            if(hasClass(el.children[0].className,"notify-bottom")){
                 addClass(el.children[0], "notify-msg-fade-out-b");
-            } else if (hasClass(el.children[0].className, "bounceIn")) {
+            }else if(hasClass(el.children[0].className,"bounceIn")){
                 addClass(el.children[0], "bounceOut");
-            } else {
+            }else{
                 addClass(el.children[0], "notify-msg-fade-out");
             }
 
-            if (shadow && document.querySelector(".notify-modal")) {
+            if(shadow && document.querySelector(".notify-modal")){
                 document.querySelector("body").removeChild(document.querySelector(".notify-modal"));
             }
-
-
+            
+           
             if (closeFlag) { //点击关闭按钮
                 closeFlag = false;
                 cb && cb(); //回调方法

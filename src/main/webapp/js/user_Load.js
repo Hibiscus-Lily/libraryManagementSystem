@@ -7,6 +7,8 @@ layui.use(['table'], function () {
 
     //加载事件
     const table = layui.table
+
+
     loadTable(table)
     queryBook(table)
 });
@@ -18,7 +20,6 @@ function queryBook(table) {
     const $ = layui.$, active = {
         reload: function () {
             const search = $('#searchUserSearchBox');
-            console.log(search.val())
             if (search.val() === '') {
                 loadTable(table)
             } else {
@@ -65,12 +66,10 @@ function loadTable(table) {
         page: true //开启分页
         , limit: 30
         , parseData: function (res) {
-            console.log(res)
-            layer.msg(res.msg)
-            if (res.code !== 0) {
-                setTimeout(function () {
-                    window.location.href = "../page/user_Load.html"
-                }, 1000)
+            if (res.code === 0) {
+                notify.success(res.msg, "topRight");
+            } else {
+                notify.error(res.msg, "topRight");
             }
             return {
                 "code": res.code, //解析接口状态
@@ -78,6 +77,9 @@ function loadTable(table) {
                 "count": res.data.total, //解析数据长度
                 "data": res.data.list //解析数据列表
             };
+        }, error: function () {
+            notify.error("数据请求失败请稍后尝试", "topRight");
+
         }
         , cols: [[ //表头
             {field: 'username', title: '昵称', sort: true, fixed: 'left'}
@@ -107,8 +109,14 @@ function loadTable(table) {
                     headers: {
                         "token": token
                     },
-                    success: function (data) {
-                        layer.msg(data.msg)
+                    success: function (res) {
+                        if (res.data === true) {
+                            notify.success(res.msg, "topRight");
+                        } else {
+                            notify.error(res.msg, "topRight");
+                        }
+                    }, error: function () {
+                        notify.error("删除失败请稍后尝试", "topRight");
                     }
 
                 })
@@ -119,24 +127,29 @@ function loadTable(table) {
                 skin: 'layui-layer-molv',
                 type: 2,
                 title: '编辑图书信息',
-                area: ['500px','500px'],
-                shade: 0.8, // 遮罩层透明度
+                area: ['500px', '500px'],
                 offset: '10px',
                 id: 'LAY_layuipro', //设定一个id，防止重复弹出
-                content: '../page/Y_queryBookPagePopUpForm.html?' + data,
+                content: '../page/Y_userUpdatePage.html?' + data,
                 scrollbar: false,
             });
 
 
-
-
             //获取子页面的相关数据
             window.getSubPageElements = function (data) {
+
                 if (data !== "") {
                     $.ajax({
-                        url: "http://localhost:8080/libraryManagementSystem/admin/book",
+                        url: "http://localhost:8080/libraryManagementSystem/admin/user",
                         type: "PUT",
-                        data: JSON.stringify(data),
+                        data: JSON.stringify({
+                            "username":data["nickname"],
+                            "account":data["account"],
+                            "password":data["password"],
+                            "state":data["accountStatus"],
+                            "jurisdiction":data["competence"],
+                            "loginStatus":data["loginStatus"]
+                        }),
                         headers: {
                             "content-type": "application/json; charset=utf-8" // 或者添加这一行
                             , "token": token
@@ -144,16 +157,22 @@ function loadTable(table) {
                         success: function (res) {
                             //更新相关条目数据
                             obj.update({
-                                title: data.title,
-                                author: data.author,
-                                press: data.press,
-                                year: data.year,
-                                isbn: data.isbn,
+                                "username":data["nickname"],
+                                "account":data["account"],
+                                "password":data["password"],
+                                "state":data["accountStatus"],
+                                "jurisdiction":data["competence"],
+                                "loginStatus":data["loginStatus"]
                             });
-                            layer.msg(res.msg)
+                            if (res.data === true) {
+                                notify.success(res.msg, "topRight");
+                            } else {
+                                notify.error(res.msg, "topRight");
+                            }
+
                         },
                         error: function () {
-                            layer.msg("更新失败,请重新尝试")
+                            notify.success("更新失败,请重新尝试", "topRight");
                         }
 
                     })
@@ -162,3 +181,4 @@ function loadTable(table) {
         }
     });
 }
+
