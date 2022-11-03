@@ -58,4 +58,14 @@ public class BookInformationServiceImpl implements BookInformationService {
             return false;
         }
     }
+
+    @Override
+    public Boolean updateBookStatus(String title, Integer state) {
+        if (title != null && state != null) {
+            bookInformationMapper.updateBookStatus(title, state);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

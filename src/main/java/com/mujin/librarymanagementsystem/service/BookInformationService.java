@@ -15,4 +15,7 @@ public interface BookInformationService {
     Boolean updateBooks(String title, String author, String press, String year, String isbn, Integer state);
 
     Boolean addBooks(String title, String author, String press, String year, String isbn, Integer state);
+
+    Boolean updateBookStatus(String title, Integer state);
+
 }

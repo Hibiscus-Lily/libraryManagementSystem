@@ -1,10 +1,48 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>图书借阅系统</title>
-</head>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.js"></script></head>
 <body>
+<div id="data" style="padding: 15px 15px 35px 15px">
+    <!--搜索一本图书&&获取所有图书-->
+    <div class="loadBook transform" style="height: 100%;">
 
+        <!--搜索框-->
+        <div class="demoTable">
+            搜索书名：
+            <div class="layui-inline">
+                <label for="search"></label><input class="layui-input" name="id" id="search" autocomplete="off">
+            </div>
+            <button class="layui-btn" data-type="reload">搜索</button>
+        </div>
+        <!--图书表格-->
+        <table id="searchBook" lay-filter="searchBook"></table>
+        <!--工具条-->
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn  layui-btn-xs layui-bg-red	" lay-event="del">删除</a>
+        </script>
+
+        <!--借阅情况模板-->
+        <script type="text/html" id="state">
+            {{#if (d.state == 0){ }}
+            <span class="layui-badge layui-bg-green">未借阅</span>
+            {{#  }else if (d.state == 1){}}
+            <span class="layui-badge ">借阅中</span>
+            {{# }else {}}
+            <span></span>
+            {{#     }   }}
+        </script>
+
+    </div>
+</div>
 </body>
 </html>
+<script src="../lib/layui/layui.js"></script>
+<script src="../lib/modules/notify.js"></script>
+
+<script src="../js/book.js"></script>

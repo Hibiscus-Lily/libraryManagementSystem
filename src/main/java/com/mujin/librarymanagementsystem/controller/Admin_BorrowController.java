@@ -29,7 +29,7 @@ public class Admin_BorrowController {
     }
 
     /**
-     * 获取全部书籍的相关信息
+     * 获取所有借阅记录
      */
     @GetMapping("/getAllBorrowingRecords")
     public Result getAllBookInformation(@RequestParam Integer page, @RequestParam Integer limit) {
@@ -59,6 +59,21 @@ public class Admin_BorrowController {
         List<BorrowInformationPojo> book = borrowInformationService.findAllBorrowingRecordsForUserAccount(account);
         PageInfo<BorrowInformationPojo> pageInfo = new PageInfo<>(book);
         return new Result(Code.OK, pageInfo, "数据获取成功");
+    }
+
+
+    /**
+     * 添加一条借阅记录
+     */
+    @GetMapping("/addBorrowingRecords")
+    public Result addBorrowingRecords(@RequestBody BorrowInformationPojo borrowInformationPojos) {
+        Boolean result = borrowInformationService.addBorrowingRecords(borrowInformationPojos.getTitle(), borrowInformationPojos.getAccount(), borrowInformationPojos.getBorrowingTime(), borrowInformationPojos.getBookReturnTime(), borrowInformationPojos.getEstimatedReturnTime());
+        if (result) {
+            return new Result(Code.OK, true,  "添加成功");
+        } else {
+            return new Result(Code.OK, false, "添加失败请检查数据完整性");
+        }
+
     }
 
     /**

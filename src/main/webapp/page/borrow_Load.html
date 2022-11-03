@@ -49,15 +49,30 @@
         </script>
         <!--还书时间模板-->
         <script type="text/html" id="bookReturnTime">
-            {{# const time = new Date(d.borrowingTime*1000);}}
+            {{# if (d.bookReturnTime !== 0) {}}
+            {{# const time = new Date(d.bookReturnTime * 1000);}}
             {{# const times = time.toLocaleDateString().replace(/\//g, "-") + " " + time.toTimeString().slice(0, 8);}}
-            <span class="layui-badge layui-bg-green">{{times}}</span>
+            <span class="layui-badge layui-bg-blue">{{times}}</span>
+            {{# } else { }}
+            <span class="layui-badge layui-bg-blue">0000-00-00 00:00:00</span>
+            {{# }}}
         </script>
         <!--预计还书时间模板-->
         <script type="text/html" id="estimatedReturnTime">
-            {{# const time = new Date(d.borrowingTime*1000);}}
-            {{# const times = time.toLocaleDateString().replace(/\//g, "-") + " " + time.toTimeString().slice(0, 8);}}
+            {{# const nowtime = Date.parse(new Date()) / 1000;}}
+            {{# const time = d.estimatedReturnTime}}
+            {{# if (nowtime >= time) {}}
+            {{# const estimatedReturnTime = new Date(time * 1000)}}
+            {{# const times = estimatedReturnTime.toLocaleDateString().replace(/\//g, "-") + " " + estimatedReturnTime.toTimeString().slice(0, 8);}}
+
+            <span class="layui-badge layui-bg">{{times}}</span>
+            {{# } else if (nowtime <= time) {}}
+            {{# const estimatedReturnTime = new Date(time * 1000)}}
+            {{# const times = estimatedReturnTime.toLocaleDateString().replace(/\//g, "-") + " " + estimatedReturnTime.toTimeString().slice(0, 8);}}
             <span class="layui-badge layui-bg-green">{{times}}</span>
+            {{# }else {}}
+            <span></span>
+            {{#} }}
         </script>
     </div>
 </div>

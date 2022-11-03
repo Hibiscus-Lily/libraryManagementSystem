@@ -27,5 +27,8 @@ public interface BookInformationMapper {
     void addBooks(@Param("title") String title, @Param("author") String author, @Param("press") String press, @Param("year") String year, @Param("isbn") String isbn, @Param("state") Integer state);
 
 
+    //更新书籍状态
+    @Select("UPDATE book SET title=#{title},  state=#{state} WHERE title= #{title}")
+    void updateBookStatus(@Param("title") String title, @Param("state") Integer state);
 }
 
