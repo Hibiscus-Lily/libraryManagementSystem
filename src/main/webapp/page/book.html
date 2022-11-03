@@ -5,7 +5,8 @@
     <title>图书借阅系统</title>
     <link rel="stylesheet" href="../lib/layui/css/layui.css">
     <link rel="stylesheet" href="../css/index.css">
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.js"></script></head>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.js"></script>
+</head>
 <body>
 <div id="data" style="padding: 15px 15px 35px 15px">
     <!--搜索一本图书&&获取所有图书-->
@@ -23,7 +24,13 @@
         <table id="searchBook" lay-filter="searchBook"></table>
         <!--工具条-->
         <script type="text/html" id="barDemo">
+            {{#if (d.state == 0){ }}
             <a class="layui-btn layui-btn-xs" lay-event="borrow">借阅</a>
+            {{#  }else if (d.state == 1){}}
+            <a class="layui-btn layui-btn-xs layui-btn-disabled" lay-event="borrow">借阅中</a>
+            {{# }else {}}
+            <span></span>
+            {{#     }   }}
         </script>
 
         <!--借阅情况模板-->

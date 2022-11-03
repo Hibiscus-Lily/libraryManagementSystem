@@ -67,6 +67,9 @@ function loadTable(table) {
                 notify.success(res.msg, "topRight");
             } else {
                 notify.error(res.msg, "topRight");
+                setTimeout(function () {
+                    window.location.href = "../page/Z_logIn.html"
+                }, 1000)
             }
             return {
                 "code": res.code, //解析接口状态
@@ -91,43 +94,47 @@ function loadTable(table) {
 
     //工具条事件
     table.on('tool(searchBook)', function (obj) { //注：tool 是工具条事件名，lay-filter="对应的值"
-        console.log(data)
+        console.log(obj)
         const layEvent = obj.event; //获得 lay-event 对应的值
         //删除
-        if (layEvent === 'borrow') {
-            layer.confirm('真的行么', function (index) {
-                layer.close(index);
-                const data = {
-                    "title": obj.data.title,
-                    "account": token,
-                    "time": Date.parse(new Date()) / 1000
-                }
-                $.ajax({
-                    url: "http://localhost:8080/libraryManagementSystem/commonuser/book",
-                    type: "POST",
-                    data: JSON.stringify(data),
-                    headers: {
-                        "content-type": "application/json; charset=utf-8" // 或者添加这一行
-                        , "token": token
-                    },
-                    success: function (res) {
-                        //更新相关条目数据
-                        obj.update({
-                            state: 1,
-                        });
-                        if (res.data === true) {
-                            notify.success(res.msg, "topRight");
-                        } else {
-                            notify.error(res.msg, "topRight");
-                        }
-                    },
-                    error: function () {
-                        notify.success("更新失败,请重新尝试", "topRight");
+        if (obj.data.state === 0) {
+            if (layEvent === 'borrow') {
+                layer.confirm('真的行么', function (index) {
+                    layer.close(index);
+                    const data = {
+                        "title": obj.data.title,
+                        "account": token,
+                        "time": Date.parse(new Date()) / 1000
                     }
+                    $.ajax({
+                        url: "http://localhost:8080/libraryManagementSystem/commonuser/book",
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        headers: {
+                            "content-type": "application/json; charset=utf-8" // 或者添加这一行
+                            , "token": token
+                        },
+                        success: function (res) {
+                            //更新相关条目数据
+                            obj.update({
+                                state: 1,
+                            });
+                            if (res.data === true) {
+                                notify.success(res.msg, "topRight");
+                            } else {
+                                notify.error(res.msg, "topRight");
+                            }
+                        },
+                        error: function () {
+                            notify.success("更新失败,请重新尝试", "topRight");
+                        }
 
-                })
-            });
-            //编辑
+                    })
+                });
+            }
+        } else if (obj.data.state === 1) {
+            notify.error("借阅中","topLeft")
         }
+
     });
 }
