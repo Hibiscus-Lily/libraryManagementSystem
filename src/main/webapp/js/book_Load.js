@@ -121,7 +121,6 @@ function loadTable(table) {
                     }, error: function () {
                         notify.error("删除失败请稍后尝试", "topRight");
                     }
-
                 })
             });
             //编辑
@@ -130,7 +129,7 @@ function loadTable(table) {
                 skin: 'layui-layer-molv',
                 type: 2,
                 title: '编辑图书信息',
-                area: ['500px', '500px'],
+                area: ['500px', '540px'],
                 offset: '10px',
                 id: 'LAY_layuipro', //设定一个id，防止重复弹出
                 content: '../page/Y_bookUpdatePage.html?' + data,
