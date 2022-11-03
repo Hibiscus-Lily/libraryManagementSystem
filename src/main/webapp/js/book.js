@@ -1,9 +1,3 @@
-/**
- * 查询图书页
- * 查询图书页搜索栏相关事件(点击搜索,表格重载)
- * @param table
- */
-
 layui.use(['table'], function () {
 
 
@@ -17,7 +11,6 @@ layui.use(['table'], function () {
 
 
 const token = localStorage.getItem('token');
-console.log(token)
 
 
 function queryBook(table) {
@@ -29,7 +22,7 @@ function queryBook(table) {
             } else {
                 //执行重载
                 table.reload('searchBook', {
-                    url: 'http://localhost:8080/libraryManagementSystem/admin/book/' + search.val(),
+                    url: 'http://localhost:8080/libraryManagementSystem/commonuser/book/' + search.val(),
                     headers: {
                         "token": token
                     },
@@ -63,7 +56,7 @@ function loadTable(table) {
     //第一个实例
     table.render({
         elem: '#searchBook'
-        , url: 'http://localhost:8080/libraryManagementSystem/admin/book/allBookInformation', //数据接口
+        , url: 'http://localhost:8080/libraryManagementSystem/commonuser/book/allBookInformation', //数据接口
         headers: {
             "token": token
         },
@@ -98,80 +91,43 @@ function loadTable(table) {
 
     //工具条事件
     table.on('tool(searchBook)', function (obj) { //注：tool 是工具条事件名，lay-filter="对应的值"
-        const data = obj.data; //获得当前行数据
+        console.log(data)
         const layEvent = obj.event; //获得 lay-event 对应的值
-        sessionStorage.setItem("allJson", JSON.stringify(data));//将获取到的json字符串，保存到键为allJson中。
         //删除
-        if (layEvent === 'del') {
-            layer.confirm('真的删除行么', function (index) {
-                obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+        if (layEvent === 'borrow') {
+            layer.confirm('真的行么', function (index) {
                 layer.close(index);
+                const data = {
+                    "title": obj.data.title,
+                    "account": token,
+                    "time": Date.parse(new Date()) / 1000
+                }
                 $.ajax({
-                    url: "http://localhost:8080/libraryManagementSystem/admin/book/" + data.title,
-                    type: "DELETE",
+                    url: "http://localhost:8080/libraryManagementSystem/commonuser/book",
+                    type: "POST",
+                    data: JSON.stringify(data),
                     headers: {
-                        "token": token
+                        "content-type": "application/json; charset=utf-8" // 或者添加这一行
+                        , "token": token
                     },
                     success: function (res) {
-                        if (res.data ===true){
+                        //更新相关条目数据
+                        obj.update({
+                            state: 1,
+                        });
+                        if (res.data === true) {
                             notify.success(res.msg, "topRight");
-                        }else {
+                        } else {
                             notify.error(res.msg, "topRight");
                         }
-                    }, error: function () {
-                        notify.error("删除失败请稍后尝试", "topRight");
+                    },
+                    error: function () {
+                        notify.success("更新失败,请重新尝试", "topRight");
                     }
+
                 })
             });
             //编辑
-        } else if (layEvent === 'edit') {
-            layer.open({
-                skin: 'layui-layer-molv',
-                type: 2,
-                title: '编辑图书信息',
-                area: ['500px', '540px'],
-                offset: '10px',
-                id: 'LAY_layuipro', //设定一个id，防止重复弹出
-                content: '../page/Y_bookUpdatePage.html?' + data,
-                scrollbar: false,
-            });
-
-
-            //获取子页面的相关数据
-            window.getSubPageElements = function (data) {
-                if (data !== "") {
-                    $.ajax({
-                        url: "http://localhost:8080/libraryManagementSystem/admin/book",
-                        type: "PUT",
-                        data: JSON.stringify(data),
-                        headers: {
-                            "content-type": "application/json; charset=utf-8" // 或者添加这一行
-                            , "token": token
-                        },
-                        success: function (res) {
-                            //更新相关条目数据
-                            obj.update({
-                                title: data.title,
-                                author: data.author,
-                                press: data.press,
-                                year: data.year,
-                                isbn: data.isbn,
-                                state:data["state"],
-                            });
-                            if (res.data ===true){
-                                notify.success(res.msg, "topRight");
-                            }else {
-                                notify.error(res.msg, "topRight");
-                            }
-
-                        },
-                        error: function () {
-                            notify.success("更新失败,请重新尝试", "topRight");
-                        }
-
-                    })
-                }
-            }
         }
     });
 }
