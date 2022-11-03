@@ -1,6 +1,8 @@
 package com.mujin.librarymanagementsystem.pojo;
 
-public class BorrowInformationPojo {
+public class BorrowPojo {
+
+    Integer state;
     Integer id;
     String title;
     String account;
@@ -10,14 +12,23 @@ public class BorrowInformationPojo {
 
     @Override
     public String toString() {
-        return "BorrowInformationPojo{" +
-                "id=" + id +
+        return "BorrowPojo{" +
+                "state=" + state +
+                ", id=" + id +
                 ", title='" + title + '\'' +
                 ", account='" + account + '\'' +
                 ", borrowingTime=" + borrowingTime +
                 ", bookReturnTime=" + bookReturnTime +
                 ", estimatedReturnTime=" + estimatedReturnTime +
                 '}';
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 
     public Integer getId() {

@@ -104,7 +104,7 @@ function loadTable(table) {
                 obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
                 layer.close(index);
                 $.ajax({
-                    url: "http://localhost:8080/libraryManagementSystem/admin/user/" + data.title,
+                    url: "http://localhost:8080/libraryManagementSystem/admin/user/" + data.account,
                     type: "DELETE",
                     headers: {
                         "token": token
@@ -143,12 +143,12 @@ function loadTable(table) {
                         url: "http://localhost:8080/libraryManagementSystem/admin/user",
                         type: "PUT",
                         data: JSON.stringify({
-                            "username":data["nickname"],
-                            "account":data["account"],
-                            "password":data["password"],
-                            "state":data["accountStatus"],
-                            "jurisdiction":data["competence"],
-                            "loginStatus":data["loginStatus"]
+                            "username": data["nickname"],
+                            "account": data["account"],
+                            "password": data["password"],
+                            "state": data["accountStatus"],
+                            "jurisdiction": data["competence"],
+                            "loginStatus": data["loginStatus"]
                         }),
                         headers: {
                             "content-type": "application/json; charset=utf-8" // 或者添加这一行
@@ -157,12 +157,12 @@ function loadTable(table) {
                         success: function (res) {
                             //更新相关条目数据
                             obj.update({
-                                "username":data["nickname"],
-                                "account":data["account"],
-                                "password":data["password"],
-                                "state":data["accountStatus"],
-                                "jurisdiction":data["competence"],
-                                "loginStatus":data["loginStatus"]
+                                "username": data["nickname"],
+                                "account": data["account"],
+                                "password": data["password"],
+                                "state": data["accountStatus"],
+                                "jurisdiction": data["competence"],
+                                "loginStatus": data["loginStatus"]
                             });
                             if (res.data === true) {
                                 notify.success(res.msg, "topRight");

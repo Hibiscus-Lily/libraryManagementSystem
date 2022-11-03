@@ -1,7 +1,7 @@
 package com.mujin.librarymanagementsystem.mapper;
 
 
-import com.mujin.librarymanagementsystem.pojo.BookInformationPojo;
+import com.mujin.librarymanagementsystem.pojo.BookPojo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -10,12 +10,12 @@ import java.util.List;
 
 
 @Mapper
-public interface BookInformationMapper {
+public interface BookMapper {
     @Select("select * from book")
-    List<BookInformationPojo> findBooks();
+    List<BookPojo> findBooks();
 
     @Select("select * from book  where title = #{title}")
-    BookInformationPojo findBooksByTitle(String title);
+    BookPojo findBooksByTitle(String title);
 
     @Select("DELETE from book where title= #{title}")
     void deleteBooks(String title);

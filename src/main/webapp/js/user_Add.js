@@ -63,9 +63,9 @@ layui.use(['form', 'layselect'], function () {
             "username": data.field.nickname
             , "account": data.field.account
             , "password": passwordMD5
-            , "state": data.field.accountStatus
-            , "jurisdiction": data.field.competence
-            , "loginStatus": data.field.loginStatus
+            , "state": parseInt(data.field.accountStatus)
+            , "jurisdiction": parseInt(data.field.competence)
+            , "loginStatus": parseInt(data.field.loginStatus)
         };
 
         $.ajax({

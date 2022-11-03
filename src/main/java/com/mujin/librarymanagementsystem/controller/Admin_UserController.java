@@ -4,8 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mujin.librarymanagementsystem.common.constant.Code;
 import com.mujin.librarymanagementsystem.common.entity.Result;
-import com.mujin.librarymanagementsystem.pojo.UserInformationPojo;
-import com.mujin.librarymanagementsystem.service.UserInformationService;
+import com.mujin.librarymanagementsystem.pojo.UserPojo;
+import com.mujin.librarymanagementsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,11 +21,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin/user")
 public class Admin_UserController {
-    private UserInformationService userInformationService;
+    private UserService userService;
 
     @Autowired
-    public void setUserInformationService(UserInformationService userInformationService) {
-        this.userInformationService = userInformationService;
+    public void setUserInformationService(UserService userService) {
+        this.userService = userService;
     }
 
     /**
@@ -34,8 +34,8 @@ public class Admin_UserController {
     @GetMapping("/getAllUserInformation")
     public Result getAllUserInformation(@RequestParam Integer page, @RequestParam Integer limit) {
         PageHelper.startPage(page, limit);
-        List<UserInformationPojo> userInformationPojos = userInformationService.getAllUserInformation();
-        PageInfo<UserInformationPojo> pageInfo = new PageInfo<>(userInformationPojos);
+        List<UserPojo> userPojos = userService.getAllUserInformation();
+        PageInfo<UserPojo> pageInfo = new PageInfo<>(userPojos);
         return new Result(Code.OK, pageInfo, "获取数据成功");
     }
 
@@ -46,27 +46,27 @@ public class Admin_UserController {
     @GetMapping("/{account}")
     public Result getUserInformation(@RequestParam Integer page, @RequestParam Integer limit, @PathVariable String account) {
         PageHelper.startPage(page, limit);
-        UserInformationPojo userInformationPojo = userInformationService.getUserInformation(account);
-        List<UserInformationPojo> userInformationPojos = new ArrayList<>();
-        if (userInformationPojo == null) {
+        UserPojo userPojo = userService.getUserInformation(account);
+        List<UserPojo> userPojos = new ArrayList<>();
+        if (userPojo == null) {
             return new Result(Code.OK, null, "数据为空");
         } else {
-            userInformationPojos.add(userInformationPojo);
-            return new Result(Code.OK, userInformationPojos, "数据获取成功");
+            userPojos.add(userPojo);
+            return new Result(Code.OK, userPojos, "数据获取成功");
         }
     }
 
 
     /**
-     * 添加一个用户信息(注册)
+     * 添加一个用户信息(不等于注册)
      */
     @PostMapping
-    public Result addAUserInformation(@RequestBody UserInformationPojo userInformationPojo) {
-        UserInformationPojo userInformation = userInformationService.getUserInformation(userInformationPojo.getAccount());
+    public Result addAUserInformation(@RequestBody UserPojo userPojo) {
+        UserPojo userInformation = userService.getUserInformation(userPojo.getAccount());
         if (userInformation == null) {
-            Boolean result = userInformationService.userRegistration(userInformationPojo.getUsername(), userInformationPojo.getAccount(), userInformationPojo.getPassword());
+            Boolean result = userService.adminAddUser(userPojo.getUsername(), userPojo.getAccount(), userPojo.getPassword(), userPojo.getState(), userPojo.getJurisdiction(), userPojo.getLoginStatus());
             if (result) {
-                return new Result(Code.OK, true, userInformationPojo.getAccount() + "&nbsp&nbsp&nbsp注册成功");
+                return new Result(Code.OK, true, userPojo.getAccount() + "&nbsp&nbsp&nbsp注册成功");
             } else {
                 return new Result(Code.OK, false, "检查数据完整性");
             }
@@ -80,12 +80,12 @@ public class Admin_UserController {
      * 更新用户信息
      */
     @PutMapping
-    public Result updateUserInformation(@RequestBody UserInformationPojo userInformationPojo) {
-        UserInformationPojo userInformation = userInformationService.getUserInformation(userInformationPojo.getAccount());
+    public Result updateUserInformation(@RequestBody UserPojo userPojo) {
+        UserPojo userInformation = userService.getUserInformation(userPojo.getAccount());
         if (userInformation != null) {
-            Boolean result = userInformationService.updateUserInformation(userInformationPojo.getUsername(), userInformationPojo.getAccount(), userInformationPojo.getPassword(), userInformationPojo.getState(), userInformationPojo.getJurisdiction(), userInformationPojo.getLoginStatus());
+            Boolean result = userService.updateUserInformation(userPojo.getUsername(), userPojo.getAccount(), userPojo.getPassword(), userPojo.getState(), userPojo.getJurisdiction(), userPojo.getLoginStatus());
             if (result) {
-                return new Result(Code.OK, true, userInformationPojo.getAccount() + "更新成功");
+                return new Result(Code.OK, true, userPojo.getAccount() + "更新成功");
             } else {
                 return new Result(Code.OK, false, "检查数据完整性");
             }
@@ -101,9 +101,9 @@ public class Admin_UserController {
      */
     @DeleteMapping("/{account}")
     public Result deleteUsers(@PathVariable String account) {
-        UserInformationPojo userInformationPojo = userInformationService.getUserInformation(account);
-        if (userInformationPojo != null) {
-            Boolean result = userInformationService.deleteUser(account);
+        UserPojo userPojo = userService.getUserInformation(account);
+        if (userPojo != null) {
+            Boolean result = userService.deleteUser(account);
             if (result) {
                 return new Result(Code.OK, true, "删除成功");
             } else {

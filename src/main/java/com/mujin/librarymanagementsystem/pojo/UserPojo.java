@@ -1,6 +1,6 @@
 package com.mujin.librarymanagementsystem.pojo;
 
-public class UserInformationPojo {
+public class UserPojo {
     private Integer id;
     private String username;
     private String account;
@@ -11,7 +11,7 @@ public class UserInformationPojo {
 
     @Override
     public String toString() {
-        return "UserInformationPojo{" +
+        return "UserPojo{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", account='" + account + '\'' +

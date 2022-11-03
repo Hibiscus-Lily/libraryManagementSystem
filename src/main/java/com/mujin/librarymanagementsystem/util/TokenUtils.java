@@ -91,4 +91,24 @@ public class TokenUtils {
         return true;
     }
 
+    public static boolean OrdinaryUser_TokenVerification(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String token = request.getHeader("token");
+        int JWTcode = JwtUtils.validateJWT(token).getErrCode();
+        String method = request.getMethod();
+        if (!Objects.equals(method, "OPTIONS")) {
+            if (token != null) {
+                //4002-->   token错误
+                //4001-->   token超时
+                //0-->      正常
+                if (token.equals("null")) {
+                    response.sendRedirect("/libraryManagementSystem/login/notLoggedIn");
+                }
+                TokenUtils.doNotVerifyPermissions(response, token, JWTcode);
+            } else {
+                response.sendRedirect("/libraryManagementSystem/login/notLoggedIn");
+            }
+        }
+        return true;
+    }
+
 }

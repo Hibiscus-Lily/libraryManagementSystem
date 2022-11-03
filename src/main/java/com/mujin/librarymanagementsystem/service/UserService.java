@@ -1,10 +1,10 @@
 package com.mujin.librarymanagementsystem.service;
 
-import com.mujin.librarymanagementsystem.pojo.UserInformationPojo;
+import com.mujin.librarymanagementsystem.pojo.UserPojo;
 
 import java.util.List;
 
-public interface UserInformationService {
+public interface UserService {
 
     /**
      * 获取一个用户信息
@@ -12,14 +12,14 @@ public interface UserInformationService {
      * @param account 用户账号
      * @return UserInformationPojo对象
      */
-    UserInformationPojo getUserInformation(String account);
+    UserPojo getUserInformation(String account);
 
     /**
      * 获取所有用户
      *
      * @return UserInformationPojo的list集合
      */
-    List<UserInformationPojo> getAllUserInformation();
+    List<UserPojo> getAllUserInformation();
 
     /**
      * 更新用户在线状态
@@ -38,6 +38,15 @@ public interface UserInformationService {
      */
     Boolean userRegistration(String username, String account, String password);
 
+    /**
+     * 管理员添加用户
+     *
+     * @param username 用户名
+     * @param account  账号
+     * @param password 密码
+     */
+    Boolean adminAddUser(String username, String account, String password, Integer state, Integer jurisdiction, Integer loginStatus);
+
 
     /**
      * 删除用户
@@ -45,5 +54,5 @@ public interface UserInformationService {
     Boolean deleteUser(String account);
 
 
-    Boolean updateUserInformation(String usernam, String account, String password, Integer state, Integer jurisdiction, Integer loginStatus);
+    Boolean updateUserInformation(String username, String account, String password, Integer state, Integer jurisdiction, Integer loginStatus);
 }

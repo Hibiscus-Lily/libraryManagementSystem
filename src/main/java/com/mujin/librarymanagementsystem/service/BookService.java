@@ -1,14 +1,14 @@
 package com.mujin.librarymanagementsystem.service;
 
 
-import com.mujin.librarymanagementsystem.pojo.BookInformationPojo;
+import com.mujin.librarymanagementsystem.pojo.BookPojo;
 
 import java.util.List;
 
-public interface BookInformationService {
-    BookInformationPojo findStudentsByTitle(String title);
+public interface BookService {
+    BookPojo findStudentsByTitle(String title);
 
-    List<BookInformationPojo> allBooks();
+    List<BookPojo> allBooks();
 
     Boolean deleteBooks(String title);
 

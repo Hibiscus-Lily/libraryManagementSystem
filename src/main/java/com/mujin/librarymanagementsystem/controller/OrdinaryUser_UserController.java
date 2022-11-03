@@ -2,8 +2,8 @@ package com.mujin.librarymanagementsystem.controller;
 
 import com.mujin.librarymanagementsystem.common.constant.Code;
 import com.mujin.librarymanagementsystem.common.entity.Result;
-import com.mujin.librarymanagementsystem.pojo.UserInformationPojo;
-import com.mujin.librarymanagementsystem.service.UserInformationService;
+import com.mujin.librarymanagementsystem.pojo.UserPojo;
+import com.mujin.librarymanagementsystem.service.UserService;
 import com.mujin.librarymanagementsystem.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,11 +22,11 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/commonuser/user")
 public class OrdinaryUser_UserController {
 
-    private UserInformationService userInformationService;
+    private UserService userService;
 
     @Autowired
-    public void setUserInformationService(UserInformationService userInformationService) {
-        this.userInformationService = userInformationService;
+    public void setUserInformationService(UserService userService) {
+        this.userService = userService;
     }
 
 
@@ -37,8 +37,8 @@ public class OrdinaryUser_UserController {
     public Result information(HttpServletRequest request) {
         String token = request.getHeader("token");
         String account = JwtUtils.validateJWT(token).getClaims().get("account").toString();
-        UserInformationPojo userInformationPojo = userInformationService.getUserInformation(account);
-        return new Result(Code.OK, userInformationPojo, "获取成功");
+        UserPojo userPojo = userService.getUserInformation(account);
+        return new Result(Code.OK, userPojo, "获取成功");
 
     }
 }

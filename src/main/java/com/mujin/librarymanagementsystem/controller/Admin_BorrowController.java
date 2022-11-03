@@ -4,8 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mujin.librarymanagementsystem.common.constant.Code;
 import com.mujin.librarymanagementsystem.common.entity.Result;
-import com.mujin.librarymanagementsystem.pojo.BorrowInformationPojo;
-import com.mujin.librarymanagementsystem.service.BorrowInformationService;
+import com.mujin.librarymanagementsystem.pojo.BorrowPojo;
+import com.mujin.librarymanagementsystem.service.BorrowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +21,15 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/admin/borrow")
 public class Admin_BorrowController {
-    private BorrowInformationService borrowInformationService;
+    private BorrowService borrowService;
 
     @Autowired
-    public void setBorrowInformationService(BorrowInformationService borrowInformationService) {
-        this.borrowInformationService = borrowInformationService;
+    public void setBorrowInformationService(BorrowService borrowService) {
+        this.borrowService = borrowService;
     }
+
+
+
 
     /**
      * 获取所有借阅记录
@@ -34,8 +37,8 @@ public class Admin_BorrowController {
     @GetMapping("/getAllBorrowingRecords")
     public Result getAllBookInformation(@RequestParam Integer page, @RequestParam Integer limit) {
         PageHelper.startPage(page, limit);
-        List<BorrowInformationPojo> book = borrowInformationService.findAllBorrowingRecords();
-        PageInfo<BorrowInformationPojo> pageInfo = new PageInfo<>(book);
+        List<BorrowPojo> book = borrowService.findAllBorrowingRecords();
+        PageInfo<BorrowPojo> pageInfo = new PageInfo<>(book);
         return new Result(Code.OK, pageInfo, "数据获取成功");
     }
 
@@ -45,8 +48,8 @@ public class Admin_BorrowController {
     @GetMapping("/getAllBorrowingRecordsForBookTile")
     public Result findAllBorrowingRecordsForBookTile(@RequestParam Integer page, @RequestParam Integer limit, @RequestParam String title) {
         PageHelper.startPage(page, limit);
-        List<BorrowInformationPojo> book = borrowInformationService.findAllBorrowingRecordsForBookTile(title);
-        PageInfo<BorrowInformationPojo> pageInfo = new PageInfo<>(book);
+        List<BorrowPojo> book = borrowService.findAllBorrowingRecordsForBookTile(title);
+        PageInfo<BorrowPojo> pageInfo = new PageInfo<>(book);
         return new Result(Code.OK, pageInfo, "数据获取成功");
     }
 
@@ -56,8 +59,8 @@ public class Admin_BorrowController {
     @GetMapping("/getAllBorrowingRecordsForUserAccount")
     public Result findAllBorrowingRecordsForUserAccount(@RequestParam Integer page, @RequestParam Integer limit, @RequestParam String account) {
         PageHelper.startPage(page, limit);
-        List<BorrowInformationPojo> book = borrowInformationService.findAllBorrowingRecordsForUserAccount(account);
-        PageInfo<BorrowInformationPojo> pageInfo = new PageInfo<>(book);
+        List<BorrowPojo> book = borrowService.findAllBorrowingRecordsForUserAccount(account);
+        PageInfo<BorrowPojo> pageInfo = new PageInfo<>(book);
         return new Result(Code.OK, pageInfo, "数据获取成功");
     }
 
@@ -65,16 +68,15 @@ public class Admin_BorrowController {
     /**
      * 添加一条借阅记录
      */
-    @GetMapping("/addBorrowingRecords")
-    public Result addBorrowingRecords(@RequestBody BorrowInformationPojo borrowInformationPojos) {
-        Boolean result = borrowInformationService.addBorrowingRecords(borrowInformationPojos.getTitle(), borrowInformationPojos.getAccount(), borrowInformationPojos.getBorrowingTime(), borrowInformationPojos.getBookReturnTime(), borrowInformationPojos.getEstimatedReturnTime());
-        if (result) {
-            return new Result(Code.OK, true,  "添加成功");
-        } else {
-            return new Result(Code.OK, false, "添加失败请检查数据完整性");
-        }
-
-    }
+//    @GetMapping("/addBorrowingRecords")
+//    public Result addBorrowingRecords(@RequestBody BorrowPojo borrowPojos) {
+//        Boolean result = borrowService.addBorrowingRecords(borrowPojos.getTitle(), borrowPojos.getAccount(), borrowPojos.getBorrowingTime(), borrowPojos.getBookReturnTime(), borrowPojos.getEstimatedReturnTime());
+//        if (result) {
+//            return new Result(Code.OK, true, "添加成功");
+//        } else {
+//            return new Result(Code.OK, false, "添加失败请检查数据完整性");
+//        }
+//    }
 
     /**
      * 根据ID删除相关记录
@@ -82,9 +84,9 @@ public class Admin_BorrowController {
 
     @DeleteMapping("/{id}")
     public Result deleteBook(@PathVariable Integer id) {
-        BorrowInformationPojo borrowInformationPojo = borrowInformationService.findBorrowingRecordsById(id);
-        if (borrowInformationPojo != null) {
-            Boolean result = borrowInformationService.deletBorrowingRecords(id);
+        BorrowPojo borrowPojo = borrowService.findBorrowingRecordsById(id);
+        if (borrowPojo != null) {
+            Boolean result = borrowService.deletBorrowingRecords(id);
             if (result) {
                 return new Result(Code.OK, true, "删除成功");
             } else {
@@ -96,21 +98,22 @@ public class Admin_BorrowController {
     }
 
 
-    @PutMapping()
-    public Result updateBook(@RequestBody BorrowInformationPojo borrowInformationPojos) {
-        BorrowInformationPojo borrowInformationPojo = borrowInformationService.findBorrowingRecordsById(borrowInformationPojos.getId());
-        if (borrowInformationPojo != null) {
-            Boolean result = borrowInformationService.updateBorrowingRecords(borrowInformationPojos.getId(), borrowInformationPojos.getTitle(), borrowInformationPojos.getAccount(), borrowInformationPojos.getBorrowingTime(), borrowInformationPojos.getBookReturnTime(), borrowInformationPojos.getEstimatedReturnTime());
-            if (result) {
-                return new Result(Code.OK, true, borrowInformationPojos.getId() + "更新成功");
-            } else {
-                return new Result(Code.OK, false, borrowInformationPojos.getId() + "更新失败请检查数据完整性");
-            }
-        } else {
-            return new Result(Code.OK, false, borrowInformationPojos.getId() + "更新失败，不存在此书籍");
 
-        }
-    }
+//    @PutMapping()
+//    public Result updateBook(@RequestBody BorrowPojo borrowPojos) {
+//        BorrowPojo borrowPojo = borrowService.findBorrowingRecordsById(borrowPojos.getId());
+//        if (borrowPojo != null) {
+//            Boolean result = borrowService.updateBorrowingRecords(borrowPojos.getId(), borrowPojos.getTitle(), borrowPojos.getAccount(), borrowPojos.getBorrowingTime(), borrowPojos.getBookReturnTime(), borrowPojos.getEstimatedReturnTime());
+//            if (result) {
+//                return new Result(Code.OK, true, borrowPojos.getId() + "更新成功");
+//            } else {
+//                return new Result(Code.OK, false, borrowPojos.getId() + "更新失败请检查数据完整性");
+//            }
+//        } else {
+//            return new Result(Code.OK, false, borrowPojos.getId() + "更新失败，不存在此书籍");
+//
+//        }
+//    }
 
 
 }

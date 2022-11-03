@@ -4,12 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mujin.librarymanagementsystem.common.constant.Code;
 import com.mujin.librarymanagementsystem.common.entity.Result;
-import com.mujin.librarymanagementsystem.pojo.BookInformationPojo;
-import com.mujin.librarymanagementsystem.pojo.ReturnBookPojo;
-import com.mujin.librarymanagementsystem.service.BookInformationService;
-import com.mujin.librarymanagementsystem.service.BorrowInformationService;
-import com.mujin.librarymanagementsystem.service.ReturnBookService;
-import com.mujin.librarymanagementsystem.util.JwtUtils;
+import com.mujin.librarymanagementsystem.pojo.BookPojo;
+import com.mujin.librarymanagementsystem.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,23 +22,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/commonuser/book")
 public class OrdinaryUser_BookController {
-    public ReturnBookService returnBookService;
-    private BookInformationService bookInformationService;
-    private BorrowInformationService borrowInformationService;
+    private BookService bookService;
+
 
     @Autowired
-    public void setReturnBookService(ReturnBookService returnBookService) {
-        this.returnBookService = returnBookService;
-    }
-
-    @Autowired
-    public void setBookInformationService(BookInformationService bookInformationService) {
-        this.bookInformationService = bookInformationService;
-    }
-
-    @Autowired
-    public void setBorrowInformationService(BorrowInformationService borrowInformationService) {
-        this.borrowInformationService = borrowInformationService;
+    public void setBookInformationService(BookService bookService) {
+        this.bookService = bookService;
     }
 
 
@@ -52,8 +37,8 @@ public class OrdinaryUser_BookController {
     @GetMapping("/allBookInformation")
     public Result getAllBookInformation(@RequestParam Integer page, @RequestParam Integer limit) {
         PageHelper.startPage(page, limit);
-        List<BookInformationPojo> book = bookInformationService.allBooks();
-        PageInfo<BookInformationPojo> pageInfo = new PageInfo<>(book);
+        List<BookPojo> book = bookService.allBooks();
+        PageInfo<BookPojo> pageInfo = new PageInfo<>(book);
         return new Result(Code.OK, pageInfo, "数据获取成功");
     }
 
@@ -65,44 +50,13 @@ public class OrdinaryUser_BookController {
 
     @GetMapping("/{title}")
     public Result getInformationAboutABook(@PathVariable String title) {
-        BookInformationPojo bookInformationPojo = bookInformationService.findStudentsByTitle(title);
-        List<BookInformationPojo> bookInformationPojos = new ArrayList<>();
-        if (bookInformationPojo == null) {
+        BookPojo bookPojo = bookService.findStudentsByTitle(title);
+        List<BookPojo> bookPojos = new ArrayList<>();
+        if (bookPojo == null) {
             return new Result(Code.OK, null, "数据为空");
         } else {
-            bookInformationPojos.add(bookInformationPojo);
-            return new Result(Code.OK, bookInformationPojos, "数据获取成功");
-        }
-    }
-
-    /**
-     * 借阅书籍
-     */
-    @PostMapping
-    public Result borrowBooks(@RequestBody ReturnBookPojo returnBookPojo) {
-        BookInformationPojo bookInformationPojo = bookInformationService.findStudentsByTitle(returnBookPojo.getTitle());
-        if (bookInformationPojo != null) {
-            System.out.println(returnBookPojo);
-            String account = (String) JwtUtils.validateJWT(returnBookPojo.getAccount()).getClaims().get("account");
-            Boolean result = returnBookService.addReturnBook(returnBookPojo.getTitle(), account, returnBookPojo.getTime());
-            if (result) {
-                Boolean result1 = bookInformationService.updateBookStatus(returnBookPojo.getTitle(), 1);
-
-                if (result1) {
-                    Boolean result2 = borrowInformationService.addBorrowingRecords(bookInformationPojo.getTitle(), account, returnBookPojo.getTime(), 0, returnBookPojo.getTime() + 5184000); //添加借阅记录
-                    if (result2) {
-                        return new Result(Code.OK, true, "借阅成功");
-                    } else {
-                        return new Result(Code.OK, false, "借阅失败");
-                    }
-                } else {
-                    return new Result(Code.OK, false, "借阅失败,请联系管理员");
-                }
-            } else {
-                return new Result(Code.OK, false, "借阅失败,请联系管理员");
-            }
-        } else {
-            return new Result(Code.OK, false, "借阅失败,请联系管理员");
+            bookPojos.add(bookPojo);
+            return new Result(Code.OK, bookPojos, "数据获取成功");
         }
     }
 

@@ -3,8 +3,8 @@ package com.mujin.librarymanagementsystem.controller;
 import com.mujin.librarymanagementsystem.common.constant.Code;
 import com.mujin.librarymanagementsystem.common.constant.Key;
 import com.mujin.librarymanagementsystem.common.entity.Result;
-import com.mujin.librarymanagementsystem.pojo.UserInformationPojo;
-import com.mujin.librarymanagementsystem.service.UserInformationService;
+import com.mujin.librarymanagementsystem.pojo.UserPojo;
+import com.mujin.librarymanagementsystem.service.UserService;
 import com.mujin.librarymanagementsystem.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,11 +27,11 @@ import static com.mujin.librarymanagementsystem.util.RSAEncrypt.decrypt;
 @RequestMapping("/login")
 public class Login_Controller {
 
-    private UserInformationService userInformationService;
+    private UserService userService;
 
     @Autowired
-    public void setUserInformationService(UserInformationService userInformationService) {
-        this.userInformationService = userInformationService;
+    public void setUserInformationService(UserService userService) {
+        this.userService = userService;
     }
 
     /**
@@ -43,38 +43,38 @@ public class Login_Controller {
     @PostMapping("/userLogin")
     public Result userLogin(@RequestParam String account, @RequestParam String passwordRSA, HttpServletResponse response) throws Exception {
         Map<String, Object> userInformationMap = new HashMap<>();
-        UserInformationPojo userInformationPojo = userInformationService.getUserInformation(account);  //根据用户输入得到account获取相应的信息
+        UserPojo userPojo = userService.getUserInformation(account);  //根据用户输入得到account获取相应的信息
 
         String msg = null;
         //查询到用户
-        if (userInformationPojo != null) {
+        if (userPojo != null) {
             //判断对应的密码是否正确
-            String userPassword = userInformationPojo.getPassword(); //数据库存储的MD5密码
+            String userPassword = userPojo.getPassword(); //数据库存储的MD5密码
             String decryptPassword = decrypt(passwordRSA, Key.PRIVATE_KEY);  //解密之后的MD5
             boolean returnResults = userPassword.equals(decryptPassword);   //密码比对
-            String token = JwtUtils.createJWT(account, userInformationPojo.getJurisdiction(), 60 * 60 * 1000);
+            String token = JwtUtils.createJWT(account, userPojo.getJurisdiction(), 60 * 60 * 1000);
 
             //密码正确
             if (returnResults) {
                 response.setHeader("token", token);
-                if (userInformationPojo.getLoginStatus() != null) {
-                    if (userInformationPojo.getState() == 0) {
-                        userInformationService.updateUserStatus(account, 1);
+                if (userPojo.getLoginStatus() != null) {
+                    if (userPojo.getState() == 0) {
+                        userService.updateUserStatus(account, 1);
                     }
                 } else {
-                    userInformationService.updateUserStatus(account, 0);
+                    userService.updateUserStatus(account, 0);
                 }
                 //管理员
-                if (userInformationPojo.getJurisdiction().equals(0)) {
+                if (userPojo.getJurisdiction().equals(0)) {
                     userInformationMap.put("account", account);
                     userInformationMap.put("jurisdiction", 0);
-                    msg = userInformationPojo.getUsername() + "欢迎登录";
+                    msg = userPojo.getUsername() + "欢迎登录";
                 }
                 //普通用户
-                if (userInformationPojo.getJurisdiction().equals(1)) {
+                if (userPojo.getJurisdiction().equals(1)) {
                     userInformationMap.put("account", account);
                     userInformationMap.put("jurisdiction", 1);
-                    msg = userInformationPojo.getUsername() + "欢迎登录";
+                    msg = userPojo.getUsername() + "欢迎登录";
                 }
             } else {
                 userInformationMap.put("account", null);
@@ -96,12 +96,12 @@ public class Login_Controller {
      * 添加一个用户信息(注册)
      */
     @PostMapping
-    public Result addAUserInformation(@RequestBody UserInformationPojo userInformationPojo) {
-        UserInformationPojo userInformation = userInformationService.getUserInformation(userInformationPojo.getAccount());
+    public Result addAUserInformation(@RequestBody UserPojo userPojo) {
+        UserPojo userInformation = userService.getUserInformation(userPojo.getAccount());
         if (userInformation == null) {
-            Boolean result = userInformationService.userRegistration(userInformationPojo.getUsername(), userInformationPojo.getAccount(), userInformationPojo.getPassword());
+            Boolean result = userService.userRegistration(userPojo.getUsername(), userPojo.getAccount(), userPojo.getPassword());
             if (result) {
-                return new Result(Code.OK, true, userInformationPojo.getAccount() + "&nbsp&nbsp&nbsp注册成功");
+                return new Result(Code.OK, true, userPojo.getAccount() + "&nbsp&nbsp&nbsp注册成功");
             } else {
                 return new Result(Code.OK, false, "检查数据完整性");
             }
@@ -118,7 +118,7 @@ public class Login_Controller {
     public Result SignOut(@RequestParam String account, HttpServletRequest request) {
         String token = request.getHeader("token");
         if (token != null) {
-            userInformationService.updateUserStatus(account, 0);
+            userService.updateUserStatus(account, 0);
             return new Result(Code.OK, null, "退出成功");
         } else {
             return new Result(Code.OK, null, "退出登录失败");

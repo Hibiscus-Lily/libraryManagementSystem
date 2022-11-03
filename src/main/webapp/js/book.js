@@ -87,14 +87,13 @@ function loadTable(table) {
             , {field: 'year', title: '出版日期'}
             , {field: 'isbn', title: '国际标准书号'}
             , {field: 'state', title: '借阅情况', align: 'center', templet: '#state'}
-            , {fixed: 'right', align: 'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+            , {fixed: 'right', align: 'center', toolbar: '#barDemo', templet: '#barDemo'} //这里的toolbar值是模板元素的选择器
 
         ]],
     });
 
     //工具条事件
     table.on('tool(searchBook)', function (obj) { //注：tool 是工具条事件名，lay-filter="对应的值"
-        console.log(obj)
         const layEvent = obj.event; //获得 lay-event 对应的值
         //删除
         if (obj.data.state === 0) {
@@ -104,7 +103,7 @@ function loadTable(table) {
                     const data = {
                         "title": obj.data.title,
                         "account": token,
-                        "time": Date.parse(new Date()) / 1000
+                        "borrowingTime": Date.parse(new Date()) / 1000
                     }
                     $.ajax({
                         url: "http://localhost:8080/libraryManagementSystem/commonuser/book",
@@ -116,6 +115,9 @@ function loadTable(table) {
                         },
                         success: function (res) {
                             //更新相关条目数据
+                            const btn = document.getElementById('btn');
+                            btn.innerHTML = '借阅中';
+                            $("#btn").addClass("layui-btn-disabled")
                             obj.update({
                                 state: 1,
                             });
@@ -133,7 +135,7 @@ function loadTable(table) {
                 });
             }
         } else if (obj.data.state === 1) {
-            notify.error("借阅中","topLeft")
+            notify.error("借阅中", "topLeft")
         }
 
     });

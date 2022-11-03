@@ -4,10 +4,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mujin.librarymanagementsystem.common.constant.Code;
 import com.mujin.librarymanagementsystem.common.entity.Result;
-import com.mujin.librarymanagementsystem.pojo.BookInformationPojo;
-import com.mujin.librarymanagementsystem.pojo.BorrowInformationPojo;
-import com.mujin.librarymanagementsystem.service.BookInformationService;
-import com.mujin.librarymanagementsystem.service.BorrowInformationService;
+import com.mujin.librarymanagementsystem.pojo.BookPojo;
+import com.mujin.librarymanagementsystem.pojo.BorrowPojo;
+import com.mujin.librarymanagementsystem.service.BookService;
+import com.mujin.librarymanagementsystem.service.BorrowService;
 import com.mujin.librarymanagementsystem.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,17 +25,17 @@ import java.util.*;
 @RequestMapping(value = "/admin/book")
 public class Admin_BookController {
 
-    private BookInformationService bookInformationService;
-    private BorrowInformationService borrowInformationService;
+    private BookService bookService;
+    private BorrowService borrowService;
 
     @Autowired
-    public void setBookInformationService(BookInformationService bookInformationService) {
-        this.bookInformationService = bookInformationService;
+    public void setBookInformationService(BookService bookService) {
+        this.bookService = bookService;
     }
 
     @Autowired
-    public void setBorrowInformationService(BorrowInformationService borrowInformationService) {
-        this.borrowInformationService = borrowInformationService;
+    public void setBorrowInformationService(BorrowService borrowService) {
+        this.borrowService = borrowService;
     }
 
     /**
@@ -44,8 +44,8 @@ public class Admin_BookController {
     @GetMapping("/allBookInformation")
     public Result getAllBookInformation(@RequestParam Integer page, @RequestParam Integer limit) {
         PageHelper.startPage(page, limit);
-        List<BookInformationPojo> book = bookInformationService.allBooks();
-        PageInfo<BookInformationPojo> pageInfo = new PageInfo<>(book);
+        List<BookPojo> book = bookService.allBooks();
+        PageInfo<BookPojo> pageInfo = new PageInfo<>(book);
         return new Result(Code.OK, pageInfo, "数据获取成功");
     }
 
@@ -57,13 +57,13 @@ public class Admin_BookController {
 
     @GetMapping("/{title}")
     public Result getInformationAboutABook(@PathVariable String title) {
-        BookInformationPojo bookInformationPojo = bookInformationService.findStudentsByTitle(title);
-        List<BookInformationPojo> bookInformationPojos = new ArrayList<>();
-        if (bookInformationPojo == null) {
+        BookPojo bookPojo = bookService.findStudentsByTitle(title);
+        List<BookPojo> bookPojos = new ArrayList<>();
+        if (bookPojo == null) {
             return new Result(Code.OK, null, "数据为空");
         } else {
-            bookInformationPojos.add(bookInformationPojo);
-            return new Result(Code.OK, bookInformationPojos, "数据获取成功");
+            bookPojos.add(bookPojo);
+            return new Result(Code.OK, bookPojos, "数据获取成功");
         }
     }
 
@@ -75,9 +75,9 @@ public class Admin_BookController {
 
     @DeleteMapping("/{title}")
     public Result deleteBook(@PathVariable String title) {
-        BookInformationPojo bookInformation = bookInformationService.findStudentsByTitle(title);
+        BookPojo bookInformation = bookService.findStudentsByTitle(title);
         if (bookInformation != null) {
-            Boolean result = bookInformationService.deleteBooks(title);
+            Boolean result = bookService.deleteBooks(title);
             if (result) {
                 return new Result(Code.OK, true, "删除成功");
             } else {
@@ -95,17 +95,17 @@ public class Admin_BookController {
      */
 
     @PostMapping
-    public Result addBook(@RequestBody BookInformationPojo bookInformationPojo) {
-        BookInformationPojo bookInformation = bookInformationService.findStudentsByTitle(bookInformationPojo.getTitle());
+    public Result addBook(@RequestBody BookPojo bookPojo) {
+        BookPojo bookInformation = bookService.findStudentsByTitle(bookPojo.getTitle());
         if (bookInformation == null) {
-            Boolean result = bookInformationService.addBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(), bookInformationPojo.getIsbn(), bookInformationPojo.getState());
+            Boolean result = bookService.addBooks(bookPojo.getTitle(), bookPojo.getAuthor(), bookPojo.getPress(), bookPojo.getYear(), bookPojo.getIsbn(), bookPojo.getState());
             if (result) {
-                return new Result(Code.OK, true, bookInformationPojo.getTitle() + "添加成功");
+                return new Result(Code.OK, true, bookPojo.getTitle() + "添加成功");
             } else {
-                return new Result(Code.OK, false, bookInformationPojo.getTitle() + "添加失败请检查数据完整性");
+                return new Result(Code.OK, false, bookPojo.getTitle() + "添加失败请检查数据完整性");
             }
         } else {
-            return new Result(Code.OK, false, bookInformationPojo.getTitle() + "添加失败，库中存在此书");
+            return new Result(Code.OK, false, bookPojo.getTitle() + "添加失败，库中存在此书");
         }
     }
 
@@ -114,95 +114,110 @@ public class Admin_BookController {
      */
 
     @PutMapping()
-    public Result updateBook(@RequestBody BookInformationPojo bookInformationPojo, HttpServletRequest request) {
+    public Result updateBook(@RequestBody BookPojo bookPojo, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
-        BookInformationPojo bookInformation = bookInformationService.findStudentsByTitle(bookInformationPojo.getTitle()); //根据书名检查是否存在
+        BookPojo bookInformation = bookService.findStudentsByTitle(bookPojo.getTitle()); //根据书名检查是否存在
         //存在
         if (bookInformation != null) {
             //检查书籍是否存在于借阅记录
-            BorrowInformationPojo borrowInformationPojo = borrowInformationService.theLatestInformationOnBorrowedBooks(bookInformationPojo.getTitle());
+            BorrowPojo borrowPojo = borrowService.theLatestInformationOnBorrowedBooks(bookPojo.getTitle());
             //存在存在于借阅记录
-            if (borrowInformationPojo != null) {
+            if (borrowPojo != null) {
                 //检查提交的状态为0&&数据库中的状态为1 --->  还书
-                if ((bookInformationPojo.getState() == 0 && bookInformation.getState() == 1)) {
+                if ((bookPojo.getState() == 0 && bookInformation.getState() == 1)) {
                     int bookReturnTime = (int) (new Date().getTime() / 1000); //还书时间
-                    Boolean result = borrowInformationService.updateBookReturnTimeById(borrowInformationPojo.getId(), bookReturnTime);
+                    Boolean result = borrowService.updateBookReturnTimeById(borrowPojo.getId(), bookReturnTime);
                     //更新记录成功
                     if (result) {
                         //更新书籍信息
-                        Boolean result1 = bookInformationService.updateBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(), bookInformationPojo.getIsbn(), bookInformationPojo.getState());
+                        Boolean result1 = bookService.updateBooks(bookPojo.getTitle(), bookPojo.getAuthor(), bookPojo.getPress(), bookPojo.getYear(), bookPojo.getIsbn(), bookPojo.getState());
                         if (result1) {
                             map.put("data", true);
-                            map.put("msg", bookInformationPojo.getTitle() + "更新成功");
+                            map.put("msg", bookPojo.getTitle() + "更新成功");
                         } else {
                             map.put("data", false);
-                            map.put("msg", bookInformationPojo.getTitle() + "更新失败请检查数据完整性");
+                            map.put("msg", bookPojo.getTitle() + "更新失败请检查数据完整性");
                         }
                     } else {
                         map.put("data", false);
-                        map.put("msg", bookInformationPojo.getTitle() + "更新失败,还书失败");
+                        map.put("msg", bookPojo.getTitle() + "更新失败,还书失败");
                     }
                 }
                 //检查提交的状态为1&&数据库中的状态为0 --->  借书
-                if ((bookInformationPojo.getState() == 1 && bookInformation.getState() == 0)) {
+                else if ((bookPojo.getState() == 1 && bookInformation.getState() == 0)) {
                     String token = request.getHeader("token");
                     String account = (String) JwtUtils.validateJWT(token).getClaims().get("account");
                     int borrowingTime = (int) (new Date().getTime() / 1000); //还书时间
-                    Boolean result1 = borrowInformationService.addBorrowingRecords(bookInformationPojo.getTitle(), account, borrowingTime, 0, borrowingTime + 5184000); //添加借阅记录
+                    Boolean result1 = borrowService.addBorrowingRecords(bookPojo.getTitle(), account, borrowingTime, 0, borrowingTime + 5184000); //添加借阅记录
                     //添加借阅记录（成功）
                     if (result1) {
-                        Boolean result = bookInformationService.updateBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(), bookInformationPojo.getIsbn(), bookInformationPojo.getState());
+                        Boolean result = bookService.updateBooks(bookPojo.getTitle(), bookPojo.getAuthor(), bookPojo.getPress(), bookPojo.getYear(), bookPojo.getIsbn(), bookPojo.getState());
                         if (result) {
                             map.put("data", true);
-                            map.put("msg", bookInformationPojo.getTitle() + "更新成功");
+                            map.put("msg", bookPojo.getTitle() + "更新成功");
                         } else {
                             map.put("data", false);
-                            map.put("msg", bookInformationPojo.getTitle() + "更新失败请检查数据完整性");
+                            map.put("msg", bookPojo.getTitle() + "更新失败请检查数据完整性");
                         }
                     } else {
                         map.put("data", false);
-                        map.put("msg", bookInformationPojo.getTitle() + "更新失败,借书失败");
+                        map.put("msg", bookPojo.getTitle() + "更新失败,借书失败");
+                    }
+                } else {
+                    Boolean result = bookService.updateBooks(bookPojo.getTitle(), bookPojo.getAuthor(), bookPojo.getPress(), bookPojo.getYear(), bookPojo.getIsbn(), bookPojo.getState());
+                    if (result) {
+                        return new Result(Code.OK, true, "更新成功");
+                    } else {
+                        return new Result(Code.OK, false, bookPojo.getTitle() + "更新失败,借书失败");
                     }
                 }
             }
             //不存在借阅记录
             else {
                 //检查提交的状态为0&&数据库中的状态为1 --->  还书
-                if ((bookInformationPojo.getState() == 0 && bookInformation.getState() == 1)) {
-                    Boolean result = bookInformationService.updateBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(), bookInformationPojo.getIsbn(), bookInformationPojo.getState());
+                if ((bookPojo.getState() == 0 && bookInformation.getState() == 1)) {
+                    Boolean result = bookService.updateBooks(bookPojo.getTitle(), bookPojo.getAuthor(), bookPojo.getPress(), bookPojo.getYear(), bookPojo.getIsbn(), bookPojo.getState());
                     if (result) {
                         map.put("data", true);
-                        map.put("msg", bookInformationPojo.getTitle() + "更新成功");
+                        map.put("msg", bookPojo.getTitle() + "更新成功");
                     } else {
                         map.put("data", false);
-                        map.put("msg", bookInformationPojo.getTitle() + "更新失败请检查数据完整性");
+                        map.put("msg", bookPojo.getTitle() + "更新失败请检查数据完整性");
                     }
                 }
                 //检查提交的状态为1&&数据库中的状态为0 --->  借书
-                if ((bookInformationPojo.getState() == 1 && bookInformation.getState() == 0)) {
+                else if ((bookPojo.getState() == 1 && bookInformation.getState() == 0)) {
                     String token = request.getHeader("token");
                     String account = (String) JwtUtils.validateJWT(token).getClaims().get("account");
                     int borrowingTime = (int) (new Date().getTime() / 1000); //还书时间
-                    Boolean result = borrowInformationService.addBorrowingRecords(bookInformationPojo.getTitle(), account, borrowingTime, 0, borrowingTime + 5184000); //添加借阅记录
+                    Boolean result = borrowService.addBorrowingRecords(bookPojo.getTitle(), account, borrowingTime, 0, borrowingTime + 5184000); //添加借阅记录
                     if (result) {
-                        Boolean result1 = bookInformationService.updateBooks(bookInformationPojo.getTitle(), bookInformationPojo.getAuthor(), bookInformationPojo.getPress(), bookInformationPojo.getYear(), bookInformationPojo.getIsbn(), bookInformationPojo.getState());
+                        Boolean result1 = bookService.updateBooks(bookPojo.getTitle(), bookPojo.getAuthor(), bookPojo.getPress(), bookPojo.getYear(), bookPojo.getIsbn(), bookPojo.getState());
                         if (result1) {
                             map.put("data", true);
-                            map.put("msg", bookInformationPojo.getTitle() + "更新成功");
+                            map.put("msg", bookPojo.getTitle() + "更新成功");
                         } else {
                             map.put("data", false);
-                            map.put("msg", bookInformationPojo.getTitle() + "更新失败请检查数据完整性");
+                            map.put("msg", bookPojo.getTitle() + "更新失败请检查数据完整性");
                         }
                     } else {
                         map.put("data", false);
-                        map.put("msg", bookInformationPojo.getTitle() + "更新失败,借阅失败");
+                        map.put("msg", bookPojo.getTitle() + "更新失败,借阅失败");
+                    }
+                } else {
+                    Boolean result = bookService.updateBooks(bookPojo.getTitle(), bookPojo.getAuthor(), bookPojo.getPress(), bookPojo.getYear(), bookPojo.getIsbn(), bookPojo.getState());
+                    if (result) {
+                        return new Result(Code.OK, true, "更新成功");
+                    } else {
+                        return new Result(Code.OK, false, bookPojo.getTitle() + "更新失败,借书失败");
+
                     }
                 }
             }
             return new Result(Code.OK, map.get("data"), map.get("msg"));
 
         } else {
-            return new Result(Code.OK, false, bookInformationPojo.getTitle() + "更新失败，不存在此书籍");
+            return new Result(Code.OK, false, bookPojo.getTitle() + "更新失败，不存在此书籍");
 
         }
     }
@@ -210,8 +225,8 @@ public class Admin_BookController {
     @GetMapping("/getAllBorrowingRecordsForBookTile")
     public Result findAllBorrowingRecordsForBookTile(@RequestParam Integer page, @RequestParam Integer limit, @RequestParam String title) {
         PageHelper.startPage(page, limit);
-        List<BorrowInformationPojo> book = borrowInformationService.findAllBorrowingRecordsForBookTile(title);
-        PageInfo<BorrowInformationPojo> pageInfo = new PageInfo<>(book);
+        List<BorrowPojo> book = borrowService.findAllBorrowingRecordsForBookTile(title);
+        PageInfo<BorrowPojo> pageInfo = new PageInfo<>(book);
         return new Result(Code.OK, pageInfo, "数据获取成功");
     }
 }

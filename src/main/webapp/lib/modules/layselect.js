@@ -1,3 +1,5 @@
+// noinspection ES6ConvertVarToLetConst
+
 /**
  * layselect 下拉框插件，只支持单选
  * @author:Darker.Wang
@@ -106,7 +108,7 @@ layui.define(['element','form','jquery'],function(exports){
 				}
 				for (var i = 0; i < option.length; i++) {
 					//分组
-					if(option[i].groupChildren != null && option[i].groupChildren != undefined && 
+					if(option[i].groupChildren != null && option[i].groupChildren != undefined &&
 						option[i].groupChildren != ''   && option[i].groupChildren.length > 0){
 						 $(eid).append("<optgroup label='"+option[i].groupName+"'>");
 						 option[i].groupChildren.forEach(function(item,index){
@@ -126,7 +128,7 @@ layui.define(['element','form','jquery'],function(exports){
 								}else if(i == param.select){
 									that.selectValues.push(item);
 								}
-			        	 	}//选择指定选中项 
+			        	 	}//选择指定选中项
 						 });
 						 $(eid).append("</optgroup>");
 					 }else{//不分组
@@ -138,7 +140,7 @@ layui.define(['element','form','jquery'],function(exports){
 			    	 		that.selectValues.push(option[i]);
 			    	     }else if(param.select != undefined && param.select == i && option[i].status != '0'){
 			    	    	that.selectValues.push(option[i]);
-			        	 }//选择指定选中项 
+			        	 }//选择指定选中项
 					 }
 				}
 				var k = eid.replace('#','');
