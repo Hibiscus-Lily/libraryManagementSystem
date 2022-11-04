@@ -1,18 +1,12 @@
 layui.extend({
     layselect: '{/}../lib/modules/layselect', // {/}的意思即代表采用自有路径，即不跟随 base 路径
 })
-
-function logOut() {
-    localStorage.removeItem('token')
-
-    // window.location.href = "../page/Z_logIn.html"
-}
+const token = localStorage.getItem('token');
 
 
 layui.use(['element'], function () {
     const element = layui.element;
 
-    const token = localStorage.getItem('token');
     $.ajax({
         url: 'http://localhost:8080/libraryManagementSystem/commonuser/user/information',
         headers: {
@@ -20,6 +14,8 @@ layui.use(['element'], function () {
         },
         success: function (data) {
             if (data.code === 0) {
+                data = JSON.stringify(data["data"])
+                localStorage.setItem('data', data)
                 notify.success("登录成功", "topRight");
             } else {
                 notify.error(data.msg, "topRight");
@@ -32,7 +28,9 @@ layui.use(['element'], function () {
     })
 
 
-    //导航页面内容切换
+    /**
+     * 导航页面内容切换
+     */
     element.on('nav(pageContentSwitch)', function (data) {
         //layui-body页面内容切换
         $(window).ready(function () {
@@ -55,6 +53,34 @@ function setIframeHeight(iframe) {
     if (iframe) {
         iframe.height = $("#layui-body")[0].clientHeight - 4
     }
+}
+
+
+/**
+ * 退出登录
+ */
+function signOut() {
+    $.ajax({
+        url: "http://localhost:8080/libraryManagementSystem/login/SignOut",
+        type: "POST",
+        data: {
+            "account": JSON.parse(localStorage.getItem('data'))["account"]
+        },
+        success: function (data) {
+            console.log(data)
+            if (data.code === 0) {
+                localStorage.clear()
+                notify.success("注销成功", "topRight");
+                setTimeout(function () {
+                    window.location.href = "../page/Z_logIn.html"
+                }, 1000)
+            } else {
+                notify.error(data.msg, "topRight");
+            }
+        }, error: function () {
+            notify.error("请求失败", "topRight");
+        }
+    })
 }
 
 

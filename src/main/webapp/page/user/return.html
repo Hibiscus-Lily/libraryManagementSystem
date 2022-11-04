@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图书借阅系统</title>
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../../css/index.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.js"></script>
+</head>
+<body>
+<div id="data" style="padding: 15px 15px 35px 15px">
+    <div class="loadBook transform" style="height: 100%;">
+        <!--图书表格-->
+        <table id="searchBook" lay-filter="searchBook"></table>
+        <!--工具条-->
+        <script type="text/html" id="returnBook">
+            <a id="btn" class="layui-btn layui-btn-xs layui-bg-red" lay-event="returnBook">归还</a>
+        </script>
+        <!--借阅时间模板-->
+        <script type="text/html" id="borrowingTime">
+            {{# const time = new Date(d.borrowingTime*1000);}}
+            {{# const times = time.toLocaleDateString().replace(/\//g, "-") + " " + time.toTimeString().slice(0, 8);}}
+            <span class="layui-badge layui-bg-green">{{times}}</span>
+        </script>
+        <!--预计还书时间模板-->
+        <script type="text/html" id="estimatedReturnTime">
+            {{# const nowtime = Date.parse(new Date()) / 1000;}}
+            {{# const time = d.estimatedReturnTime}}
+            {{# if (nowtime >= time) {}}
+            {{# const estimatedReturnTime = new Date(time * 1000)}}
+            {{# const times = estimatedReturnTime.toLocaleDateString().replace(/\//g, "-") + " " + estimatedReturnTime.toTimeString().slice(0, 8);}}
+
+            <span class="layui-badge layui-bg">{{times}}</span>
+            {{# } else if (nowtime <= time) {}}
+            {{# const estimatedReturnTime = new Date(time * 1000)}}
+            {{# const times = estimatedReturnTime.toLocaleDateString().replace(/\//g, "-") + " " + estimatedReturnTime.toTimeString().slice(0, 8);}}
+            <span class="layui-badge layui-bg-green">{{times}}</span>
+            {{# }else {}}
+            <span></span>
+            {{#} }}
+        </script>
+    </div>
+</div>
+</body>
+</html>
+<script src="../../lib/layui/layui.js"></script>
+<script src="../../lib/modules/notify.js"></script>
+
+<script src="../../js/user/return_Load.js"></script>

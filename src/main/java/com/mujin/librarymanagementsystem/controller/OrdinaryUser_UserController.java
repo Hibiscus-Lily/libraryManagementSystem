@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <h1>普通用户个人信息</h1>
@@ -35,10 +37,16 @@ public class OrdinaryUser_UserController {
      */
     @GetMapping("/information")
     public Result information(HttpServletRequest request) {
+        Map<String, Object> userPojoMap = new HashMap<>();
         String token = request.getHeader("token");
         String account = JwtUtils.validateJWT(token).getClaims().get("account").toString();
         UserPojo userPojo = userService.getUserInformation(account);
-        return new Result(Code.OK, userPojo, "获取成功");
+        userPojoMap.put("username", userPojo.getUsername());
+        userPojoMap.put("account", userPojo.getAccount());
+        userPojoMap.put("avatarurl", userPojo.getAvatarurl());
+        userPojoMap.put("background", userPojo.getBackground());
+        userPojoMap.put("jurisdiction", userPojo.getJurisdiction());
+        return new Result(Code.OK, userPojoMap, "获取成功");
 
     }
 }

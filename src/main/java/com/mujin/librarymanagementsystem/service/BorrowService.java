@@ -36,6 +36,8 @@ public interface BorrowService {
     Boolean updateBookReturnTimeById(Integer id, Integer bookReturnTime);
 
 
-    //按照时间
+    //查询某个用户未还书籍
+    List<BorrowPojo> userHasNotReturnedBooks(String account);
+
 
 }

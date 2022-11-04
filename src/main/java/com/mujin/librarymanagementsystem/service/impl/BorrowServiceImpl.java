@@ -73,9 +73,9 @@ public class BorrowServiceImpl implements BorrowService {
     }
 
     @Override
-    public Boolean updateBookReturnTime(String title, Integer bookReturnTime,Integer state) {
+    public Boolean updateBookReturnTime(String title, Integer bookReturnTime, Integer state) {
         if (title != null && bookReturnTime != null) {
-            borrowMapper.updateBookReturnTime(title, bookReturnTime,state);
+            borrowMapper.updateBookReturnTime(title, bookReturnTime, state);
             return true;
         } else {
             return false;
@@ -89,6 +89,15 @@ public class BorrowServiceImpl implements BorrowService {
             return true;
         } else {
             return false;
+        }
+    }
+
+    @Override
+    public List<BorrowPojo> userHasNotReturnedBooks(String account) {
+        if (account != null) {
+            return borrowMapper.userHasNotReturnedBooks(account);
+        } else {
+            return null;
         }
     }
 }

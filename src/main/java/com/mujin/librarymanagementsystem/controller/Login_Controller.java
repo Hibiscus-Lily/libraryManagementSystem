@@ -115,13 +115,12 @@ public class Login_Controller {
      * 退出
      */
     @PostMapping("/SignOut")
-    public Result SignOut(@RequestParam String account, HttpServletRequest request) {
-        String token = request.getHeader("token");
-        if (token != null) {
+    public Result SignOut(@RequestParam String account) {
+        if (account != null) {
             userService.updateUserStatus(account, 0);
-            return new Result(Code.OK, null, "退出成功");
+            return new Result(Code.OK, true, "退出成功");
         } else {
-            return new Result(Code.OK, null, "退出登录失败");
+            return new Result(Code.OK, false, "退出登录失败");
         }
 
     }

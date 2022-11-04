@@ -130,7 +130,7 @@ function loadTable(table) {
                 area: ['500px', '500px'],
                 offset: '10px',
                 id: 'LAY_layuipro', //设定一个id，防止重复弹出
-                content: '../page/Y_userUpdatePage.html?' + data,
+                content: '../other/Y_userUpdatePage.html?' + data,
                 scrollbar: false,
             });
 

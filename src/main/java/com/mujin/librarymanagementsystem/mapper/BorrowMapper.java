@@ -46,10 +46,16 @@ public interface BorrowMapper {
 
     //更新还书时间
     @Select("UPDATE borrowing SET bookReturnTime=#{bookReturnTime}, state=#{state} WHERE title=#{title} ORDER BY borrowingTime DESC LIMIT 1")
-    void updateBookReturnTime(@Param("title") String title, @Param("bookReturnTime") Integer bookReturnTime,@Param("state") Integer state);
+    void updateBookReturnTime(@Param("title") String title, @Param("bookReturnTime") Integer bookReturnTime, @Param("state") Integer state);
 
     //根据书名获取最新时间借阅图书的相关信息
     @Select("select * FROM borrowing WHERE title=#{title} ORDER BY borrowingTime DESC LIMIT 0,1")
     BorrowPojo theLatestInformationOnBorrowedBooks(String title);
+
+
+    //查询某个用户未还书籍
+    @Select("select * FROM borrowing WHERE account = #{account} AND state=1")
+    List<BorrowPojo> userHasNotReturnedBooks(String account);
+
 
 }

@@ -1,34 +1,14 @@
 package com.mujin.librarymanagementsystem.pojo;
 
 public class UserPojo {
-    private Integer id;
     private String username;
     private String account;
     private String password;
     private Integer state;
     private Integer jurisdiction;
     private Integer loginStatus;
-
-    @Override
-    public String toString() {
-        return "UserPojo{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", account='" + account + '\'' +
-                ", password='" + password + '\'' +
-                ", state=" + state +
-                ", jurisdiction=" + jurisdiction +
-                ", loginStatus=" + loginStatus +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private String avatarurl;
+    private String background;
 
     public String getUsername() {
         return username;
@@ -36,6 +16,20 @@ public class UserPojo {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Override
+    public String toString() {
+        return "UserPojo{" +
+                "username='" + username + '\'' +
+                ", account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                ", state=" + state +
+                ", jurisdiction=" + jurisdiction +
+                ", loginStatus=" + loginStatus +
+                ", avatarurl='" + avatarurl + '\'' +
+                ", background='" + background + '\'' +
+                '}';
     }
 
     public String getAccount() {
@@ -77,4 +71,21 @@ public class UserPojo {
     public void setLoginStatus(Integer loginStatus) {
         this.loginStatus = loginStatus;
     }
+
+    public String getAvatarurl() {
+        return avatarurl;
+    }
+
+    public void setAvatarurl(String avatarurl) {
+        this.avatarurl = avatarurl;
+    }
+
+    public String getBackground() {
+        return background;
+    }
+
+    public void setBackground(String background) {
+        this.background = background;
+    }
+
 }

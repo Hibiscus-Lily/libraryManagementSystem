@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>图书管理</title>
+    <title>图书借阅</title>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.js"></script>
     <link rel="stylesheet" href="../lib/layui/css/layui.css">
     <link rel="stylesheet" href="../css/index.css">
@@ -11,7 +11,7 @@
 <body>
 <div class="layui-layout layui-layout-admin" style="height: 100%;">
     <div class="layui-header">
-        <div class="layui-logo layui-hide-xs layui-bg-black">图书管理系统</div>
+        <div class="layui-logo layui-hide-xs layui-bg-black">图书借阅系统</div>
         <!-- 头部区域（可配合layui 已有的水平导航） -->
 
         <ul class="layui-nav layui-layout-right" style="margin-right: 1%">
@@ -22,34 +22,19 @@
                 <dl class="layui-nav-child">
                     <dd><a href="#" target="_blank">个人信息</a></dd>
                     <dd><a id="logOut" onclick="signOut()">注销</a></dd>
-
                 </dl>
-
             </li>
         </ul>
     </div>
-
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <ul class="layui-nav layui-nav-tree" lay-filter="pageContentSwitch">
                 <li class="layui-nav-item  layui-nav-itemed">
-                    <a href="#">图书管理</a>
+                    <a href="">借阅管理</a>
                     <dl class="layui-nav-child">
-                        <dd class="layui-this"><a href="javascript:" data-src="admin/book_Load.html">查询图书</a></dd>
-                        <dd><a href="javascript:" data-src="admin/book_Add.html">添加图书</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item layui-nav-item">
-                    <a href="#">用户管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:" data-src="admin/user_Load.html">查询用户</a></dd>
-                        <dd><a href="javascript:" data-src="admin/user_Add.html">添加用户</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item layui-nav-item">
-                    <a href="#">借阅管理</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:" data-src="admin/borrow_Load.html">借阅记录</a></dd>
+                        <dd class="layui-this"><a href="javascript:" data-src="user/book.html">借阅图书</a></dd>
+                        <dd><a href="javascript:" data-src="user/return.html">归还图书</a></dd>
+                        <dd><a href="javascript:" data-src="user/borrow.html">借阅记录</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -63,6 +48,6 @@
 </div>
 <script src="../lib/layui/layui.js"></script>
 <script src="../lib/modules/notify.js"></script>
-<script src="../js/admin/admin.js"></script>
+<script src="../js/user/user.js"></script>
 </body>
 </html>

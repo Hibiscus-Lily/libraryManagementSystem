@@ -101,7 +101,7 @@ function login() {
                         if (jurisdiction === 0) {
                             notify.success(res["msg"], "topRight")
                             setTimeout(function () {
-                                location.replace("book.html");
+                                location.replace("user.html");
                             }, 3000);
                         } else if (jurisdiction === 1) {
                             notify.success(res["msg"], "topRight")
