@@ -41,7 +41,6 @@ public class OrdinaryUser_BorrowController {
             String account = (String) JwtUtils.validateJWT(borrowPojo.getAccount()).getClaims().get("account");
             Boolean result = bookService.updateBookStatus(borrowPojo.getTitle(), 1);
             if (result) {
-                System.out.println(borrowPojo);
                 Boolean result2 = borrowService.addBorrowingRecords(borrowPojo.getTitle(), account, borrowPojo.getBorrowingTime(), 0, borrowPojo.getBorrowingTime() + 5184000); //添加借阅记录
                 if (result2) {
                     return new Result(Code.OK, true, "借阅成功");

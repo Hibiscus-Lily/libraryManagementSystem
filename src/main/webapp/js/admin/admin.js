@@ -13,6 +13,7 @@ layui.use(['element'], function () {
         },
         success: function (data) {
             if (data.code === 0) {
+                $('#avatarurl').attr('src',data["data"]["avatarurl"])
                 data = JSON.stringify(data["data"])
                 localStorage.setItem('data', data)
                 notify.success("登录成功", "topRight")

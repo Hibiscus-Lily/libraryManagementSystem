@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.js"></script>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/userInfo.css">
+
+</head>
+<body>
+<div class="layui-container main">
+    <div>
+        <img id="avatar" src="" alt="头像">
+    </div>
+    <div class="nov" id="view"></div>
+    <script id="demo" type="text/html">
+
+        <div class="layui-row nov-row">
+            <div class="layui-col-md2 nov-left">昵称</div>
+            <span class="layui-col-md7">{{ d.username }}</span>
+        </div>
+        <div class="layui-row nov-row">
+            <div class="layui-col-md2 nov-left">账号</div>
+            <span class="layui-col-md7">{{ d.account }}</span>
+        </div>
+        <div class="layui-row nov-row">
+            <div class="layui-col-md2 nov-left">权限</div>
+            {{#if (d.jurisdiction == 0){ }}
+            <span class="layui-col-md7">普通用户</span>
+            {{#  }else if (d.jurisdiction == 1){}}
+            <span class="layui-col-md7">管理员</span>
+            {{# }else {}}
+            <span></span>
+            {{#     }   }}
+        </div>
+        <div class="layui-row nov-row">
+            <div class="layui-col-md2 nov-left">头像</div>
+            <text class="layui-col-md7">{{ d.avatarurl }}</text>
+        </div>
+        <div class="layui-row nov-row">
+            <div class="layui-col-md2 nov-left">背景</div>
+            <text class="layui-col-md7">{{ d.background }}</text>
+        </div>
+    </script>
+
+
+</div>
+
+</body>
+<script src="../lib/layui/layui.js"></script>
+<script src="../lib/modules/notify.js"></script>
+<script src="../js/userInfo.js"></script>
+</html>
