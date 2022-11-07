@@ -47,6 +47,5 @@ public class OrdinaryUser_UserController {
         userPojoMap.put("background", userPojo.getBackground());
         userPojoMap.put("jurisdiction", userPojo.getJurisdiction());
         return new Result(Code.OK, userPojoMap, "获取成功");
-
     }
 }
